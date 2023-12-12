@@ -14,41 +14,65 @@
                     @method('patch')
                     <div class="mb-3 form-group">
                     <label for="name" class="form-label">Название</label>
-                    <input type="text" name="name" class="form-control" id="name" aria-describedby="name" value="{{$product->name}}">
+                    <input value="{{ old('name') }} type="text" name="name" class="form-control" id="name" aria-describedby="name" value="{{$product->name}}">
+                    @error('name')
+                    <p class="text-danger">{{$message}}</p>
+                    @enderror
                     </div>
                     <div class="mb-3 form-group">
                         <label for="fat" class="form-label">Жиры</label>
-                        <input type="text" name ="fat" class="form-control" id="fat" aria-describedby="fat" value="{{$product->fat}}">
+                        <input value="{{ old('fat') }}" type="text" name ="fat" class="form-control" id="fat" aria-describedby="fat" value="{{$product->fat}}">
+                        @error('fat')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 form-group">
                         <label for="protein" class="form-label">Белки</label>
-                        <input type="text" name="protein" class="form-control" id="protein" aria-describedby="protein" value="{{$product->protein}}">
+                        <input value="{{ old('protein') }}" type="text" name="protein" class="form-control" id="protein" aria-describedby="protein" value="{{$product->protein}}">
+                        @error('protein')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 form-group">
                         <label for="carbs" class="form-label">Углеводы</label>
-                        <input type="text" name ="carbs" class="form-control" id="carbs" aria-describedby="carbs" value="{{$product->carbs}}">
+                        <input value="{{ old('carbs') }}" type="text" name ="carbs" class="form-control" id="carbs" aria-describedby="carbs" value="{{$product->carbs}}">
+                        @error('carbs')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 form-group">
                         <label for="water" class="form-label">Вода</label>
-                        <input type="text" name ="water" class="form-control" id="water" aria-describedby="water" value="{{$product->water}}">
+                        <input value="{{ old('water') }}" type="text" name ="water" class="form-control" id="water" aria-describedby="water" value="{{$product->water}}">
+                        @error('water')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 form-group">
                         <label for="ash" class="form-label">Зола</label>
-                        <input type="text" name ="ash" class="form-control" id="ash" aria-describedby="ash" value="{{$product->ash}}">
+                        <input value="{{ old('ash') }}" type="text" name ="ash" class="form-control" id="ash" aria-describedby="ash" value="{{$product->ash}}">
+                        @error('ash')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 form-group">
                         <label for="fiber" class="form-label" >Клетчатка</label>
-                        <input type="text" name ="fiber" class="form-control" id="fiber" aria-describedby="fiber" value="{{$product->fiber}}">
+                        <input value="{{ old('fiber') }}" type="text" name ="fiber" class="form-control" id="fiber" aria-describedby="fiber" value="{{$product->fiber}}">
+                        @error('fiber')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 form-group">
                         <label for="category" class="form-label">Категория</label>
                         <select class="form-control" aria-label="Default select example" name="category_id">
                            @foreach($categories as $category)
-                            <option 
-                                {{$category->id === $product->category_id ? 'selected' : ''}}
+                           <option 
+                                {{old('category_id') == $category->id ? 'selected' : ''}}
                             value="{{$category->id}}">{{$category->title}}</option>
                             @endforeach
                           </select>
+                          @error('category_id')
+                          <p class="text-danger">{{$message}}</p>
+                          @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Изменить</button>
                 </form>

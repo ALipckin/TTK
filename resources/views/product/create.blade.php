@@ -64,15 +64,15 @@
                         <label for="category" class="form-label">Категория</label>
                         <select class="form-control" aria-label="Default select example" name="category_id">
                            @foreach($categories as $category)
-                           {{old('category_id' == $category->id ? ' selected' : '')}}
-                            <option value="{{$category->id}}">{{$category->title}}</option>
+                            <option 
+                                {{old('category_id') == $category->id ? 'selected' : ''}}
+                            value="{{$category->id}}">{{$category->title}}</option>
                             @endforeach
                           </select>
                           @error('category_id')
                           <p class="text-danger">{{$message}}</p>
                           @enderror
                     </div>
-
                     <button type="submit" class="btn btn-primary">Создать</button>
                 </form>
             </div>
