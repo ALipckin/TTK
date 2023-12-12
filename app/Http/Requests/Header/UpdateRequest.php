@@ -26,7 +26,8 @@ class UpdateRequest extends FormRequest
             'property'           =>  'required|string|min:3|max:100',
             'position'           =>  'required|string|min:3|max:100',
             'approver'           =>  'required|string|min:3|max:100',
-            'card'               =>  'required|numeric|min:3|max:70',
+            'card'               =>  'required|integer|digits_between:1,50',
+            'created_date'       =>  'required',
             'dish'               =>  'required|string|min:3|max:80',
             'dev'                =>  'required|string|min:3|max:100',
             'approver2'          =>  'required|string|min:3|max:100',
@@ -37,10 +38,9 @@ class UpdateRequest extends FormRequest
     {
         return [
             'required'  => 'Поле обязательно для заполнения.',
-            'unique'    => 'Такое значение поля уже существует.',
-            'int'       => 'Поле должно содержать только числа',
-            'min:3'     => 'Поле должно содержать не менее 3 символов.',
-            'max:100'   => 'Поле не должно превышать 100 символов.',
+            'integer'       => 'Поле должно содержать только целочисленные цифры',
+            'max'   => 'Поле не должно превышать 100 символов.',
+            'card.digits_between'  =>  'Поле не должно превышать 50 символов.',
         ];
     }
 }

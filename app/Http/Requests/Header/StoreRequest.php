@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
             'property'           =>  'required|string|min:3|max:100',
             'position'           =>  'required|string|min:3|max:100',
             'approver'           =>  'required|string|min:3|max:100',
-            'card'               =>  'required|numeric|min:3|max:70',
+            'card'               =>  'required|integer|digits_between:1,50',
             'created_date'       =>  'required',
             'dish'               =>  'required|string|min:3|max:80',
             'dev'                =>  'required|string|min:3|max:100',
@@ -38,10 +38,9 @@ class StoreRequest extends FormRequest
     {
         return [
             'required'  => 'Поле обязательно для заполнения.',
-            'unique'    => 'Такое значение поля уже существует.',
-            'int'       => 'Поле должно содержать только числа',
-            'between'     => 'Количество символов должно быть в пределах 3-100.',
+            'integer'       => 'Поле должно содержать только целочисленные цифры',
             'max'   => 'Поле не должно превышать 100 символов.',
+            'card.digits_between'  =>  'Поле не должно превышать 50 символов.',
         ];
     }
 }

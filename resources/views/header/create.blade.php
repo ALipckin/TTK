@@ -13,48 +13,78 @@
                     @csrf  
                     <div class="mb-3 form-group">
                         <label for="company" class="form-label">Шапка документа</label>
-                        <input type="text" name="company" class="form-control" id="company" aria-describedby="company" placeholder="&quotНазвание предприятия&quot" >
+                        <input value="{{ old('company') }}" type="text" name="company" class="form-control" id="company" aria-describedby="company" placeholder="&quotНазвание предприятия&quot" >
+                        @error('company')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 form-group">
-                        <input type="property" name="property" class="form-control" id="property" aria-describedby="property" placeholder="&quotНазвание заведения&quot">
+                        <input value="{{ old('property') }}" type="property" name="property" class="form-control" id="property" aria-describedby="property" placeholder="&quotНазвание заведения&quot">
+                        @error('property')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 row">
                         <label for="position" class="col-sm-2 col-form-label">Утверждаю</label>
                         <div class="col-sm-10">
-                            <input type="text" name ="position" class="form-control" id="position" aria-describedby="position" placeholder="&quotДолжность&quot">
+                            <input value="{{ old('position') }}" type="text" name ="position" class="form-control" id="position" aria-describedby="position" placeholder="&quotДолжность&quot">
+                            @error('position')
+                            <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="mb-3 form-group">
-                        <input type="text" name ="approver" class="form-control" id="approver" aria-describedby="approver" placeholder="&quotФИО&quot">
+                        <input value="{{ old('approver') }}" type="text" name ="approver" class="form-control" id="approver" aria-describedby="approver" placeholder="&quotФИО&quot">
+                        @error('approver')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 row">
                         <label for="card" class="col-sm-7 col-form-label">Технико-технологическая карта №</label>
                         <div class="col-sm-4">
-                            <input type="text" name ="card" class="form-control" id="card" aria-describedby="card" placeholder="&quotНомер карты&quot">
+                            <input value="{{ old('card') }}" type="text" name ="card" class="form-control" id="card" aria-describedby="card" placeholder="&quotНомер карты&quot">
+                            @error('card')
+                            <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="created_date" class="col-sm-2 col-form-label">от</label>
                         <div class="col-sm-10">
-                            <input type="text" name ="created_date" class="form-control" id="created_date" aria-describedby="created_date" placeholder="&quotДата&quot">
+                            <input value="{{ old('created_date') }}" type="text" name ="created_date" class="form-control" id="created_date" aria-describedby="created_date" placeholder="&quotДата&quot">
+                            @error('created_date')
+                            <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="mb-3 form-group">
-                        <input type="text" name ="dish" class="form-control" id="dish" aria-describedby="dish" placeholder="&quotНазвание блюда&quot">
+                        <input value="{{ old('dish') }}" type="text" name ="dish" class="form-control" id="dish" aria-describedby="dish" placeholder="&quotНазвание блюда&quot">
+                        @error('dish')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
 
                     <label for="company" class="form-label">Конец документа</label>
                     <div class="mb-3 row">
                         <label for="dev" class="col-sm-2 col-form-label">Разработчик</label>
                         <div class="col-sm-10">
-                            <input type="text" name ="dev" class="form-control" id="dev" aria-describedby="dev" placeholder="&quotФИО&quot">
+                            <input value="{{ old('dev') }}" type="text" name ="dev" class="form-control" id="dev" aria-describedby="dev" placeholder="&quotФИО&quot">
+                            @error('dev')
+                            <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="mb-3 form-group">
-                        <input type="text" name ="approver2_position" class="form-control" id="approver2_position" aria-describedby="approver2_position" placeholder="&quotДолжность&quot">
+                        <input value="{{ old('approver2_position') }}" type="text" name ="approver2_position" class="form-control" id="approver2_position" aria-describedby="approver2_position" placeholder="&quotДолжность&quot">
+                        @error('approver2_position')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3 form-group">
-                        <input type="text" name ="approver2" class="form-control" id="approver2" aria-describedby="approver2" placeholder="&quotФИО&quot">
+                        <input value="{{ old('approver2') }}" type="text" name ="approver2" class="form-control" id="approver2" aria-describedby="approver2" placeholder="&quotФИО&quot">
+                        @error('approver2')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Создать</button>
                 </form>
