@@ -8,12 +8,13 @@
 
     <div>
            @if($header != null)
-            <a href="{{route('header.show',  $ttk->id, $header->id)}}">0. Шапка документа</a> 
+            <a href="{{route('header.show',  $ttk->id, $header)}}">0. Шапка документа</a> 
+            <div>
+                <a href="{{ route('header.edit', $ttk->id, $header) }}" type="button" class="btn btn-primary mb-3">Редактировать</a>
+            </div>
             @else
             <a href="{{route('header.create', $ttk->id)}}">0. Шапка документа</a> 
             @endif 
-        </a>
-        
         
 
         {{-- <a href="{{route('.show')}}">1. Область применения</a> --}}

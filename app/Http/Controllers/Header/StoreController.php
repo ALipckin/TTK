@@ -16,6 +16,6 @@ class StoreController extends Controller
         $data['ttk_id'] = $ttk->id;
         Header::create($data);
         
-        return redirect()->route('product.index');
+        return redirect()->route('ttk.menu', $ttk->id);
     }
 }

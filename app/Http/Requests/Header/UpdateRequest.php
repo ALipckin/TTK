@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\TTK\Header;
+namespace App\Http\Requests\Header;
 
 use Illuminate\Foundation\Http\FormRequest;
 
