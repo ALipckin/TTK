@@ -4,11 +4,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <form action="{{route('requirement.store', $ttk->id)}}" method = "post">
+                <form action="{{route('requirement.update', $ttk)}}" method = "post">
                     @csrf  
+                    @method('PATCH')
                     <div class="mb-3 form-group">
                         <label for="description" class="form-label">Требования к оформлению, подаче и реализации</label>
-                        <input value="{{ old('description') }}" type="text" name="description" class="form-control" id="description" aria-describedby="description" placeholder="&quot Опишите требования к оформлению, подаче и реализации&quot" >
+                        <input value="{{ old('description', $requirement->description) }}" type="text" name="description" class="form-control" id="description" aria-describedby="description" placeholder="&quot Опишите требования к оформлению, подаче и реализации&quot" >
                         @error('description')
                         <p class="text-danger">{{$message}}</p>
                         @enderror

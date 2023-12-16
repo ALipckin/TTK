@@ -28,6 +28,10 @@ class Ttk extends Model
     {
         return $this->belongsTo(Form::class);
     }
+    public function Mq_requirements()
+    {
+        return $this->belongsTo(Form::class);
+    }
     public function tps()
     {
         return $this->belongsTo(Form::class);

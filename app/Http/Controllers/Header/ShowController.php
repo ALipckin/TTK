@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ShowController extends Controller
 {
-    public function __invoke(TTK $ttk, Header $header)
+    public function __invoke(TTK $ttk)
     {
         $header = Header::where('ttk_id', $ttk->id)->first();
         return view('header.show', compact('ttk', 'header'));

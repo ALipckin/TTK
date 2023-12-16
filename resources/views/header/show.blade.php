@@ -1,11 +1,6 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    </x-slot>
-
+@extends('layouts.app')
+@section('content')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -54,8 +49,10 @@
                     <div class="mb-3 form-group">
                         <input value="{{ $header->approver2 }}" readonly type="text" name ="approver2" class="form-control" id="approver2" aria-describedby="approver2">
                     </div>
-               
+                    <div class="mb-2">
+                        <a href="{{route('ttk.index', $ttk->id)}}">Назад</a>
+                    </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection
