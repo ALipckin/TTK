@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Http\Filters\ProductFilter;
+use App\Http\Requests\Product\FilterRequest;
+use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
+
 
 class IndexController extends BaseController
 {
-    public function __invoke()
+    public function __invoke(FilterRequest $request)
     {
-        $products = Product::all();
 
-        return view('product.index', compact('products'));
+        $data = $request->validated();
+
+        $page = $data['page'] ?? 1;
+        $perPage = $data['perPage'] ?? 10;
+        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+        $products = Product::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+
+        return json_encode(["data" => ProductResource::collection($products)], JSON_UNESCAPED_UNICODE);
     }
 }

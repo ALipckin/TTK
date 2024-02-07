@@ -21,7 +21,7 @@ class StoreController extends BaseController
         //         'users_id' => auth()->id(),
         //     ]
         // ));
-        
+
         $ttk = new ttk;
         $ttk->name = $request->name;
         $ttk->open = $request->open;
@@ -41,7 +41,7 @@ class StoreController extends BaseController
         //$image->storeAs('images', $imageName, 'public');
         $ttk->image = $imageName;
         $ttk->save();
-        
-        return redirect()->route('ttk.index');
+
+        return response()->json($ttk, 201);
     }
 }

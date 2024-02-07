@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use App\http\Requests\Product\UpdateRequest;
 
@@ -11,6 +12,7 @@ class UpdateController extends BaseController
     {
         $data = $request->validated();
         $product->update($data);
-        return redirect()->route('product.show', $product->id);
+        $product_json =  json_encode(["data" => new ProductResource($product)], JSON_UNESCAPED_UNICODE);
+        return response($product_json, 200);
     }
 }

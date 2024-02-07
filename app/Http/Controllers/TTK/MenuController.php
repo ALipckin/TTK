@@ -12,6 +12,11 @@ class MenuController extends BaseController
     {
         $header = Header::where('ttk_id', $ttk->id)->first();
         $requirement = Requirement::where('ttk_id', $ttk->id)->first();
-        return view('ttk.menu', compact('ttk', 'header', 'requirement'));
+        if($requirement != null)
+            $requirement = 1;
+        if($header != null)
+            $header = 1;
+        $data = array("requirement" => $requirement, "header" => $header);
+        return response()->json($data);
     }
 }

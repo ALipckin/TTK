@@ -32,6 +32,7 @@ class StoreRequest extends FormRequest
             'dev'                =>  'required|string|min:3|max:100',
             'approver2'          =>  'required|string|min:3|max:100',
             'approver2_position' =>  'required|string|min:3|max:100',
+            "ttk_id"    => 'required'
         ];
     }
     public function messages()

@@ -9,6 +9,6 @@ class DestroyController extends BaseController
     public function __invoke(ttk $ttk)
     {
         $ttk->delete();
-        return redirect()->route('ttk.index');
+        return response()->json(null, 204);
     }
 }

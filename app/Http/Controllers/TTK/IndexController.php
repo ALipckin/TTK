@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\TTK;
 
+use App\Http\Resources\Product\ProductResource;
+use App\Models\Product;
 use App\Models\Ttk;
 
 class IndexController extends BaseController
 {
     public function __invoke()
     {
-        $ttks = Ttk::all();
-        return view('ttk.index', compact('ttks'));
+        $ttk = Ttk::all();
+        return json_encode(["data" => $ttk], JSON_UNESCAPED_UNICODE);
     }
 }

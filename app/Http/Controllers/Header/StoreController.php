@@ -9,13 +9,11 @@ use App\Http\Controllers\Controller;
 
 class StoreController extends Controller
 {
-    public function __invoke(StoreRequest $request, TTK $ttk)
+    public function __invoke(StoreRequest $request)
     {
-        $id = $request->route('id');
         $data = $request->validated();
-        $data['ttk_id'] = $ttk->id;
-        Header::create($data);
-        
-        return redirect()->route('ttk.menu', $ttk->id);
+        $header = Header::create($data);
+        $json =  json_encode(["data" => $header], JSON_UNESCAPED_UNICODE);
+        return response( $json, 201);
     }
 }

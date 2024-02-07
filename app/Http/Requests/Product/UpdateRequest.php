@@ -22,8 +22,8 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:20',
-            'protein'      =>  'required |numeric | ', 
+            'name'       => 'required| string |min:3|max:20',
+            'protein'      =>  'required |numeric | ',
             'carbs'       =>  'required | numeric',
             'fat'         =>  'required | numeric',
             'water'         =>  'required | numeric',

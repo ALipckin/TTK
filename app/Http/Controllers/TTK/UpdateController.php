@@ -4,23 +4,23 @@ namespace App\Http\Controllers\TTK;
 
 use App\Http\Requests\TTK\UpdateRequest;
 use App\Models\Ttk;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
 
 class UpdateController extends BaseController
 {
     public function __invoke(TTK $ttk, UpdateRequest $request)
     {
         $data = $request->validated();
-        
+
         $ttk->name= $data['name'];
-      
+
         if ($request->open == "on"){
             $ttk->open=1;
         }
         else{
             $ttk->open=0;
         }
-    
+
         if(array_key_exists('image',$data)){
             File::delete(asset('images/'.$ttk->image));
             $image = $request->file('image');
@@ -29,7 +29,7 @@ class UpdateController extends BaseController
             $ttk->image = $imageName;
         }
         $ttk->save();
-        
-        return redirect()->route('ttk.show', $ttk->id);
+
+        return response()->json($ttk, 200);
     }
 }

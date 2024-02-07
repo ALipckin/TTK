@@ -16,45 +16,6 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/', 'HomeController@index');
 
-Route::group(['namespace' => 'Product', 'middleware' => 'Auth'], function(){
-    Route::get('/products', 'IndexController')->name('product.index');
-    Route::get('/products/create',"CreateController")->name("product.create");
-    Route::post('/products', 'StoreController')->name(name:'product.store');
-    Route::get('/products/{product}', 'ShowController')->name('product.show');
-    Route::get('/products/{product}/edit', 'EditController')->name('product.edit');
-    Route::patch('/products/{product}', 'UpdateController')->name('product.update');
-    Route::delete('/products/{product}', 'DestroyController')->name('product.delete');
-});
 
-Route::group(['namespace' => 'TTK'], function(){
-    Route::get('/ttks', 'IndexController')->name('ttk.index');
-    Route::get('/ttks/create', 'CreateController')->name('ttk.create');
-    Route::get('/ttks/store', 'StoreController')->name('ttk.store');
-    Route::get('/ttks/{ttk}/menu', 'MenuController')->name('ttk.menu');
-    Route::post('/ttks', 'StoreController')->name(name:'ttk.store');
-    Route::get('/ttks/{ttk}', 'ShowController')->name('ttk.show');
-    Route::get('/ttks/{ttk}/edit', 'EditController')->name('ttk.edit');
-    Route::patch('/ttks/{ttk}', 'UpdateController')->name('ttk.update');
-    Route::delete('/ttks/{ttk}', 'DestroyController')->name('ttk.delete');
-    Route::get('/ttks/{id}', 'ImageController')->name('ttk.image');
-});
-
-Route::group(['namespace' => 'Header'], function(){
-    Route::get('ttks/{ttk}/header/create', 'CreateController')->name('header.create');
-    Route::post('/ttks/{ttk}/header/store', 'StoreController')->name('header.store');
-    Route::get('ttks/{ttk}/header', 'ShowController')->name('header.show');
-    Route::get('ttks/{ttk}/header/edit', 'EditController')->name('header.edit');
-    Route::patch('ttks/{ttk}/header/', 'UpdateController')->name('header.update');
-});
-
-Route::group(['namespace' => 'Requirement'], function(){
-    Route::get('ttks/{ttk}/requirement/create', 'CreateController')->name('requirement.create');
-    Route::post('/ttks/{ttk}/requirement/store', 'StoreController')->name('requirement.store');
-    Route::get('ttks/{ttk}/requirement', 'ShowController')->name('requirement.show');
-    Route::get('ttks/{ttk}/requirement/edit', 'EditController')->name('requirement.edit');
-    Route::patch('ttks/{ttk}/requirement/', 'UpdateController')->name('requirement.update');
-});
-
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

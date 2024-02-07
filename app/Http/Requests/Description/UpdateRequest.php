@@ -23,6 +23,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'description'            =>  'required|string|min:3|max:100',
+            'ttk_id' => 'required',
         ];
     }
     public function messages()

@@ -12,6 +12,6 @@ class DestroyController extends BaseController
     public function __invoke(Product $product)
     {
         $product->delete();
-        return redirect()->route('product.index');
+        return response()->json(null, 204);
     }
 }

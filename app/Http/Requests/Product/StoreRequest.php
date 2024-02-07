@@ -22,14 +22,14 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:20',
-            'protein'      =>  'required |numeric | max:30', 
+            'name'          => 'required| string |min:3|max:20',
+            'protein'      =>  'required |numeric | max:30',
             'carbs'       =>  'required | numeric | max:30',
             'fat'         =>  'required | numeric| max:30' ,
             'water'         =>  'required | numeric | max:30',
             'fiber'        =>  'required | numeric | max:30',
             'ash'           =>  'required | numeric | max:30',
-            'category_id'           =>  'required | max:30',
+            'category_id'           =>  'required',
         ];
     }
 
@@ -45,5 +45,5 @@ class StoreRequest extends FormRequest
             'between'     => 'Количество символов должно быть в пределах 3-100.',
         ];
     }
-    
+
 }
