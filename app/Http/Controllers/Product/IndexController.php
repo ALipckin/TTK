@@ -16,10 +16,10 @@ class IndexController extends BaseController
         $data = $request->validated();
 
         $page = $data['page'] ?? 1;
-        $perPage = $data['perPage'] ?? 10;
+        $perPage = $data['perPage'] ?? 5;
         $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
         $products = Product::filter($filter)->paginate($perPage, ['*'], 'page', $page);
 
-        return json_encode(["data" => ProductResource::collection($products)], JSON_UNESCAPED_UNICODE);
+        return ProductResource::collection($products);
     }
 }
