@@ -11,7 +11,7 @@ class Ttk extends Model
 
     protected $fillable=['image'];
     public $timestamps = false;
-    
+
     public function form()
     {
         return $this->belongsTo(Form::class);
@@ -20,21 +20,29 @@ class Ttk extends Model
     {
         return $this->belongsTo(Form::class);
     }
-    public function headers()
+    public function headersBelongs()
     {
         return $this->belongsTo(Form::class, 'id', 'ttks_id')->withDefault();
     }
-    public function requirements()
+    public function headers()
     {
-        return $this->belongsTo(Form::class);
+        return $this->hasMany(Header::class);
+    }
+    public function Requirements()
+    {
+        return $this->hasMany(Requirement::class);
     }
     public function Mq_requirements()
     {
-        return $this->belongsTo(Form::class);
+        return $this->hasMany(Requirement::class);
     }
     public function tps()
     {
-        return $this->belongsTo(Form::class);
+        return $this->hasMany(Requirement::class);
+    }
+    public function Org_characteristics()
+    {
+        return $this->hasMany(Org_characteristic::class);
     }
 }
 

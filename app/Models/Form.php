@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Form extends Model
 {
     use HasFactory;
-
+    protected $table = 'forms';
     public function ttks()
     {
         return $this->hasMany(ttk::class);
