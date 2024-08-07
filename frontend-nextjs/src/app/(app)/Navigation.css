@@ -1,0 +1,33 @@
+.layout-main{
+    height: 80px;
+    background-color: #333333
+}
+.layout-background{
+    background-color: #333333;
+    height: 80px;
+}
+
+.logo{
+    background-color: #333333;
+    height: 118px;
+    width:90px;
+    margin-top:40px;
+}
+
+.icon-button {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+    margin-right: 25px;
+}
+
+.logo-img{
+    background-image: url('/images/logo.svg');
+    height: 118px;
+    width:90px;
+}

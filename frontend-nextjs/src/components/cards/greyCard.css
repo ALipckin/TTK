@@ -1,0 +1,17 @@
+.greyCard{
+    height: 70px;
+    width: 412px;
+    background-color: #D6D6D6;
+    border-color: #707070;
+    color: #707070;
+    margin: 4px;
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 0;
+    box-shadow: none;
+    border-width: 1px;
+    border-style: solid;
+}
+.greyCard:hover {
+    background-color: #E3E3E3; /* Изменение фона при наведении */
+}

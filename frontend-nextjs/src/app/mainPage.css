@@ -1,0 +1,62 @@
+.mainH {
+    font-size: 5rem;
+}
+@media (max-width: 500px) {
+    .mainH{
+        font-size: 3rem;
+    }
+}
+
+.subH{
+    font-size: 2.5rem;
+    text-align: center;
+}
+@media (max-width: 500px) {
+    .subH{
+        font-size: 1.5rem;
+    }
+}
+
+p{
+    font-size: 1.5rem;
+}
+
+.description_text {
+    color: #d6d6d6;
+    text-align: center;
+}
+
+.background {
+    width: 100%;
+    height: 100%; /* или любая другая высота */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url('/images/mainPage/wood-background.png');
+}
+
+@media (max-width: 1000px) {
+    .background {
+        background-size: auto;
+        background-repeat: repeat-x;
+    }
+}
+
+.hr-wide {
+    border-top: 2px solid #d6d6d6;
+    opacity: 1;
+    width: 95%;
+    margin: 0;
+    margin-left: 2.5%;
+    margin-block: 0;
+}
+
+li {
+    max-width: 100%;
+    margin: 10px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}

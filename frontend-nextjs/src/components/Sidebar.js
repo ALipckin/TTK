@@ -1,0 +1,33 @@
+// components/Sidebar.js
+import { useState } from 'react';
+import styles from './Sidebar.module.css'; // Подключаем CSS модули
+import  "../app/(app)/Navigation.css";
+const Sidebar = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsOpen(!isOpen);
+    };
+
+    return (
+        <>
+            <button style={{backgroundImage: 'url(\'/images/menu.svg\')'}} onClick={toggleSidebar} className="icon-button m-4">
+            </button>
+            <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
+                <button onClick={toggleSidebar} className={styles.closeButton}>
+                    ×
+                </button>
+                <nav className={styles.sidebarNav}>
+                    <ul>
+                        <li><a href="#">Требования к качеству сырья</a></li>
+                        <li><a href="#">Рецептура</a></li>
+                        <li><a href="#">Описание технологического процесса</a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </>
+    );
+};
+
+export default Sidebar;

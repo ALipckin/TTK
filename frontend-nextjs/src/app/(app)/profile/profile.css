@@ -1,0 +1,35 @@
+.user-card{
+    padding: 0;
+    margin-left: 20px;
+}
+.avatar{
+    background-color: #D6D6D6;
+    border-color: #707070;
+    border-style: solid;
+    height: 200px;
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    margin-right: 30px;
+}
+
+.text{
+    color: #707070;
+    font-weight: normal;
+    font-size: 14px;
+    margin: 0;
+
+}
+
+.hr-underline{
+    border-top: 2px solid #d6d6d6;
+    opacity: 1;
+    width: 100%;
+    margin: 0;
+    margin-block: 0;
+}
+
+li{
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,39 @@
+.icon-items{
+    padding-left: 12px;
+}
+.orange-title{
+    font-size: 14px;
+    font-weight: bold;
+    color: #B59472;
+}
+
+.col-6{
+    padding-right: 0 !important;
+}
+
+.right-col{
+    padding-left: 12px;
+}
+
+
+
+.hr-underline{
+    border-top: 2px solid #d6d6d6;
+    opacity: 1;
+    width: 100%;
+    margin: 0;
+    margin-block: 0;
+}
+
+.icon-card{
+    border-color: #D6D6D6;
+    border-radius: 5px;
+    border-style: solid;
+    box-shadow: none;
+    border-width: 1px;
+}
+
+.container{
+    margin-bottom: 2.5px;
+    margin-top: 2.5px;
+}

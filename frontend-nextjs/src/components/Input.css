@@ -1,0 +1,14 @@
+.input{
+    width: 336px;
+    height: 30px;
+    border-radius: 15px;
+    border-color: #707070;
+    border-width: 1px;
+    border-style: solid;
+    font-family: "Segoe UI";
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10.15px;
+    margin-bottom: 10.15px;
+    padding-left: 15px;
+}

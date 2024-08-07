@@ -1,0 +1,23 @@
+.hrUnderline{
+    border-top: 2px solid #d6d6d6;
+    opacity: 1;
+
+    margin: 0;
+    margin-block: 0;
+    width: 335px;
+}
+
+.text{
+    font-size: 1.5rem;
+    text-align: left;
+    margin-left: 5px;
+}
+@media (max-width: 500px) {
+    .text{
+        font-size: 0.5rem;
+    }
+}
+
+.icon{
+    margin-top:6px;
+}

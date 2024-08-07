@@ -1,0 +1,73 @@
+/* styles/Sidebar.module.css */
+.menuButton {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Скрываем меню за пределами экрана */
+    width: 250px;
+    height: 100%;
+    background: #333;
+    color: #fff;
+    transition: left 0.3s ease;
+    z-index: 999;
+}
+
+.sidebar.open {
+    left: 0; /* Показываем меню при открытии */
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    background: none;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* Используем вложенные селекторы для локальных классов */
+.sidebarNav {
+    padding: 0;
+    margin: 0;
+}
+
+.sidebarNav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebarNav ul li {
+    padding: 15px;
+}
+
+.sidebarNav ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+.icon-button {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+    margin-right: 25px;
+}
