@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('requirements', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('description', 2000)->nullable();
-            $table->unsignedInteger('ttk_id')->index('fk_requirements_ttk_idx');
+            $table->unsignedBigInteger('ttk_id')->index('fk_requirements_ttk_idx');
+            $table->foreign(['ttk_id'], 'fk_requirements_ttk1')->references(['id'])->on('ttks')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 

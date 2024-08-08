@@ -14,16 +14,32 @@ return new class extends Migration
     public function up()
     {
         Schema::create('formulations', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('netto', 45)->nullable();
             $table->string('brutto', 45)->nullable();
             $table->string('package', 45)->nullable();
             $table->string('product_id', 45)->nullable();
-            $table->unsignedInteger('ttk_id')->index('fk_formulations_ttk_idx');
-            $table->unsignedBigInteger('initial_processing_id')->index('fk_formulations_initial_processing1_idx');
-            $table->foreign('initial_processing_id', 'fk_formulations_initial_processings1')->on('initial_processings')->references('id');
-            $table->unsignedBigInteger('heat_treatment_id')->index('fk_formulations_heat_treatment1_idx');
-            $table->foreign('heat_treatment_id', 'fk_formulations_heat_treatments1')->on('heat_treatments')->references('id');
+            $table->unsignedBigInteger('ttk_id');
+            $table->unsignedBigInteger('initial_processing_id');
+            $table->unsignedBigInteger('heat_treatment_id');
+
+            // Adding indexes
+            $table->index('ttk_id');
+            $table->index('initial_processing_id');
+            $table->index('heat_treatment_id');
+
+            // Adding foreign keys
+            $table->foreign('initial_processing_id')
+                ->references('id')->on('initial_processings')
+                ->onUpdate('NO ACTION')->onDelete('NO ACTION');
+
+            $table->foreign('heat_treatment_id')
+                ->references('id')->on('heat_treatments')
+                ->onUpdate('NO ACTION')->onDelete('NO ACTION');
+
+            $table->foreign('ttk_id')
+                ->references('id')->on('ttks')
+                ->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 

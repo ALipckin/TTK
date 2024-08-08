@@ -8,13 +8,13 @@ This repository have beautiful Next.js frontend with a powerful Laravel backend 
 
 ### Installation
 #### Backend 
-- composer install
-
-- php artisan serve
+ 1) install docker 
+ 2) cd in backend directory and run: docker compose -d 
+ - api will be available at http://localhost:8876/
 #### Frontend
-- npm install
+1) npm install
 
-- npm run dev
+2) npm run dev
 
 ## License
 

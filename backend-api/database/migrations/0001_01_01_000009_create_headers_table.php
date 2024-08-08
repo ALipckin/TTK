@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('headers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('company', 100)->nullable();
             $table->string('property', 100)->nullable();
             $table->string('position', 70)->nullable();
@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('dev', 100)->nullable();
             $table->string('approver2', 100)->nullable();
             $table->string('approver2_position', 70)->nullable();
-            $table->unsignedInteger('ttk_id')->index('fk_headers_ttks_idx');
+            $table->unsignedBigInteger('ttk_id')->index('fk_headers_ttks_idx');
+            $table->foreign(['ttk_id'], 'fk_org_headers_ttks')->references(['id'])->on('ttks')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 

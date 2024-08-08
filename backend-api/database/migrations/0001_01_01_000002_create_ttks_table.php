@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ttks', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name', 45)->nullable();
             $table->string('image')->nullable();
             $table->boolean('public')->nullable()->default(false);
-            $table->unsignedInteger('user_id')->index('fk_ttk_user_idx');
+            $table->unsignedBigInteger('user_id')->index('fk_ttk_user_idx');
             $table->boolean('isDraft')->nullable();
         });
     }
