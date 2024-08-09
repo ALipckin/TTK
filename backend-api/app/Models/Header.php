@@ -12,7 +12,7 @@ class Header extends Model
     protected $fillable=[
         'company', 'ttk_id', 'property', 'position', 'approver', 'card',
         'created_date', 'dish', 'dev', 'approver2', 'approver2_position'];
-        
+
     public function ttks()
     {
         return $this->hasMany(ttk::class);

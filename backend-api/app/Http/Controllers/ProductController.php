@@ -76,7 +76,7 @@ class ProductController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Ttk updated",
+            'message' => "ttk updated",
             'data' => new ProductResource($product),
         ], 200);
     }

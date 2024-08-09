@@ -4,13 +4,10 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Requirement;
-use App\Models\Ttk;
+use App\Models\ttk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Requirement>
- */
-class TPFactory extends Factory
+class TpFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,7 +18,7 @@ class TPFactory extends Factory
 
     public function definition(): array
     {
-        $ttkIds = TTK::whereDoesntHave('tps')->pluck('id')->toArray();
+        $ttkIds = ttk::whereDoesntHave('tps')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 

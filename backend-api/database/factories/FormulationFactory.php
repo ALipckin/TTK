@@ -2,15 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\heat_treatment;
-use App\Models\initial_processing;
+use App\Models\HeatTreatment;
+use App\Models\InitialProcessing;
 use App\Models\Product;
 use App\Models\Ttk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Formulation>
- */
 class FormulationFactory extends Factory
 {
     /**
@@ -22,7 +19,7 @@ class FormulationFactory extends Factory
 
     public function definition(): array
     {
-        $ttkIds = TTK::whereDoesntHave('Formulations')->pluck('id')->toArray();
+        $ttkIds = Ttk::whereDoesntHave('Formulations')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 
@@ -34,8 +31,8 @@ class FormulationFactory extends Factory
         'package' => $this->faker->word(),
         'product_id' => Product::query()->inRandomOrder()->value('id'),
         'ttk_id' => $ttkId,
-        'initial_processing_id' => initial_processing::query()->inRandomOrder()->value('id'),
-        'heat_treatment_id'=> heat_treatment::query()->inRandomOrder()->value('id'),
+        'initial_processing_id' => InitialProcessing::query()->inRandomOrder()->value('id'),
+        'heat_treatment_id'=> HeatTreatment::query()->inRandomOrder()->value('id'),
         ];
     }
 }

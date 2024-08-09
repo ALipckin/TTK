@@ -23,10 +23,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 WORKDIR /var/www
 
-RUN composer install --no-dev --optimize-autoloader
 
-RUN php artisan key:generate
-
-RUN php artisan config:cache
-
-RUN php artisan migrate

@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Description\StoreRequest;
 use App\Http\Requests\Description\UpdateRequest;
-use App\Models\Tp;
+use App\Models\tp;
 use Illuminate\Http\Request;
 
 class TpController extends Controller
 {
-    public function destroy(TP $tp)
+    public function destroy(tp $tp)
     {
         $tp->delete();
         return response()->json(null, 204);
@@ -21,7 +21,7 @@ class TpController extends Controller
         return tp::all();
     }
 
-    public function show(TP $TP)
+    public function show(tp $TP)
     {
         return $TP;
     }
@@ -29,11 +29,11 @@ class TpController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        $TP = TP::create($data);
+        $TP = tp::create($data);
         return response()->json($TP, 201);
     }
 
-    public function update(TP $tp, UpdateRequest $request)
+    public function update(tp $tp, UpdateRequest $request)
     {
         $data = $request->validated();
         $tp->update($data);

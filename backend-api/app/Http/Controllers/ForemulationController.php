@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Description\StoreRequest;
 use App\Http\Requests\Description\UpdateRequest;
 use App\Models\Formulation;
-use App\Models\Ttk;
+use App\Models\ttk;
 use Illuminate\Http\Request;
 
 class ForemulationController extends Controller
@@ -18,7 +18,7 @@ class ForemulationController extends Controller
         return response()->json(null, 204);
     }
 
-    public function show(TTK $ttk)
+    public function show(ttk $ttk)
     {
         $formulation = Formulation::where('ttk_id', $ttk->id)->get();
         return json_encode(["data" => $formulation], JSON_UNESCAPED_UNICODE);
@@ -32,7 +32,7 @@ class ForemulationController extends Controller
         return response( $json, 201);
     }
 
-    public function update(UpdateRequest $request, TTK $ttk)
+    public function update(UpdateRequest $request, ttk $ttk)
     {
         $data = $request->validated();
         $formulation = Formulation::where('ttk_id', $ttk->id)->first();

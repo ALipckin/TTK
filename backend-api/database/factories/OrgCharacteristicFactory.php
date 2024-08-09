@@ -2,13 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Ttk;
+use App\Models\ttk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
-class Org_characteristicFactory extends Factory
+class OrgCharacteristicFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,7 +16,7 @@ class Org_characteristicFactory extends Factory
 
     public function definition(): array
     {
-        $ttkIds = TTK::whereDoesntHave('Org_characteristics')->pluck('id')->toArray();
+        $ttkIds = ttk::whereDoesntHave('Org_characteristics')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 

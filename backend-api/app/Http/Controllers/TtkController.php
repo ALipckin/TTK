@@ -11,16 +11,23 @@ use App\Http\Resources\TTK\TTKResource;
 use App\Models\Header;
 use App\Models\Product;
 use App\Models\Requirement;
-use App\Models\Ttk;
+use App\Models\ttk;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class TtkController extends Controller
 {
     public function menu(ttk $ttk)
     {
+        if(! Gate::allows('public-ttk', $ttk)) {
+            if (!Gate::allows('update-ttk', $ttk)) {
+                abort(403);
+            }
+        }
+
         $header = Header::where('ttk_id', $ttk->id)->first();
         $requirement = Requirement::where('ttk_id', $ttk->id)->first();
         if($requirement != null)
@@ -31,14 +38,37 @@ class TtkController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "TTK Menu data",
+            'message' => "ttk Menu data",
             'data' => $data,
+        ], 200);
+    }
+    public function public()
+    {
+        $ttks = ttk::where('public', 1)->get();
+        $collection = TTKResource::collection($ttks);
+        return response()->json([
+            'status' => true,
+            'message' => "ttk data",
+            'data' => $collection,
+        ], 200);
+    }
+
+    public function publish(ttk $ttk)
+    {
+        if (!Gate::allows('update-ttk', $ttk)) {
+            abort(403);
+        }
+        $ttk->public=1;
+        $ttk->save();
+        return response()->json([
+            'status' => true,
+            'message' => "ttk Published"
         ], 200);
     }
     public function destroy(ttk $ttk)
     {
+        Gate::authorize('update-ttk', $ttk);
         $ttk->delete();
-
         return response()->json([
             'status' => true,
             'message' => "Deleted Successfully",
@@ -52,7 +82,7 @@ class TtkController extends Controller
         $page = $data['page'] ?? 0;
         $perPage = $data['perPage'] ?? 10;
         $filter = app()->make(TTKFilter::class, ['queryParams' => array_filter($data)]);
-        $ttks = TTK::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        $ttks = ttk::filter($filter)->paginate($perPage, ['*'], 'page', $page);
         $collection = TTKResource::collection($ttks);
         $paginationData = [
             'current_page' => $collection->currentPage(),
@@ -63,27 +93,32 @@ class TtkController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Ttk data",
+            'message' => "ttk data",
             'data' => $collection->items(),
             'pagination' => $paginationData
         ], 200);
     }
 
-    public function myWorks()
+    public function myTTKs()
     {
         $user = Auth::user();
-        $ttks = Ttk::where('user_id', $user->id)->get();
+        $ttks = ttk::where('user_id', $user->id)->get();
         $collection = TTKResource::collection($ttks);
 
         return response()->json([
             'status' => true,
-            'message' => "Ttk data",
+            'message' => "ttk data",
             'data' => $collection,
         ], 200);
     }
 
     public function show(ttk $ttk)
     {
+        if(!Gate::allows('public-ttk', $ttk)) {
+            if (!Gate::allows('update-ttk', $ttk)) {
+                abort(403);
+            }
+        }
         $header = Header::where('ttk_id', $ttk->id)->first();
         $requirement = Requirement::where('ttk_id', $ttk->id)->first();
         if($requirement != null)
@@ -94,14 +129,13 @@ class TtkController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Ttk data",
+            'message' => "ttk data",
             'data' => $data,
         ], 200);
     }
 
     public function store(StoreRequest $request)
     {
-
         $ttk = new ttk;
         $ttk->name = $request->name;
         $ttk->public = $request->public;
@@ -124,13 +158,16 @@ class TtkController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Ttk created",
+            'message' => "ttk created",
             'data' => $ttk,
         ], 201);
     }
 
-    public function update(TTK $ttk, \App\Http\Requests\TTK\UpdateRequest $request)
+    public function update(ttk $ttk, \App\Http\Requests\TTK\UpdateRequest $request)
     {
+        if (!Gate::allows('update-ttk', $ttk)) {
+            abort(403);
+        }
         $data = $request->validated();
 
         $ttk->name= $data['name'];
@@ -153,7 +190,7 @@ class TtkController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Ttk updated",
+            'message' => "ttk updated",
             'data' => $ttk,
         ], 200);
     }

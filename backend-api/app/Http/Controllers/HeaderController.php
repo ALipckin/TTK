@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Header\StoreRequest;
 use App\Http\Requests\Header\UpdateRequest;
 use App\Models\Header;
-use App\Models\Ttk;
+use App\Models\ttk;
 use Illuminate\Routing\Controller;
 
 class HeaderController extends Controller
 {
-    public function update(UpdateRequest $request, TTK $ttk)
+    public function update(UpdateRequest $request, ttk $ttk)
     {
         $data = $request->validated();
         $header = Header::where('ttk_id', $ttk->id)->first();
@@ -25,12 +25,12 @@ class HeaderController extends Controller
         $json =  json_encode(["data" => $header], JSON_UNESCAPED_UNICODE);
         return response( $json, 201);
     }
-    public function show(TTK $ttk)
+    public function show(ttk $ttk)
     {
         $header = Header::where('ttk_id', $ttk->id)->first();
         return json_encode(["data" => $header], JSON_UNESCAPED_UNICODE);
     }
-    public function destroy(TTK $ttk)
+    public function destroy(ttk $ttk)
     {
         $header = Header::where('ttk_id', $ttk->id)->first();
         $header->delete();

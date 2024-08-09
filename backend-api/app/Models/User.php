@@ -57,6 +57,6 @@ class User extends Authenticatable
     }
     public function ttks()
     {
-        return $this->belongsTo(Ttk::class);
+        return $this->belongsTo(ttk::class);
     }
 }

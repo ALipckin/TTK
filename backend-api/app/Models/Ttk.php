@@ -35,15 +35,15 @@ class Ttk extends Model
     }
     public function Mq_requirements()
     {
-        return $this->hasMany(Mq_requirement::class);
+        return $this->hasMany(MqRequirement::class);
     }
     public function Tps()
     {
-        return $this->hasMany(Tp::class);
+        return $this->hasMany(tp::class);
     }
     public function Org_characteristics()
     {
-        return $this->hasMany(Org_characteristic::class);
+        return $this->hasMany(OrgCharacteristic::class);
     }
 }
 

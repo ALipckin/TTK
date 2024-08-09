@@ -4,12 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Requirement;
-use App\Models\Ttk;
+use App\Models\ttk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Requirement>
- */
 class RequirementFactory extends Factory
 {
     /**
@@ -21,7 +18,7 @@ class RequirementFactory extends Factory
 
     public function definition(): array
     {
-        $ttkIds = TTK::whereDoesntHave('requirements')->pluck('id')->toArray();
+        $ttkIds = ttk::whereDoesntHave('requirements')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 

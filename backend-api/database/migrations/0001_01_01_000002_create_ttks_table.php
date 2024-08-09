@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->boolean('public')->nullable()->default(false);
             $table->unsignedBigInteger('user_id')->index('fk_ttk_user_idx');
-            $table->boolean('isDraft')->nullable();
+            $table->boolean('is_draft')->nullable();
         });
     }
 

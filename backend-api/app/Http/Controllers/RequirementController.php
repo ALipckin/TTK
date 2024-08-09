@@ -7,7 +7,7 @@ use App\Http\Requests\Description\StoreRequest;
 use App\Http\Requests\Description\UpdateRequest;
 use App\Models\Header;
 use App\Models\Requirement;
-use App\Models\Ttk;
+use App\Models\ttk;
 use Illuminate\Http\Request;
 
 class RequirementController extends Controller
@@ -19,7 +19,7 @@ class RequirementController extends Controller
         return response()->json(null, 204);
     }
 
-    public function show(TTK $ttk)
+    public function show(ttk $ttk)
     {
         $requirement = Requirement::where('ttk_id', $ttk->id)->first();
         return json_encode(["data" => $requirement], JSON_UNESCAPED_UNICODE);
@@ -33,7 +33,7 @@ class RequirementController extends Controller
         return response( $json, 201);
     }
 
-    public function update(UpdateRequest $request, TTK $ttk)
+    public function update(UpdateRequest $request, ttk $ttk)
     {
         $data = $request->validated();
         $requirement = Requirement::where('ttk_id', $ttk->id)->first();

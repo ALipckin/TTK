@@ -4,12 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Ttk;
+use App\Models\ttk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\=Product>
- */
 class HeaderFactory extends Factory
 {
     /**
@@ -20,7 +17,7 @@ class HeaderFactory extends Factory
     protected static $index = 0;
     public function definition(): array
     {
-        $ttkIds = TTK::whereDoesntHave('headers')->pluck('id')->toArray();
+        $ttkIds = ttk::whereDoesntHave('headers')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 
