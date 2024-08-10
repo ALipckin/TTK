@@ -18,8 +18,8 @@ class TTKResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'image' => $this->image,
-            'open' => $this->public,
-            'users_ID' => $this->users_id,
+            'public' => $this->public,
+            'user_id' => $this->user_id,
             'isDraft' => $this->isDraft,
         ];
     }

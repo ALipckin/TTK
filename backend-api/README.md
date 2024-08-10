@@ -4,9 +4,11 @@ firstable install docker and then
 run these commands inside project directory: 
 - docker compose -d
 
+- sudo chmod 777 -R ./
+
 - docker exec -it ttk_api_app bash
 
-- composer install --no-dev --optimize-autoloader
+- composer install
 
 - php artisan key:generate
 
@@ -14,7 +16,6 @@ run these commands inside project directory:
 
 - php artisan migrate
 
-- sudo chmod 777 -R ./
 
 if you need testing data run: php artisan db:seed
 

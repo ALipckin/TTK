@@ -11,7 +11,7 @@ use App\Http\Resources\TTK\TTKResource;
 use App\Models\Header;
 use App\Models\Product;
 use App\Models\Requirement;
-use App\Models\ttk;
+use App\Models\Ttk;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +22,12 @@ class TtkController extends Controller
 {
     public function menu(ttk $ttk)
     {
-        if(! Gate::allows('public-ttk', $ttk)) {
+        if($ttk->public === 0) {
             if (!Gate::allows('update-ttk', $ttk)) {
-                abort(403);
+                return response()->json([
+                    'status' => false,
+                    'message' => "Access denied",
+                ], 403);
             }
         }
 
@@ -56,7 +59,10 @@ class TtkController extends Controller
     public function publish(ttk $ttk)
     {
         if (!Gate::allows('update-ttk', $ttk)) {
-            abort(403);
+            return response()->json([
+                'status' => false,
+                'message' => "Access denied",
+            ], 403);
         }
         $ttk->public=1;
         $ttk->save();
@@ -67,7 +73,12 @@ class TtkController extends Controller
     }
     public function destroy(ttk $ttk)
     {
-        Gate::authorize('update-ttk', $ttk);
+        if (!Gate::allows('update-ttk', $ttk)) {
+            return response()->json([
+                'status' => false,
+                'message' => "Access denied",
+            ], 403);
+        }
         $ttk->delete();
         return response()->json([
             'status' => true,
@@ -102,7 +113,7 @@ class TtkController extends Controller
     public function myTTKs()
     {
         $user = Auth::user();
-        $ttks = ttk::where('user_id', $user->id)->get();
+        $ttks = Ttk::where('user_id', $user->id)->get();
         $collection = TTKResource::collection($ttks);
 
         return response()->json([
@@ -114,9 +125,12 @@ class TtkController extends Controller
 
     public function show(ttk $ttk)
     {
-        if(!Gate::allows('public-ttk', $ttk)) {
+        if($ttk->public === 0) {
             if (!Gate::allows('update-ttk', $ttk)) {
-                abort(403);
+                return response()->json([
+                    'status' => false,
+                    'message' => "Access denied",
+                ], 403);
             }
         }
         $header = Header::where('ttk_id', $ttk->id)->first();
@@ -166,7 +180,10 @@ class TtkController extends Controller
     public function update(ttk $ttk, \App\Http\Requests\TTK\UpdateRequest $request)
     {
         if (!Gate::allows('update-ttk', $ttk)) {
-            abort(403);
+            return response()->json([
+                'status' => false,
+                'message' => "Access denied",
+            ], 403);
         }
         $data = $request->validated();
 

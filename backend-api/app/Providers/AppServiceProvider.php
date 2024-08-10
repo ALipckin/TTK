@@ -27,6 +27,5 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define("update-ttk",  [TTKPolicy::class, 'update']);
-        Gate::define("public-ttk",  [TTKPolicy::class, 'public']);
     }
 }

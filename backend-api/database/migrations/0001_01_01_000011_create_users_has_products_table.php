@@ -22,13 +22,13 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onUpdate('NO ACTION')
-                ->onDelete('NO ACTION');
+                ->onDelete('cascade');
 
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
                 ->onUpdate('NO ACTION')
-                ->onDelete('NO ACTION');
+                ->onDelete('cascade');
         });
     }
 

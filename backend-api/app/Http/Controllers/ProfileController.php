@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
    public function index(){
-       $profile = User::get()->where('id', auth()->user()->id)->first();
+       $profile = User::get()->where('id', auth()->user()->id)->first()->toArray();
        //my ttk
        $ttk = TTK::all()->where('user_id', auth()->user()->id);
        //my ttks num
@@ -35,7 +35,7 @@ class ProfileController extends Controller
        return response()->json([
            'status' => true,
            'message' => "Profile data",
-           'data' => $profile
+           'data' => array_merge($profile, $nums)
        ], 200);
    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ProductController;
@@ -26,7 +27,7 @@ Route::group(["middleware" => ["auth:sanctum"]], function (){
     });
 
     Route::group(['prefix' => 'ttks', 'middleware' => ['role:user']], function () {
-        Route::get('/my', [TtkController::class, "myTTKs"]);
+        Route::get('/my', [TtkController::class, "myTTKs"])->middleware('role:user');
         Route::get('/public', [TtkController::class, "public"]);
         Route::patch('/{ttk}/publish', [TtkController::class, "publish"]);
         //Route::get('/', [TtkController::class, "index"])->middleware('role:moderator');

@@ -9,7 +9,6 @@ services:
         depends_on:
             - app
         container_name: ttk_api_nginx
-
     app:
         build:
             context: .
