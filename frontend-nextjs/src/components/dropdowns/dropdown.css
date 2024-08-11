@@ -1,0 +1,44 @@
+.button {
+    display: block;
+    padding: 10px;
+    width: 100%;
+    text-align: left; /* исправлено на text-align */
+    color: #333333;
+    background-color: #B59472;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.window {
+    position: absolute;
+    background-color: #B59472;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 10px; /* отступ от кнопки */
+    z-index: 1000;
+    left: 50%; /* центрирование */
+    transform: translateX(-50%); /* смещение влево на 50% ширины окна */
+    width: 100px; /* ширина окна (можете настроить по необходимости) */
+}
+
+.main-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+    margin-right: 25px;
+}
+
+.main-div {
+    position: relative;
+    display: inline-block;
+}

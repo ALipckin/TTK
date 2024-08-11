@@ -19,10 +19,10 @@ const Sidebar = () => {
                 </button>
                 <nav className={styles.sidebarNav}>
                     <ul>
-                        <li><a href="#">Требования к качеству сырья</a></li>
-                        <li><a href="#">Рецептура</a></li>
-                        <li><a href="#">Описание технологического процесса</a></li>
-                        <li><a href="#"></a></li>
+                        <li><a href="/profile">Мой аккаунт</a></li>
+                        <li><a href="/drafts">Черновики</a></li>
+                        <li><a href="/products">Мои список продуктов</a></li>
+                        <li><a href="/ttks/public">Каталог технологических карт</a></li>
                     </ul>
                 </nav>
             </div>

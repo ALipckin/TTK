@@ -1,0 +1,19 @@
+.modal-btn {
+    align-items: center;
+    border-radius: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    border-color: black;
+    font-size: 15px;
+    padding: 2.5px 10px 2.5px 10px;
+}
+
+.modal-input{
+    align-items: center;
+    border-radius: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    border-color: black;
+    font-size: 15px;
+    width: 65%;
+}
