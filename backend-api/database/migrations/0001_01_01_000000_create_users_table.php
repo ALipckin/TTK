@@ -20,6 +20,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->enum('role', [ 'admin', 'moderator', 'user'])->default('user');
+            $table->timestamp('last_visit');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

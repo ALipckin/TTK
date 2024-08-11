@@ -3,26 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Filters\TTKFilter;
-use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Requests\TTK\FilterRequest;
 use App\Http\Requests\TTK\StoreRequest;
-use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\TTK\TTKResource;
 use App\Models\Header;
-use App\Models\Product;
 use App\Models\Requirement;
 use App\Models\Ttk;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class TtkController extends Controller
 {
     public function menu(ttk $ttk)
     {
-        if($ttk->public === 0) {
+        if ($ttk->public === 0) {
             if (!Gate::allows('update-ttk', $ttk)) {
                 return response()->json([
                     'status' => false,
@@ -33,18 +30,19 @@ class TtkController extends Controller
 
         $header = Header::where('ttk_id', $ttk->id)->first();
         $requirement = Requirement::where('ttk_id', $ttk->id)->first();
-        if($requirement != null)
+        if ($requirement != null)
             $requirement = 1;
-        if($header != null)
+        if ($header != null)
             $header = 1;
         $data = array("requirement" => $requirement, "header" => $header);
 
         return response()->json([
             'status' => true,
-            'message' => "ttk Menu data",
+            'message' => "ttk menu",
             'data' => $data,
         ], 200);
     }
+
     public function public()
     {
         $ttks = ttk::where('public', 1)->get();
@@ -64,13 +62,14 @@ class TtkController extends Controller
                 'message' => "Access denied",
             ], 403);
         }
-        $ttk->public=1;
+        $ttk->public = 1;
         $ttk->save();
         return response()->json([
             'status' => true,
             'message' => "ttk Published"
         ], 200);
     }
+
     public function destroy(ttk $ttk)
     {
         if (!Gate::allows('update-ttk', $ttk)) {
@@ -125,7 +124,7 @@ class TtkController extends Controller
 
     public function show(ttk $ttk)
     {
-        if($ttk->public === 0) {
+        if ($ttk->public === 0) {
             if (!Gate::allows('update-ttk', $ttk)) {
                 return response()->json([
                     'status' => false,
@@ -135,9 +134,9 @@ class TtkController extends Controller
         }
         $header = Header::where('ttk_id', $ttk->id)->first();
         $requirement = Requirement::where('ttk_id', $ttk->id)->first();
-        if($requirement != null)
+        if ($requirement != null)
             $requirement = 1;
-        if($header != null)
+        if ($header != null)
             $header = 1;
         $data = array("requirement" => $requirement, "header" => $header);
 
@@ -154,20 +153,26 @@ class TtkController extends Controller
         $ttk->name = $request->name;
         $ttk->public = $request->public;
         $ttk->user_id = auth()->id();
-        if($ttk->public){
-            if ($ttk->public=="on"){
-                $ttk->public=1;
+        if ($ttk->public) {
+            if ($ttk->public == "on") {
+                $ttk->public = 1;
             }
-        }else{
-            $ttk->public=0;
+        } else {
+            $ttk->public = 0;
         }
-        $image = $request->file('image');
-        $ttk->save();
-        $nextID = $ttk->id;
-        $imageName = $nextID . '.'. $image->extension();
-        $image->move(public_path('images'), $imageName);
-        //$image->storeAs('images', $imageName, 'public');
-        $ttk->image = $imageName;
+        if($request->image) {
+            try {
+                $image = $request->file('image');
+                $ttk->save();
+                $nextID = $ttk->id;
+                $imageName = $nextID . '.' . $image->extension();
+                $image->move(public_path('images'), $imageName);
+                //$image->storeAs('images', $imageName, 'public');
+                $ttk->image = $imageName;
+            } catch (Throwable $e) {
+                Log::error($e);
+            }
+        }
         $ttk->save();
 
         return response()->json([
@@ -187,19 +192,18 @@ class TtkController extends Controller
         }
         $data = $request->validated();
 
-        $ttk->name= $data['name'];
+        $ttk->name = $data['name'];
 
-        if ($request->public == "on"){
-            $ttk->public=1;
-        }
-        else{
-            $ttk->public=0;
+        if ($request->public == "on") {
+            $ttk->public = 1;
+        } else {
+            $ttk->public = 0;
         }
 
-        if(array_key_exists('image',$data)){
-            File::delete(asset('images/'.$ttk->image));
+        if (array_key_exists('image', $data)) {
+            File::delete(asset('images/' . $ttk->image));
             $image = $request->file('image');
-            $imageName = $ttk->id . '.'. $image->extension();
+            $imageName = $ttk->id . '.' . $image->extension();
             $image->move(public_path('images'), $imageName);
             $ttk->image = $imageName;
         }
