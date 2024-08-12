@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/buttons/Button'
-import Input from '@/components/Input'
+import AuthInput from '@/components/Inputs/AuthInput'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import Link from 'next/link'
@@ -42,7 +42,7 @@ const Page = () => {
                     <div className="d-flex justify-content-center flex-column align-items-center mb-4">
                         <div className="d-flex flex-column align-items-start">
                             <div>
-                                <Input
+                                <AuthInput
                                     id="name"
                                     type="text"
                                     value={name}
@@ -56,7 +56,7 @@ const Page = () => {
                             </div>
                             {/* Email Address */}
                             <div>
-                                <Input
+                                <AuthInput
                                     id="email"
                                     type="email"
                                     value={email}
@@ -71,7 +71,7 @@ const Page = () => {
 
                             {/* Password */}
                             <div>
-                                <Input
+                                <AuthInput
                                     id="password"
                                     type="password"
                                     value={password}
@@ -87,7 +87,7 @@ const Page = () => {
 
                             {/* Confirm Password */}
                             <div>
-                                <Input
+                                <AuthInput
                                     id="passwordConfirmation"
                                     type="password"
                                     value={passwordConfirmation}

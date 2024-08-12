@@ -5,8 +5,8 @@ module.exports = {
     async rewrites() {
         return [
             {
-                source: '/ttks/:slug*',
-                destination: '/ttks/[slug]'
+                source: '/ttks/menu/:slug*',
+                destination: '/ttks/menu/[slug]'
             }
         ];
     },

@@ -7,7 +7,7 @@ use App\Models\Requirement;
 use App\Models\ttk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RequirementFactory extends Factory
+class QualityRequirementFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class RequirementFactory extends Factory
 
     public function definition(): array
     {
-        $ttkIds = ttk::whereDoesntHave('requirements')->pluck('id')->toArray();
+        $ttkIds = ttk::whereDoesntHave('qualtiy_requirements')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 

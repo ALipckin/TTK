@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/buttons/Button'
-import Input from '@/components/Input'
+import AuthInput from '@/components/Inputs/AuthInput'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import { useAuth } from '@/hooks/auth'
@@ -39,7 +39,7 @@ const Page = () => {
                 {/* Email Address */}
                 <div>
                     <Label htmlFor="email">Email</Label>
-                    <Input
+                    <AuthInput
                         id="email"
                         type="email"
                         name="email"

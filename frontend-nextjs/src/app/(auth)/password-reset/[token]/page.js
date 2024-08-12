@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/buttons/Button'
-import Input from '@/components/Input'
+import AuthInput from '@/components/Inputs/AuthInput'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import { useAuth } from '@/hooks/auth'
@@ -46,7 +46,7 @@ const PasswordReset = () => {
                 <div>
                     <Label htmlFor="email">Email</Label>
 
-                    <Input
+                    <AuthInput
                         id="email"
                         type="email"
                         value={email}
@@ -62,7 +62,7 @@ const PasswordReset = () => {
                 {/* Password */}
                 <div className="mt-4">
                     <Label htmlFor="password">Password</Label>
-                    <Input
+                    <AuthInput
                         id="password"
                         type="password"
                         value={password}
@@ -83,7 +83,7 @@ const PasswordReset = () => {
                         Confirm Password
                     </Label>
 
-                    <Input
+                    <AuthInput
                         id="passwordConfirmation"
                         type="password"
                         value={passwordConfirmation}

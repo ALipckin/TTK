@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/buttons/Button'
-import Input from '@/components/Input'
+import AuthInput from '@/components/Inputs/AuthInput'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import Link from 'next/link'
@@ -55,7 +55,7 @@ const Login = () => {
                             <form onSubmit={submitForm}>
                                 {/* Email Address */}
                                 <div>
-                                    <Input
+                                    <AuthInput
                                         id="email"
                                         type="email"
                                         value={email}
@@ -71,7 +71,7 @@ const Login = () => {
 
                                 {/* Password */}
                                 <div className="mt-4">
-                                    <Input
+                                    <AuthInput
                                         id="password"
                                         type="password"
                                         value={password}

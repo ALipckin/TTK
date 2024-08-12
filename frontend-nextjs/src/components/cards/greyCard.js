@@ -1,14 +1,16 @@
 import React from 'react'
 import './greyCard.css'
-
-function GreyCard({ title, actions, onActionClick, apiUrl }) {
+import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+function GreyCard({ title, actions, onActionClick, apiUrl, href}) {
     const id = 0
+    const router = useRouter();
     return (
         <div className="greyCard d-flex align-items-end w-75" onClick={onActionClick}>
             <div className="m-1 d-flex justify-content-between w-100">
                 <div className="card-content d-flex justify-content-between align-items-end">
                     <div>
-                        {title}
+                        <a className="title" href={href}>{title}</a>
                     </div>
                 </div>
                 <div className="card-actions d-flex justify-content-end" style={{ background: 'transparent' }}>

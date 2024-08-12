@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import EditAction from "@/components/actions/editAction";
 import DeleteAction from "@/components/actions/deleteAction";
+import { redirect } from 'next/navigation'
 
 const Page = () => {
 
@@ -53,6 +54,7 @@ const Page = () => {
                                 title={item.name}
                                 actions={[EditAction, DeleteAction]}
                                 apiUrl={API_ROUTES.GET_MY_ALL_TTKS}
+                                href={`/ttks/${item.id}`}
                                 data={item}
                             />
                         ))}

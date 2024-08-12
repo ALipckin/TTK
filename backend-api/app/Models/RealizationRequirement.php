@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Requirement extends Model
+class RealizationRequirement extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    protected $table = 'requirements';
-    protected $guarded = [];
-    protected $fillable=['description', 'ttk_id'];
 
-    public function ttks()
+    public $timestamps = false;
+    protected $guarded = [];
+    protected $fillable = ['description', 'ttk_id'];
+
+    public function ttk()
     {
-        return $this->hasMany(ttk::class);
+        return $this->belongsTo(Ttk::class);
     }
 }

@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { redirect } from 'next/navigation'
 import "./profileDataList.css"
 const profileDataList = (data) => {
-    console.log(data);
     data = data.data;
     var dateObject = new Date(data.created_at);
     const registrationDate= ("0" + dateObject.getDate()).slice(-2)+ "." +
@@ -36,11 +35,11 @@ const profileDataList = (data) => {
         try {
             const response = await axios.post(API_ROUTES.TTKS, {name}, {withCredentials: true});
             const ttkId = response.data.data.id;
-            console.log(response.data);
-            console.log(response.data.data);
-            console.log(response.data.data.id);
+            console.log("data = " + response.data);
+            console.log("data data = " + response.data.data);
+            console.log("id = " + response.data.data.id);
             if(response.data.data.id) {
-                redirect(`/ttks/${ttkId}/menu/`); // Замените на ваш путь к странице с технико-технологической картой
+                redirect(`/ttks/${ttkId}`); // Замените на ваш путь к странице с технико-технологической картой
             }
         } catch (error) {
             if (error.response.status !== 419) throw error;
@@ -57,9 +56,9 @@ const profileDataList = (data) => {
                     <ConstItem title="Просмотры" data={views} />
                 </ul>
                 <ul className="p-0">
-                    <IconItem title="Мои работы" data={worksNum} img={`/images/picture.svg`} />
-                    <IconItem title="Черновики" data={draftsNum} img={`/images/edit.svg`} />
-                    <IconItem title="Мои список продуктов" data={productsNum} img={`/images/radish.svg`} />
+                    <IconItem title="Мои работы" data={worksNum} img={`/images/picture.svg`} href={"/ttks/my"}/>
+                    <IconItem title="Черновики" data={draftsNum} img={`/images/edit.svg`} href={"/drafts/my"}/>
+                    <IconItem title="Мои список продуктов" data={productsNum} img={`/images/radish.svg`} href={"/products/my"}/>
                     <IconItem title="Создать новую карту" img={`/images/add.svg`} onClick={openModal}/>
                 </ul>
                 <ReactModal

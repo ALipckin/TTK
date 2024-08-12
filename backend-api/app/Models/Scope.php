@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Form extends Model
+class Scope extends Model
 {
     use HasFactory;
     protected $table = 'forms';
-    public function ttks()
+    public function ttk()
     {
-        return $this->hasMany(ttk::class);
+        return $this->belongsTo(Ttk::class);
     }
 }

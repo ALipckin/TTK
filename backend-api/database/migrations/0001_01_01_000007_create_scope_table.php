@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('requirements', function (Blueprint $table) {
+        Schema::create('scopes', function (Blueprint $table) {
             $table->id();
             $table->string('description', 2000)->nullable();
-            $table->unsignedBigInteger('ttk_id')->index('fk_requirements_ttk_idx');
-            $table->foreign(['ttk_id'], 'fk_requirements_ttk1')->references(['id'])->on('ttks')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->unsignedBigInteger('ttk_id')->index('fk_scope_ttk_idx');
+            $table->foreign(['ttk_id'], 'fk_scope_ttk1')->references(['id'])->on('scopes')
+                ->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requirements');
+        Schema::dropIfExists('scopes');
     }
 };

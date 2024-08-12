@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('forms', function (Blueprint $table) {
+        Schema::create('quality_requirements', function (Blueprint $table) {
             $table->id();
             $table->string('description', 2000)->nullable();
-            $table->unsignedBigInteger('ttk_id')->index('fk_form_ttk_idx');
-            $table->foreign(['ttk_id'], 'fk_form_ttk1')->references(['id'])->on('ttks')
-                ->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->unsignedBigInteger('ttk_id')->index('fk_quality_requirement_ttk_idx');
+            $table->foreign(['ttk_id'], 'fk_quality_requirement_ttk1')->references(['id'])->on('ttks')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
-
     }
 
     /**
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('forms');
+        Schema::dropIfExists('quality_requirements');
     }
 };
