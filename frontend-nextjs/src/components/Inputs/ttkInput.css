@@ -1,5 +1,5 @@
 .input{
-    width: 336px;
+    width: 100%;
     height: 30px;
     border-radius: 0;
     border-style: none;
@@ -7,11 +7,11 @@
     font-size: 14px;
     font-size: 14px;
     color: #707070;
-    padding-top: 0px; /* Устанавливаем верхний отступ в 0 */
+    padding-top: 5px; /* Устанавливаем верхний отступ в 0 */
     padding-bottom: 0; /* Устанавливаем нижний отступ для выравнивания текста */
     line-height: 1.5;
     background-color: transparent;
-    margin:0 0 0 10px;
+    text-align: start;
 }
 .input::placeholder {
     color: gray; /* Цвет текста placeholder */
@@ -36,4 +36,7 @@
     color: #707070;
     margin: 0;
     padding: 0;
+}
+.ml-1{
+   margin-left: 10px;
 }
