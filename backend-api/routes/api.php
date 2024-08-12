@@ -31,7 +31,6 @@ Route::group(["middleware" => ["auth:sanctum"]], function (){
         Route::get('/public', [TtkController::class, "public"]);
         Route::patch('/{ttk}/publish', [TtkController::class, "publish"]);
         //Route::get('/', [TtkController::class, "index"])->middleware('role:moderator');
-        Route::get('/{ttk}/menu', [TtkController::class, "menu"]);
         Route::post('/', [TtkController::class, "store"]);
         Route::get('/{ttk}', [TtkController::class, "show"]);
         Route::patch('/{ttk}', [TtkController::class, "update"]);

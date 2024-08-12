@@ -12,38 +12,51 @@ class Ttk extends Model
     use Filterable;
     protected $fillable=['image'];
     public $timestamps = false;
-
-    public function form()
-    {
-        return $this->belongsTo(Form::class);
-    }
-    public function headersBelongs()
-    {
-        return $this->belongsTo(Form::class, 'id', 'ttks_id')->withDefault();
-    }
     public function headers()
     {
         return $this->hasMany(Header::class);
+    }
+
+    public function scopes()
+    {
+        return $this->hasMany(Scope::class);
+    }
+
+    public function qualityRequirements()
+    {
+        return $this->hasMany(QualityRequirement::class);
     }
     public function formulations()
     {
         return $this->hasMany(Formulation::class);
     }
-    public function Requirements()
-    {
-        return $this->hasMany(Requirement::class);
-    }
-    public function Mq_requirements()
-    {
-        return $this->hasMany(MqRequirement::class);
-    }
+
     public function Tps()
     {
-        return $this->hasMany(tp::class);
+        return $this->hasMany(Tp::class);
     }
-    public function Org_characteristics()
+    public function realizationRequirement()
+    {
+        return $this->hasMany(RealizationRequirement::class);
+    }
+
+    public function orgCharacteristics()
     {
         return $this->hasMany(OrgCharacteristic::class);
+    }
+
+    // Получить все связанные комментарии и вложения
+    public function getAllRelatedRecords()
+    {
+        return [
+            'headers' => $this->headers()->get(),
+            'scopes' => $this->scopes()->get(),
+            'quality_requirements' => $this->qualityRequirements()->get(),
+            'formulations' => $this->formulations()->get(),
+            'tps' => $this->tps()->get(),
+            'realization_requirements' => $this->realizationRequirement()->get(),
+            'org_characteristics' => $this->orgCharacteristics()->get(),
+        ];
     }
 }
 

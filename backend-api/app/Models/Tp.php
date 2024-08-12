@@ -9,8 +9,8 @@ class Tp extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    public function ttks()
+    public function ttk()
     {
-        return $this->hasMany(ttk::class);
+        return $this->belongsTo(Ttk::class);
     }
 }

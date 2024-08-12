@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('description', 2000)->nullable();
             $table->unsignedBigInteger('ttk_id')->index('fk_tp_ttk_idx');
-            $table->foreign(['ttk_id'], 'fk_tp_ttk1')->references(['id'])->on('ttks')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-
+            $table->foreign(['ttk_id'], 'fk_tp_ttk1')->references(['id'])->on('ttks')
+                ->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 

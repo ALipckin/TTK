@@ -16,7 +16,7 @@ class OrgCharacteristicFactory extends Factory
 
     public function definition(): array
     {
-        $ttkIds = ttk::whereDoesntHave('Org_characteristics')->pluck('id')->toArray();
+        $ttkIds = ttk::whereDoesntHave('orgCharacteristics')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 

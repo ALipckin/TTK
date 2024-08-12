@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Scope extends Model
 {
     use HasFactory;
-    protected $table = 'forms';
+
     public function ttk()
     {
         return $this->belongsTo(Ttk::class);

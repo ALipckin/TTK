@@ -6,7 +6,6 @@ use App\Http\Filters\TTKFilter;
 use App\Http\Requests\TTK\FilterRequest;
 use App\Http\Requests\TTK\StoreRequest;
 use App\Http\Resources\TTK\TTKResource;
-use App\Models\Header;
 use App\Models\Requirement;
 use App\Models\Ttk;
 use Illuminate\Routing\Controller;
@@ -17,32 +16,6 @@ use Illuminate\Support\Facades\Log;
 
 class TtkController extends Controller
 {
-    public function menu(ttk $ttk)
-    {
-        if ($ttk->public === 0) {
-            if (!Gate::allows('update-ttk', $ttk)) {
-                return response()->json([
-                    'status' => false,
-                    'message' => "Access denied",
-                ], 403);
-            }
-        }
-
-        $header = Header::where('ttk_id', $ttk->id)->first();
-        $requirement = Requirement::where('ttk_id', $ttk->id)->first();
-        if ($requirement != null)
-            $requirement = 1;
-        if ($header != null)
-            $header = 1;
-        $data = array("requirement" => $requirement, "header" => $header);
-
-        return response()->json([
-            'status' => true,
-            'message' => "ttk menu",
-            'data' => $data,
-        ], 200);
-    }
-
     public function public()
     {
         $ttks = ttk::where('public', 1)->get();
@@ -132,13 +105,18 @@ class TtkController extends Controller
                 ], 403);
             }
         }
-        $header = Header::where('ttk_id', $ttk->id)->first();
-        $requirement = Requirement::where('ttk_id', $ttk->id)->first();
-        if ($requirement != null)
-            $requirement = 1;
-        if ($header != null)
-            $header = 1;
-        $data = array("requirement" => $requirement, "header" => $header);
+
+        //$header = Header::where('ttk_id', $ttk->id)->first();
+        //$requirement = Requirement::where('ttk_id', $ttk->id)->first();
+        //$form = Form::where('ttk_id', $ttk->id)->first();
+        //$formulation = Formulation::where('ttk_id', $ttk->id)->first();
+        //$header = Formulation::where('ttk_id', $ttk->id)->first();
+        //if ($requirement != null)
+        //    $requirement = 1;
+        //if ($header != null)
+        //    $header = 1;
+        //$rTtk =  $ttk->getAllRelatedRecords();
+        $data = ["id" => $ttk->id, "name" => $ttk->name, "image" => $ttk->image];
 
         return response()->json([
             'status' => true,
@@ -160,7 +138,7 @@ class TtkController extends Controller
         } else {
             $ttk->public = 0;
         }
-        if($request->image) {
+        if ($request->image) {
             try {
                 $image = $request->file('image');
                 $ttk->save();

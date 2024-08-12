@@ -9,7 +9,6 @@ class QualityRequirement extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'requirements';
     protected $guarded = [];
     protected $fillable=['description', 'ttk_id'];
 

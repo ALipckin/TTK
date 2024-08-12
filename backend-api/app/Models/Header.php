@@ -13,8 +13,8 @@ class Header extends Model
         'company', 'ttk_id', 'property', 'position', 'approver', 'card',
         'created_date', 'dish', 'dev', 'approver2', 'approver2_position'];
 
-    public function ttks()
+    public function ttk()
     {
-        return $this->hasMany(ttk::class);
+        return $this->belongsTo(Ttk::class);
     }
 }
