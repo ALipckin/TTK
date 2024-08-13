@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Description\StoreRequest;
 use App\Http\Requests\Description\UpdateRequest;
+use App\Http\Requests\DescriptionRequest;
 use App\Models\Header;
 use App\Models\Requirement;
 use App\Models\ttk;
@@ -25,7 +26,7 @@ class RequirementController extends Controller
         return json_encode(["data" => $requirement], JSON_UNESCAPED_UNICODE);
     }
 
-    public function store(StoreRequest $request)
+    public function store(DescriptionRequest $request)
     {
         $data = $request->validated();
         $requirement = Requirement::create($data);
@@ -33,7 +34,7 @@ class RequirementController extends Controller
         return response( $json, 201);
     }
 
-    public function update(UpdateRequest $request, ttk $ttk)
+    public function update(DescriptionRequest $request, ttk $ttk)
     {
         $data = $request->validated();
         $requirement = Requirement::where('ttk_id', $ttk->id)->first();

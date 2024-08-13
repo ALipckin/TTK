@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class CheckPublicity
@@ -13,15 +14,19 @@ class CheckPublicity
      *
      * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
-    public function handle(Request $request, Closure $next, $ttkId)
+    public function handle(Request $request, Closure $next)
     {
-        Log::info("ttkId: " . $ttkId);
-        $ttk = \App\Models\ttk::findOrFail($ttkId);
+        $ttk = $request->route('ttk');
+
+        log::info("ttk= ". $ttk);
+        //$ttk = \App\Models\Ttk::findOrFail($ttkId);
         if ($ttk->public !== 1) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Access denied',
-            ], 403);
+            if (!Gate::allows('update-ttk', $ttk)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Access denied',
+                ], 403);
+            }
         }
 
         return $next($request);

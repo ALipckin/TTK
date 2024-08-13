@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Description\StoreRequest;
 use App\Http\Requests\Description\UpdateRequest;
+use App\Http\Requests\DescriptionRequest;
 use App\Models\Formulation;
 use App\Models\ttk;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class ForemulationController extends Controller
         return json_encode(["data" => $formulation], JSON_UNESCAPED_UNICODE);
     }
 
-    public function store(StoreRequest $request)
+    public function store(DescriptionRequest $request)
     {
         $data = $request->validated();
         $formulation = Formulation::create($data);
@@ -32,7 +33,7 @@ class ForemulationController extends Controller
         return response( $json, 201);
     }
 
-    public function update(UpdateRequest $request, ttk $ttk)
+    public function update(DescriptionRequest $request, ttk $ttk)
     {
         $data = $request->validated();
         $formulation = Formulation::where('ttk_id', $ttk->id)->first();
