@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Builder;
 class TTKFilter extends AbstractFilter
 {
     public const NAME = 'name';
-    public const USER_ID = 'user_ID';
+    public const CATEGORY_ID = 'category_id';
 
 
     protected function getCallbacks(): array
     {
         return [
-            self::NAME => [$this, 'name'],
-            self::USER_ID => [$this, 'user_ID'],
+            self::NAME => [$this, self::NAME],
+            self::CATEGORY_ID => [$this, self::CATEGORY_ID],
         ];
     }
 
@@ -25,8 +25,8 @@ class TTKFilter extends AbstractFilter
         $builder->where('name', 'like', "%{$value}%");
     }
 
-    public function user_ID(Builder $builder, $value)
+    public function category_id(Builder $builder, $value)
     {
-        $builder->where('user_ID', $value);
+        $builder->where('category_id', $value);
     }
 }

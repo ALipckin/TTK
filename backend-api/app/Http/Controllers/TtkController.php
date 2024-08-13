@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\ProductFilter;
 use App\Http\Filters\TTKFilter;
 use App\Http\Requests\TTK\FilterRequest;
 use App\Http\Requests\TTK\StoreRequest;
@@ -15,14 +16,26 @@ use Illuminate\Support\Facades\Log;
 
 class TtkController extends Controller
 {
-    public function public()
+    public function public(\App\Http\Requests\TTK\FilterRequest $request)
     {
-        $publicTtk = Ttk::get()->where('public', 1);
-        $collection = TTKResource::collection($publicTtk);
+        $data = $request->validated();
+        $page = $data['page'] ?? 0;
+        $perPage = $data['perPage'] ?? 10;
+        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+        $ttks = Ttk::filter($filter)->where('public', 1)->paginate($perPage, ['*'], 'page', $page);
+        $collection = TTKResource::collection($ttks);
+        $paginationData = [
+            'current_page' => $collection->currentPage(),
+            'per_page' => $collection->perPage(),
+            'last_page' => $collection->lastPage(),
+            // Другие данные о пагинации, которые вам нужны
+        ];
+
         return response()->json([
             'status' => true,
             'message' => "Ttk data",
-            'data' => $collection,
+            'data' => $collection->items(),
+            'pagination' => $paginationData
         ], 200);
     }
 
