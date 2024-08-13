@@ -1,0 +1,12 @@
+.trash-button{
+    backgroundColor: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    alignItems: center;
+    justifyContent: center;
+}
+.confirm-box{
+    border: gray;
+}

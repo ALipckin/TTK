@@ -1,0 +1,51 @@
+.ttk-input{
+    width: 100%;
+    height: 30px;
+    border-radius: 0;
+    border-style: none;
+    font-weight: normal;
+    font-size: 14px;
+    color: #707070;
+    padding-top: 0px; /* Устанавливаем верхний отступ в 0 */
+    padding-bottom: 0; /* Устанавливаем нижний отступ для выравнивания текста */
+    margin-top:0 !important;
+    margin-bottom:0 !important;
+    line-height: 1.5;
+    background-color: transparent;
+    text-align: start;
+}
+.input::placeholder {
+    color: gray; /* Цвет текста placeholder */
+    font-family: Arial, sans-serif; /* Шрифт для placeholder */
+    font-size: 14px; /* Размер шрифта для placeholder */
+}
+.input:focus {
+    outline: none; /* Убирает выделение при фокусе */
+    box-shadow: none; /* Убирает тень вокруг элемента при фокусе */
+}
+.input-box{
+    border-style: solid;
+    border-width: 0px 0px 1px 0px;
+    border-bottom-color: #d6d6d6;
+    margin: 0px 0 0px 0;
+    padding: 0px 0 0px 0;
+    background-color: transparent;
+}
+.title{
+    font-size: 14px;
+    font-weight: bold;
+    color: #707070;
+    margin: 0;
+    padding: 0;
+}
+.ml-1{
+   margin-left: 10px;
+}
+
+.ml-2{
+    margin-left: 20px;
+ }
+
+ .ml-3{
+    margin-left: 30px;
+ }
