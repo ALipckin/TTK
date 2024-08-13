@@ -15,28 +15,42 @@ class HeaderController extends Controller
         $data = $request->validated();
         $header = Header::where('Ttk_id', $Ttk->id)->first();
         $header->update($data);
-        $json = json_encode(["data" => $header], JSON_UNESCAPED_UNICODE);
-        return response($json, 200);
+        return response()->json([
+            'status' => true,
+            'message' => "Header updated",
+            'data' => $header,
+        ], 200);
     }
 
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
         $header = Header::create($data);
-        $json = json_encode(["data" => $header], JSON_UNESCAPED_UNICODE);
-        return response($json, 201);
+        return response()->json([
+            'status' => true,
+            'message' => "Header created",
+            'data' => $header,
+        ], 201);
     }
 
     public function show(Ttk $Ttk)
     {
         $header = Header::where('Ttk_id', $Ttk->id)->first();
-        return json_encode(["data" => $header], JSON_UNESCAPED_UNICODE);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Header data",
+            'data' => $header,
+        ], 200);
     }
 
     public function destroy(Ttk $Ttk)
     {
         $header = Header::where('Ttk_id', $Ttk->id)->first();
         $header->delete();
-        return response()->json(null, 204);
+        return response()->json([
+            'status' => true,
+            'message' => "Deleted successfully",
+        ], 204);
     }
 }

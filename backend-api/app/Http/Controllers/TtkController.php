@@ -11,46 +11,32 @@ use App\Models\Ttk;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class TtkController extends Controller
 {
     public function public()
     {
-        $ttks = ttk::where('public', 1)->get();
         $collection = TTKResource::collection($ttks);
         return response()->json([
             'status' => true,
-            'message' => "ttk data",
+            'message' => "Ttk data",
             'data' => $collection,
         ], 200);
     }
 
     public function publish(ttk $ttk)
     {
-        if (!Gate::allows('update-ttk', $ttk)) {
-            return response()->json([
-                'status' => false,
-                'message' => "Access denied",
-            ], 403);
-        }
         $ttk->public = 1;
         $ttk->save();
         return response()->json([
             'status' => true,
-            'message' => "ttk Published"
+            'message' => "Ttk Published"
         ], 200);
     }
 
     public function destroy(ttk $ttk)
     {
-        if (!Gate::allows('update-ttk', $ttk)) {
-            return response()->json([
-                'status' => false,
-                'message' => "Access denied",
-            ], 403);
-        }
         $ttk->delete();
         return response()->json([
             'status' => true,
@@ -61,7 +47,6 @@ class TtkController extends Controller
     public function index(FilterRequest $request)
     {
         $data = $request->validated();
-
         $page = $data['page'] ?? 0;
         $perPage = $data['perPage'] ?? 10;
         $filter = app()->make(TTKFilter::class, ['queryParams' => array_filter($data)]);
@@ -76,7 +61,7 @@ class TtkController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "ttk data",
+            'message' => "Ttk data",
             'data' => $collection->items(),
             'pagination' => $paginationData
         ], 200);
@@ -97,15 +82,6 @@ class TtkController extends Controller
 
     public function show(ttk $ttk)
     {
-        if ($ttk->public === 0) {
-            if (!Gate::allows('update-ttk', $ttk)) {
-                return response()->json([
-                    'status' => false,
-                    'message' => "Access denied",
-                ], 403);
-            }
-        }
-
         //$header = Header::where('ttk_id', $ttk->id)->first();
         //$requirement = Requirement::where('ttk_id', $ttk->id)->first();
         //$form = Form::where('ttk_id', $ttk->id)->first();
@@ -120,7 +96,7 @@ class TtkController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "ttk data",
+            'message' => "Ttk data",
             'data' => $data,
         ], 200);
     }
@@ -162,12 +138,6 @@ class TtkController extends Controller
 
     public function update(ttk $ttk, \App\Http\Requests\TTK\UpdateRequest $request)
     {
-        if (!Gate::allows('update-ttk', $ttk)) {
-            return response()->json([
-                'status' => false,
-                'message' => "Access denied",
-            ], 403);
-        }
         $data = $request->validated();
 
         $ttk->name = $data['name'];
@@ -189,7 +159,7 @@ class TtkController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "ttk updated",
+            'message' => "Ttk updated",
             'data' => $ttk,
         ], 200);
     }

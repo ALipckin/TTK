@@ -22,27 +22,30 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company'            =>  'required|string|min:3|max:100',
-            'property'           =>  'required|string|min:3|max:100',
-            'position'           =>  'required|string|min:3|max:100',
-            'approver'           =>  'required|string|min:3|max:100',
-            'card'               =>  'required|integer|digits_between:1,50',
-            'created_date'       =>  'required|date',
-            'dish'               =>  'required|string|min:3|max:80',
-            'dev'                =>  'required|string|min:3|max:100',
-            'approver2'          =>  'required|string|min:3|max:100',
-            'approver2_position' =>  'required|string|min:3|max:100',
-            "ttk_id"    => 'required'
+            'company' => 'required|string|min:3|max:100',
+            'property' => 'required|string|min:3|max:100',
+            'position' => 'required|string|min:3|max:100',
+            'approver' => 'required|string|min:3|max:100',
+            'card' => 'required|integer|digits_between:1,50',
+            'created_date' => 'required|date',
+            'dish' => 'required|string|min:3|max:80',
+            'dev' => 'required|string|min:3|max:100',
+            'approver2' => 'required|string|min:3|max:100',
+            'approver2_position' => 'required|string|min:3|max:100',
+            "ttk_id" => 'required'
         ];
     }
+
     public function messages()
     {
         return [
-            'required'  => 'Поле обязательно для заполнения.',
-            'integer'       => 'Поле должно содержать только целочисленные цифры',
-            'date'     => 'Поле должно быть с действительной датой.',
-            'max'   => 'Поле не должно превышать 100 символов.',
-            'card.digits_between'  =>  'Поле не должно превышать 50 символов.',
+            'required' => 'Поле обязательно для заполнения.',
+            'string' => 'Поле должно быть строкой.',
+            'min' => 'Количество символов в поле минимум :min.',
+            'max' => 'Количество символов в поле максимум :max.',
+            'integer' => 'Поле должно содержать только целочисленные значения.',
+            'digits_between' => 'Поле должно содержать от :min до :max цифр.',
+            'date' => 'Поле должно быть действительной датой.',
         ];
     }
 }
