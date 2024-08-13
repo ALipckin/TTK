@@ -6,6 +6,7 @@ import ReactModal from 'react-modal';
 import React, { useState } from 'react';
 import { redirect } from 'next/navigation'
 import "./profileDataList.css"
+import { useRouter } from 'next/navigation'
 const profileDataList = (data) => {
     data = data.data;
     var dateObject = new Date(data.created_at);
@@ -21,6 +22,7 @@ const profileDataList = (data) => {
     const [newTtkId, setTtkId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [error, setError] = useState(null);
+    const router = useRouter()
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -32,19 +34,17 @@ const profileDataList = (data) => {
     const [name, setName] = useState(''); // Используйте useState для хранения значения поля Name
 
     const handleCreateTTK = async () => {
-        try {
+
             const response = await axios.post(API_ROUTES.TTKS, {name}, {withCredentials: true});
             const ttkId = response.data.data.id;
             console.log("data = " + response.data);
             console.log("data data = " + response.data.data);
-            console.log("id = " + response.data.data.id);
-            if(response.data.data.id) {
-                redirect(`/ttks/${ttkId}`); // Замените на ваш путь к странице с технико-технологической картой
+            console.log("id = " + ttkId);
+            if(ttkId != undefined) {
+                router.push(`/ttks/${ttkId}`)
+                //redirect(`/ttks/${ttkId}`); // Замените на ваш путь к странице с технико-технологической картой
             }
-        } catch (error) {
-            if (error.response.status !== 419) throw error;
-            setError(error.response.data.errors);
-        }
+
     };
 
     return (
