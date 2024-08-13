@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TtkCategory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -15,10 +16,11 @@ class TtkFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'          =>  $this->faker->word,
-            'image'         =>  $this->faker->imageUrl(),
-            'public'        =>  rand(0,1),
-            'user_id'       =>  User::get()->random()->id
+            'name' => $this->faker->word,
+            'image' => $this->faker->imageUrl(),
+            'public' => rand(0, 1),
+            'user_id' => User::get()->random()->id,
+            'category_id' => TtkCategory::get()->random()->id,
         ];
     }
 }

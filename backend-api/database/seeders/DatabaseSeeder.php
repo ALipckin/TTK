@@ -13,6 +13,7 @@ use App\Models\QualityRequirement;
 use App\Models\RealizationRequirement;
 use App\Models\Tp;
 use App\Models\Ttk;
+use App\Models\TtkCategory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -39,6 +40,7 @@ class DatabaseSeeder extends Seeder
             'password' => hash::make('123'),
             'role' => 'user'
         ]);
+        TtkCategory::factory(10)->create();
         Ttk::factory($ttk_number)->create();
         Category::factory(10)->create();
         Product::factory(20)->create();

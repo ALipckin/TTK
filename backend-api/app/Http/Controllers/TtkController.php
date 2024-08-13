@@ -17,7 +17,8 @@ class TtkController extends Controller
 {
     public function public()
     {
-        $collection = TTKResource::collection($ttks);
+        $publicTtk = Ttk::get()->where('public', 1);
+        $collection = TTKResource::collection($publicTtk);
         return response()->json([
             'status' => true,
             'message' => "Ttk data",
