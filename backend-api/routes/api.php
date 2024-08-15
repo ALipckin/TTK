@@ -45,21 +45,21 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         });
 
         Route::group(['middleware' => ['role:user']], function () {
-            Route::post('/{ttk}/scope', [ScopeController::class, "store"]);
-            Route::get('/{ttk}/scope', [ScopeController::class, "show"])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/scope', [ScopeController::class, "update"])->middleware(['verifyOwner']);;
-            Route::delete('/{ttk}/scope', [ScopeController::class, "destroy"])->middleware(['verifyOwner']);;
+            Route::post('/{ttk}/scopes', [ScopeController::class, "store"]);
+            Route::get('/{ttk}/scopes', [ScopeController::class, "index"])->middleware(['checkPublicity']);
+            Route::patch('/{ttk}/scopes/{id}', [ScopeController::class, "update"])->middleware(['verifyOwner:App\Models\Scope']);;
+            Route::delete('/{ttk}/scopes/{id}', [ScopeController::class, "destroy"])->middleware(['verifyOwner:App\Models\Scope']);;
         });
 
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/requirement', [RequirementController::class, 'store']);
-            Route::get('/{ttk}/requirement', [RequirementController::class, 'show'])->middleware(['checkPublicity:{ttk}']);
+            Route::get('/{ttk}/requirement', [RequirementController::class, 'show'])->middleware(['checkPublicity']);
             Route::patch('/{ttk}/requirement', [RequirementController::class, 'update'])->middleware(['verifyOwner']);;
-            Route::delete('//{ttk}/requirement', [RequirementController::class, 'destroy'])->middleware(['verifyOwner']);;
+            Route::delete('/{ttk}/requirement', [RequirementController::class, 'destroy'])->middleware(['verifyOwner']);;
         });
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/formulation', [ForemulationController::class, 'store']);
-            Route::get('/{ttk}/formulation', [ForemulationController::class, 'show'])->middleware(['checkPublicity:{ttk}']);;
+            Route::get('/{ttk}/formulation', [ForemulationController::class, 'show'])->middleware(['checkPublicity']);;
             Route::patch('/{ttk}/formulation/', [[ForemulationController::class, 'update']])->middleware(['verifyOwner']);;
             Route::delete('/{ttk}/formulation/', [[ForemulationController::class, 'destroy']])->middleware(['verifyOwner']);;
         });

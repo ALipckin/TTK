@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
 
 class CheckPublicity
 {
@@ -18,7 +17,6 @@ class CheckPublicity
     {
         $ttk = $request->route('ttk');
 
-        log::info("ttk= ". $ttk);
         //$ttk = \App\Models\Ttk::findOrFail($ttkId);
         if ($ttk->public !== 1) {
             if (!Gate::allows('update-ttk', $ttk)) {

@@ -22,16 +22,16 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description'            =>  'required|string|min:3|max:100',
-            'ttk_id' => 'required',
+            'description' => 'required|string|min:3|max:100',
         ];
     }
+
     public function messages()
     {
         return [
-            'required'  => 'Поле обязательно для заполнения.',
-            'min'         => 'Поле должно содержать минимум 3 символа',
-            'max'   => 'Поле не должно превышать 100 символов.',
+            'required' => 'Поле обязательно для заполнения.',
+            'min' => 'Поле должно содержать минимум 3 символа',
+            'max' => 'Поле не должно превышать 100 символов.',
         ];
     }
 }

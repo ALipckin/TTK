@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Filters\ProductFilter;
-use App\Http\Filters\TTKFilter;
+use App\Http\Filters\TtkFilter;
 use App\Http\Requests\TTK\FilterRequest;
 use App\Http\Requests\TTK\StoreRequest;
 use App\Http\Resources\TTK\TTKResource;
@@ -63,7 +63,7 @@ class TtkController extends Controller
         $data = $request->validated();
         $page = $data['page'] ?? 0;
         $perPage = $data['perPage'] ?? 10;
-        $filter = app()->make(TTKFilter::class, ['queryParams' => array_filter($data)]);
+        $filter = app()->make(TtkFilter::class, ['queryParams' => array_filter($data)]);
         $ttks = ttk::filter($filter)->paginate($perPage, ['*'], 'page', $page);
         $collection = TTKResource::collection($ttks);
         $paginationData = [
@@ -156,7 +156,7 @@ class TtkController extends Controller
 
         $ttk->name = $data['name'];
 
-        if ($request->public == "on") {
+        if ($request->public == "1") {
             $ttk->public = 1;
         } else {
             $ttk->public = 0;

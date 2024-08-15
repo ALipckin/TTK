@@ -6,7 +6,7 @@ namespace App\Http\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class TTKFilter extends AbstractFilter
+class TtkFilter extends AbstractFilter
 {
     public const NAME = 'name';
     public const CATEGORY_ID = 'category_id';

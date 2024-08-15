@@ -15,6 +15,7 @@ class TTKPolicy
     {
         //
     }
+
     public function update(User $user, Ttk $ttk): Response
     {
         return $user->id === $ttk->user_id

@@ -2,17 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Description\StoreRequest;
+use App\Http\Requests\Description\UpdateRequest;
 use App\Http\Requests\DescriptionRequest;
 use App\Models\Scope;
 use App\Models\Ttk;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 class ScopeController extends Controller
 {
-    public function update(DescriptionRequest $request, Ttk $Ttk)
+    public function index(Ttk $Ttk)
     {
+        $scopes = Scope::Where('Ttk_id', $Ttk->id)->get();
+        Log::info($scopes);
+        return response()->json([
+            'status' => true,
+            'message' => "scope data",
+            'data' => $scopes,
+        ], 200);
+    }
+
+    public function update(UpdateRequest $request, $ttk, $scope,)
+    {
+        //$scope = $request->route('scope') ?? null;
+
         $data = $request->validated();
-        $scope = scope::where('Ttk_id', $Ttk->id)->first();
+        $scope = Scope::where('id', $scope);
         $scope->update($data);
         return response()->json([
             'status' => true,
@@ -21,9 +37,10 @@ class ScopeController extends Controller
         ], 200);
     }
 
-    public function store(DescriptionRequest $request)
+    public function store(StoreRequest $request)
     {
         $data = $request->validated();
+        $data['ttk_id'] = $request->route('ttk');
         $scope = scope::create($data);
         return response()->json([
             'status' => true,
@@ -32,20 +49,10 @@ class ScopeController extends Controller
         ], 201);
     }
 
-    public function show(Ttk $Ttk)
-    {
-        $scope = scope::where('Ttk_id', $Ttk->id)->first();
 
-        return response()->json([
-            'status' => true,
-            'message' => "scope data",
-            'data' => $scope,
-        ], 200);
-    }
-
-    public function destroy(Ttk $Ttk)
+    public function destroy($ttk, $scope,)
     {
-        $scope = scope::where('Ttk_id', $Ttk->id)->first();
+        $scope = scope::where('id', $scope)->first();
         $scope->delete();
         return response()->json([
             'status' => true,
