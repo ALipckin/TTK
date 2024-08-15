@@ -1,4 +1,4 @@
-import ActionButton from "../buttons/actionIconButton";
+import ActionButton from "../buttons/ActionIconButton";
 import React from "react";
 
 const EditAction = ({apiUrl, id }) => {

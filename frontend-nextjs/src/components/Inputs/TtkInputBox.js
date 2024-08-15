@@ -2,10 +2,12 @@ import './TtkInput.css';
 import InputError from '@/components/errors/TtkError';
 import TtkInput from './TtkInput';
 import React from 'react';
+import ActionIconButton from '@/components/buttons/ActionIconButton'
 
 const TtkInputBox = ({
   title = '',
   value = '',
+    onDeleteButton = false,
   errors,
   disabled = false,
   titleClassName = '',
@@ -33,6 +35,11 @@ const TtkInputBox = ({
           {...props}
         />
       )}
+        {onDeleteButton ? (
+            <ActionIconButton onClick={onDeleteButton} img="/images/trash.svg"></ActionIconButton>
+            )
+            : (null)
+        }
     </div>
     <InputError messages={errors} className="mt-2" />
   </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_ROUTES } from '@/components/apiRoutes';
 import InputBox from '@/components/Inputs/TtkInputBox';
-import WideButton from '@/components/buttons/wide-button';
+import WideButton from '@/components/buttons/WideButton';
 import InputError from '@/components/errors/TtkError';
 import '../data.css';
 import './header.css';
@@ -143,8 +143,8 @@ export default function Page({ params }) {
                                     onChange={handleChange}
                                     errors={errors.card}
                                 />
-                    
-                                <InputBox              
+
+                                <InputBox
                                         name="created_date"
                                         title="от"
                                         placeholder="Дата"

@@ -3,23 +3,27 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_ROUTES } from '@/components/apiRoutes';
 import InputBox from '@/components/Inputs/TtkInputBox';
-import WideButton from '@/components/buttons/wide-button';
+import WideButton from '@/components/buttons/WideButton';
 import '../data.css';
-import Trash from '@/components/buttons/Trash'
+import TrashForm from '@/components/buttons/TrashForm';
+import ActionIconButton from '@/components/buttons/ActionIconButton'
+import "../ttk.css"
+
 export default function Page({ params }) {
-    const [data, setData] = useState({
-        description: '',
-    });
-    const [startDate, setStartDate] = useState(new Date());
+    const [data, setData] = useState([]); // Инициализируем как массив
+    const [responseData, setResponseData] = useState([]); // Инициализируем как массив
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${API_ROUTES.TTKS}/${params.id}/scope`, {
+                const response = await axios.get(`${API_ROUTES.TTKS}/${params.id}/scopes`, {
                     withCredentials: true,
                 });
-                setData(response.data.data || {});
+                if(response.data.data){
+                    setData(response.data.data)
+                    setResponseData(response.data.data)
+                }
             } catch (err) {
                 setErrors({ fetch: err.message });
             }
@@ -29,32 +33,74 @@ export default function Page({ params }) {
 
     const validate = () => {
         const validationErrors = {};
-        if (!data.description) validationErrors.description = 'Поле обязательно для заполнения';// Добавьте проверки для других полей по необходимости
+        data.forEach((item, index) => {
+            if (!item.description) {
+                validationErrors[`description_${index}`] = 'Поле обязательно для заполнения';
+            }
+        });
         return validationErrors;
     };
 
-    const handleChange = (e) => {
+    const handleChange = (index, e) => {
         const { name, value } = e.target;
-        setData(prevData => ({ ...prevData, [name]: value }));
-    };
 
+        setData(prevData => {
+            const updatedData = prevData.map((item, i) =>
+                i === index ? { ...item, [name]: value} : item
+            );
+
+            // Проверяем изменения
+            const changes = updatedData.map((item, i) => {
+                const originalItem = responseData[i];
+                return {
+                    ...item,
+                    isChanged: item.description !== originalItem?.description || item.isNew
+                };
+            });
+
+            return changes;
+        });
+    };
     const submitForm = async () => {
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
-            console.log("errors")
             setErrors(validationErrors);
             return;
         }
+
         try {
-            data.created_date = format(startDate, 'yyyy-MM-dd');
-            if (data?.id) {
-                // Если есть ID, делаем PATCH запрос
-                await axios.patch(`${API_ROUTES.TTKS}/${params.id}/scopr`, data, { withCredentials: true });
-            } else {
-                // Если нет ID, делаем POST запрос
-                data.ttk_id = params.id
-                await axios.post(`${API_ROUTES.TTKS}/${params.id}/scope`, data, { withCredentials: true });
+            // Фильтрация и очистка измененных данных
+            const changedData = data
+                .filter(item => item.isChanged && !item.isNew)
+                .map(({ isNew, isChanged, ...rest }) => rest);
+
+            // Фильтрация и очистка новых данных
+            const newData = data
+                .filter(item => item.isNew)
+                .map(({ isNew, isChanged, ...rest }) => rest);
+
+            data.forEach((item) => {
+                console.log("data=" + item.isNew);
+            })
+            console.log("cangedData = ", changedData.length)
+            // Создаем массив запросов для измененных данных
+            if(changedData.length > 0) {
+                const changeRequests = changedData.map(item =>
+                    axios.patch(`${API_ROUTES.TTKS}/${params.id}/scopes/${item.id}`, item, { withCredentials: true })
+                );
+                // Отправка запросов для измененных данных параллельно
+                await Promise.all(changeRequests);
             }
+
+            // Параллельное выполнение запросов для новых данных
+            if (newData.length > 0) {
+                const createRequests = newData.map(item =>
+                    axios.post(`${API_ROUTES.TTKS}/${params.id}/scopes`, item, { withCredentials: true })
+                );
+                await Promise.all(createRequests);
+            }
+            window.location.reload();
+
         } catch (error) {
             if (error.response && error.response.status === 422) {
                 setErrors(error.response.data.errors || {});
@@ -63,30 +109,61 @@ export default function Page({ params }) {
             }
         }
     };
-    const clearInputs = () => {
-        setData( '');
+    const addNewDescription = () => {
+        setData(prevData => [...prevData, { description: '', isNew: true }]);
     };
+
+    const clearInputs = () => {
+        {data.map((item, index) => (
+            deleteRecord(index)
+        ))}
+    };
+    const deleteRecord = (index) => {
+        try {
+            console.log("deleting id"+ data[index].id)
+
+            axios.delete(`${API_ROUTES.TTKS}/${params.id}/scopes/${data[index].id}`, {
+                withCredentials: true,
+            });
+            setData(prevData => prevData.filter((_, i) => i !== index));
+        }catch (error) {
+            if (error.response && error.response.status === 422) {
+                console.log(error)
+                setErrors(error.response.data.errors || {});
+            } else {
+                setErrors({ submit: error.message });
+            }
+        }
+    }
     return (
         <div className="container">
-            <div className="row d-flex justify-content-center">
-                <div className="col-12 col-md-6 d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
+                <div className="row col-12 col-md-8 d-flex justify-content-center">
                     <div className="mt-5 mb-5 d-flex justify-content-center flex-column">
-                        <h3 className="mh text-center title">Шапка документа</h3>
+                        <div className="d-flex justify-content-between">
+                            <div className=""></div>
+                            <h3 className="mh mb-5 title">Шапка документа</h3>
+                            <ActionIconButton img="/images/add.svg" className="" onClick={addNewDescription}/>
+                        </div>
                         <div className="row flex-column">
-                            <div className="mb-4">
-                                <InputBox
-                                    name="scope"
-                                    placeholder="Область применения"
-                                    value={data.scope}
-                                    type="text"
-                                    onChange={handleChange}
-                                    errors={errors.scope}
-                                />
-                            </div>
+                            {Array.isArray(data) && data.map((item, index) => (
+                                <div className="mb-4" key={index}>
+                                    <InputBox
+                                        name="description"
+                                        placeholder="Область применения"
+                                        value={item.description}
+                                        type="text"
+                                        onChange={(e) => handleChange(index, e)}
+                                        errors={errors[`description_${index}`]}
+                                        id={item.id}
+                                        onDeleteButton={() => deleteRecord(index)}
+                                    />
+                                </div>
+                            ))}
                             <div className="d-flex justify-content-center">
-                                <WideButton type="button" text="Сохранить" onClick={submitForm} />
+                                <WideButton type="button" onClick={submitForm}>Сохранить</WideButton>
                             </div>
-                            <Trash confirmEvent={clearInputs}/>
+                            <TrashForm confirmEvent={clearInputs} />
                         </div>
                     </div>
                 </div>

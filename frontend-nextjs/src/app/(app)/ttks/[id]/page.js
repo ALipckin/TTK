@@ -47,6 +47,7 @@ export default function page({params}) {
                 <div className="mt-4 d-flex flex-column justify-content-center">
                     <div className="row flex-column col-md-12">
                         <a className="link" href={`/ttks/${params.id}/header/`}>Шапка документа</a>
+                        <a className="link" href={`/ttks/${params.id}/scope/`}>Область применения</a>
                         <a className="link">Требования к качеству сырья</a>
                         <a className="link">Рецептура</a>
                         <a className="link">Описание технологического процесса</a>

@@ -1,4 +1,4 @@
-import "./wide-button.css"
+import "./WideButton.css"
 const Button = ({ type = 'submit', className, ...props }) => (
     <button
         type={type}

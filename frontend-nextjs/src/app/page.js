@@ -1,4 +1,4 @@
-import WideButton from '@/components/buttons/wide-button'
+import WideButton from '@/components/buttons/WideButton'
 import List from '@/components/list/list'
 import "./mainPage.css"
 export const metadata = {

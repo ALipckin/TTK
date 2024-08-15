@@ -8,5 +8,18 @@
     justifyContent: center;
 }
 .confirm-box{
-    border: gray;
+    border: solid #d6d6d6 1px;
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 25px 5px 5px 5px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #707070;
+    margin-top: 20px;
+}
+.cancel{
+    border: solid #ABABAB 1px;
+    color: #b59472;
+    background-color: transparent;
 }

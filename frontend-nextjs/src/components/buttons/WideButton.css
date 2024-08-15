@@ -1,0 +1,61 @@
+.wide-button {
+    display: flex;
+    align-items: center; /* Вертикальное выравнивание иконки и текста */
+    justify-content: center; /* Центрирование текста и иконки */
+    background-color: #b59472;
+    color: white;
+    border-radius: 10px;
+    border-color: #d6d6d6;
+    border-style: solid;
+    max-width: 250px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-family: "Segoe UI", ui-serif;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 8px 72px 8px 2px;
+    font-size: 14px;
+}
+@media (max-width: 500px) {
+    .wide-button {
+        padding: 4px 36px 4px 1px;
+    }
+}
+.p-l{
+    padding-left: 50px;
+}
+.p-l-full{
+    padding-left: 70px;
+}
+@media (max-width: 500px) {
+    .p-l{
+        padding-left: 25px;
+    }
+}
+@media (max-width: 500px) {
+    .p-l-full{
+        padding-left: 35px;
+    }
+}
+.wide-button .button-icon {
+    margin-right: 8px; /* Отступ между иконкой и текстом */
+    height: 20px; /* Высота иконки */
+    width: 20px; /* Ширина иконки */
+}
+
+.wide-button.d-flex {
+    display: flex; /* Flexbox для выравнивания элементов */
+    align-items: center; /* Центрируем элементы по вертикали */
+    justify-content: center; /* Выравниваем содержимое по центру */
+}
+
+.wide-button.text-center {
+    text-align: center; /* Центрируем текст */
+}
+
+::-webkit-input-placeholder {
+    color: #ABABAB;
+    font-size: 14px;
+    font-family: "Segoe UI", ui-serif;
+    font-weight: bold;
+}

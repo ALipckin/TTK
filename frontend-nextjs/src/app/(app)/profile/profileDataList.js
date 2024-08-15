@@ -1,3 +1,4 @@
+"use client";
 import ConstItem from "./constItem";
 import IconItem from "./iconItem";
 import axios from 'axios'
