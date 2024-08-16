@@ -13,6 +13,7 @@ export default function Page({ params }) {
     const [data, setData] = useState([]); // Инициализируем как массив
     const [responseData, setResponseData] = useState([]); // Инициализируем как массив
     const [errors, setErrors] = useState({});
+    const [toDelete, setToDelete] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,15 +21,21 @@ export default function Page({ params }) {
                 const response = await axios.get(`${API_ROUTES.TTKS}/${params.id}/scopes`, {
                     withCredentials: true,
                 });
-                if(response.data.data){
+                if(response.data.data.length){
                     setData(response.data.data)
-                    setResponseData(response.data.data)
+                }
+                else{
+
                 }
             } catch (err) {
                 setErrors({ fetch: err.message });
             }
         };
         fetchData();
+        if(data.length === 0){
+            setData([{description: '', isNew: true}])
+            setResponseData([{description: '', isNew: true}])
+        }
     }, [params.id]);
 
     const validate = () => {
@@ -79,10 +86,6 @@ export default function Page({ params }) {
                 .filter(item => item.isNew)
                 .map(({ isNew, isChanged, ...rest }) => rest);
 
-            data.forEach((item) => {
-                console.log("data=" + item.isNew);
-            })
-            console.log("cangedData = ", changedData.length)
             // Создаем массив запросов для измененных данных
             if(changedData.length > 0) {
                 const changeRequests = changedData.map(item =>
@@ -99,6 +102,19 @@ export default function Page({ params }) {
                 );
                 await Promise.all(createRequests);
             }
+
+            toDelete.map(item =>
+                console.log("delete = "),
+
+            )
+            console.log("deleting ")
+            if (toDelete.length > 0) {
+                const deleteRequests = toDelete.map(id =>
+                    axios.delete(`${API_ROUTES.TTKS}/${params.id}/scopes/${id}`, { withCredentials: true })
+                );
+                await Promise.all(deleteRequests);
+            }
+
             window.location.reload();
 
         } catch (error) {
@@ -114,27 +130,21 @@ export default function Page({ params }) {
     };
 
     const clearInputs = () => {
-        {data.map((item, index) => (
-            deleteRecord(index)
-        ))}
-    };
-    const deleteRecord = (index) => {
-        try {
-            console.log("deleting id"+ data[index].id)
+        // Создаем новый массив, исключая элементы, которые нужно удалить
+        const idsToDelete = data.map(item => item.id);
+        setToDelete(idsToDelete);
 
-            axios.delete(`${API_ROUTES.TTKS}/${params.id}/scopes/${data[index].id}`, {
-                withCredentials: true,
-            });
-            setData(prevData => prevData.filter((_, i) => i !== index));
-        }catch (error) {
-            if (error.response && error.response.status === 422) {
-                console.log(error)
-                setErrors(error.response.data.errors || {});
-            } else {
-                setErrors({ submit: error.message });
-            }
+        // Удаляем все элементы из data и responseData
+        setData([]);
+        setResponseData([]);
+    };
+ const deleteRecord = (index) => {
+        const idToDelete = data[index]?.id;
+        if (idToDelete) {
+            setToDelete(prevToDelete => [...prevToDelete, idToDelete]);
         }
-    }
+
+        setData(prevData => prevData.filter((_, i) => i !== index));}
     return (
         <div className="container">
             <div className="d-flex justify-content-center">
