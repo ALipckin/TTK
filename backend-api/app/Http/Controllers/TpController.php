@@ -2,42 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Description\StoreRequest;
 use App\Http\Requests\Description\UpdateRequest;
-use App\Models\tp;
-use Illuminate\Http\Request;
+use App\Models\Tp;
+use App\Models\Ttk;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 class TpController extends Controller
 {
-    public function destroy(tp $tp)
+    public function index(Ttk $Ttk)
     {
-        $tp->delete();
-        return response()->json(null, 204);
+        $tps = Tp::Where('Ttk_id', $Ttk->id)->get();
+        Log::info($tps);
+        return response()->json([
+            'status' => true,
+            'message' => "requirement data",
+            'data' => $tps,
+        ], 200);
     }
 
-    public function index()
+    public function update(UpdateRequest $request, $ttk, $tp,)
     {
-        return tp::all();
-    }
+        //$tp = $request->route('requirement') ?? null;
 
-    public function show(tp $TP)
-    {
-        return $TP;
+        $data = $request->validated();
+        $tp = Tp::where('id', $tp);
+        $tp->update($data);
+        return response()->json([
+            'status' => true,
+            'message' => "requirement updated",
+            'data' => $tp,
+        ], 200);
     }
 
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        $TP = tp::create($data);
-        return response()->json($TP, 201);
+        $data['ttk_id'] = $request->route('ttk');
+        $tp = Tp::create($data);
+        return response()->json([
+            'status' => true,
+            'message' => "requirement created",
+            'data' => $tp,
+        ], 201);
     }
 
-    public function update(tp $tp, UpdateRequest $request)
+    public function destroy($ttk, $tp,)
     {
-        $data = $request->validated();
-        $tp->update($data);
-        return response()->json($tp, 200);
+        $tp = Tp::where('id', $tp)->first();
+        $tp->delete();
+        return response()->json([
+            'status' => true,
+            'message' => "Deleted successfully",
+        ], 204);
     }
-
 }

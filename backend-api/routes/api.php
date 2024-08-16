@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualityRequirementController;
 use App\Http\Controllers\ScopeController;
+use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,9 +55,17 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/quality-requirements', [QualityRequirementController::class, 'store']);
             Route::get('/{ttk}/quality-requirements', [QualityRequirementController::class, 'index'])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/quality-requirements', [QualityRequirementController::class, 'update'])->middleware(['verifyOwner:App\Models\QualityRequirement']);
-            Route::delete('/{ttk}/quality-requirements', [QualityRequirementController::class, 'destroy'])->middleware(['verifyOwner:App\Models\QualityRequirement']);
+            Route::patch('/{ttk}/quality-requirements/{id}', [QualityRequirementController::class, 'update'])->middleware(['verifyOwner:App\Models\QualityRequirement']);
+            Route::delete('/{ttk}/quality-requirements/{id}', [QualityRequirementController::class, 'destroy'])->middleware(['verifyOwner:App\Models\QualityRequirement']);
         });
+
+        Route::group(['middleware' => ['role:user']], function () {
+            Route::post('/{ttk}/tps', [TpController::class, 'store']);
+            Route::get('/{ttk}/tps', [TpController::class, 'index'])->middleware(['checkPublicity']);
+            Route::patch('/{ttk}/tps/{id}', [TpController::class, 'update'])->middleware(['verifyOwner:App\Models\Tp']);
+            Route::delete('/{ttk}/tps/{id}', [TpController::class, 'destroy'])->middleware(['verifyOwner:App\Models\Tp']);
+        });
+
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/formulation', [ForemulationController::class, 'store']);
             Route::get('/{ttk}/formulation', [ForemulationController::class, 'show'])->middleware(['checkPublicity']);
