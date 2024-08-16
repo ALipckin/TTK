@@ -37,8 +37,6 @@ class VerifyOwner
             $ttk = Ttk::findOrFail($ttkId);
             if (!Gate::allows('update-ttk', $ttk)) {
                 return $deniedResponse;
-            } else {
-                return $next($request);
             }
         }
         $ttkId = $request->route('ttk') ?? null;
