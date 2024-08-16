@@ -48,7 +48,7 @@ export default function page({params}) {
                     <div className="row flex-column col-md-12">
                         <a className="link" href={`/ttks/${params.id}/header/`}>Шапка документа</a>
                         <a className="link" href={`/ttks/${params.id}/scope/`}>Область применения</a>
-                        <a className="link">Требования к качеству сырья</a>
+                        <a className="link" href={`/ttks/${params.id}/requirement/`}><br/>Требования к качеству сырья</a>
                         <a className="link">Рецептура</a>
                         <a className="link">Описание технологического процесса</a>
                         <a className="link">Требования к оформлению и подаче</a>

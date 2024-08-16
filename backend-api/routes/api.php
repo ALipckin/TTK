@@ -4,7 +4,7 @@ use App\Http\Controllers\ForemulationController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RequirementController;
+use App\Http\Controllers\QualityRequirementController;
 use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TtkController;
 use Illuminate\Http\Request;
@@ -40,28 +40,28 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/header', [HeaderController::class, "store"]);
             Route::get('/{ttk}/header', [HeaderController::class, "show"])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/header', [HeaderController::class, "update"])->middleware(['verifyOwner']);;
-            Route::delete('/{ttk}/header', [HeaderController::class, "destroy"])->middleware(['verifyOwner']);;
+            Route::patch('/{ttk}/header', [HeaderController::class, "update"])->middleware(['verifyOwner']);
+            Route::delete('/{ttk}/header', [HeaderController::class, "destroy"])->middleware(['verifyOwner']);
         });
 
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/scopes', [ScopeController::class, "store"]);
             Route::get('/{ttk}/scopes', [ScopeController::class, "index"])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/scopes/{id}', [ScopeController::class, "update"])->middleware(['verifyOwner:App\Models\Scope']);;
-            Route::delete('/{ttk}/scopes/{id}', [ScopeController::class, "destroy"])->middleware(['verifyOwner:App\Models\Scope']);;
+            Route::patch('/{ttk}/scopes/{id}', [ScopeController::class, "update"])->middleware(['verifyOwner:App\Models\Scope']);
+            Route::delete('/{ttk}/scopes/{id}', [ScopeController::class, "destroy"])->middleware(['verifyOwner:App\Models\Scope']);
         });
 
         Route::group(['middleware' => ['role:user']], function () {
-            Route::post('/{ttk}/requirement', [RequirementController::class, 'store']);
-            Route::get('/{ttk}/requirement', [RequirementController::class, 'show'])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/requirement', [RequirementController::class, 'update'])->middleware(['verifyOwner']);;
-            Route::delete('/{ttk}/requirement', [RequirementController::class, 'destroy'])->middleware(['verifyOwner']);;
+            Route::post('/{ttk}/quality-requirements', [QualityRequirementController::class, 'store']);
+            Route::get('/{ttk}/quality-requirements', [QualityRequirementController::class, 'index'])->middleware(['checkPublicity']);
+            Route::patch('/{ttk}/quality-requirements', [QualityRequirementController::class, 'update'])->middleware(['verifyOwner:App\Models\QualityRequirement']);
+            Route::delete('/{ttk}/quality-requirements', [QualityRequirementController::class, 'destroy'])->middleware(['verifyOwner:App\Models\QualityRequirement']);
         });
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/formulation', [ForemulationController::class, 'store']);
-            Route::get('/{ttk}/formulation', [ForemulationController::class, 'show'])->middleware(['checkPublicity']);;
-            Route::patch('/{ttk}/formulation/', [[ForemulationController::class, 'update']])->middleware(['verifyOwner']);;
-            Route::delete('/{ttk}/formulation/', [[ForemulationController::class, 'destroy']])->middleware(['verifyOwner']);;
+            Route::get('/{ttk}/formulation', [ForemulationController::class, 'show'])->middleware(['checkPublicity']);
+            Route::patch('/{ttk}/formulation/', [[ForemulationController::class, 'update']])->middleware(['verifyOwner']);
+            Route::delete('/{ttk}/formulation/', [[ForemulationController::class, 'destroy']])->middleware(['verifyOwner']);
         });
     });
 });

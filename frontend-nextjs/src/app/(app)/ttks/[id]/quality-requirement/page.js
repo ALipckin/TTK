@@ -13,6 +13,6 @@ import DescriptionForm from '@/components/forms/DescriptionForm'
 export default function Page({ params }) {
 
     return (
-       <DescriptionForm header="Область применения" apiTable="scopes" params={params}/>
+       <DescriptionForm header="Требования к качеству сырья" apiTable="quality-requirements" params={params}/>
     );
 }
