@@ -36,7 +36,7 @@ const TtkInputBox = ({
         />
       )}
         {onDeleteButton ? (
-            <ActionIconButton onClick={onDeleteButton} img="/images/trash.svg"></ActionIconButton>
+            <ActionIconButton onClick={onDeleteButton} img="/images/minus.svg"></ActionIconButton>
             )
             : (null)
         }

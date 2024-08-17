@@ -21,22 +21,19 @@ export default function DescriptionForm({header, apiTable, params }) {
                 const response = await axios.get(`${API_ROUTES.TTKS}/${params.id}/${apiTable}`, {
                     withCredentials: true,
                 });
-                if(response.data.data.length){
-                    setData(response.data.data)
-                }
-                else{
-
+                if (response.data.data.length) {
+                    setData(response.data.data);
+                    setResponseData(response.data.data);
+                } else {
+                    setData([{ description: '', isNew: true }]);
+                    setResponseData([{ description: '', isNew: true }]);
                 }
             } catch (err) {
                 setErrors({ fetch: err.message });
             }
         };
         fetchData();
-        if(data.length === 0){
-            setData([{description: '', isNew: true}])
-            setResponseData([{description: '', isNew: true}])
-        }
-    }, [params.id]);
+    }, [params.id, apiTable]);
 
     const validate = () => {
         const validationErrors = {};
@@ -115,7 +112,7 @@ export default function DescriptionForm({header, apiTable, params }) {
                 await Promise.all(deleteRequests);
             }
 
-            window.location.reload();
+            //window.location.reload();
 
         } catch (error) {
             if (error.response && error.response.status === 422) {
