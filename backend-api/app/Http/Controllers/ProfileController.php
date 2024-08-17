@@ -14,14 +14,13 @@ class ProfileController extends Controller
         $userId = auth()->user()->id;
         $profile = User::get()->where('id', $userId)->first()->toArray();
         //my ttk
-        $ttk = TTK::all()->where('user_id',);
+        $ttk = TTK::all()->where('user_id', $userId);
         //my ttks num
         $ttkNum = $ttk->count();
         //downloaded ttks
         $downloadsNum = Downloads::all()->where('user_id', $userId)->count();
         //drafts
         $draftNum = $ttk->where('is_draft', 1)->count();
-
         //my product list
         $productNum = UsersHasProduct::all()->where('user_id', $userId)->count();
 
