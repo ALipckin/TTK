@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\HeatTreatment;
 use App\Models\InitialProcessing;
+use App\Models\Package;
 use App\Models\Product;
 use App\Models\Ttk;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,11 +29,11 @@ class FormulationFactory extends Factory
         return [
         'netto' => random_int(1,10)/10,
         'brutto' => random_int(1,10)/10,
-        'package' => $this->faker->word(),
         'product_id' => Product::query()->inRandomOrder()->value('id'),
         'ttk_id' => $ttkId,
         'initial_processing_id' => InitialProcessing::query()->inRandomOrder()->value('id'),
         'heat_treatment_id'=> HeatTreatment::query()->inRandomOrder()->value('id'),
+        'package_id'=> Package::query()->inRandomOrder()->value('id'),
         ];
     }
 }

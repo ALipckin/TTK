@@ -11,6 +11,7 @@ use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -25,10 +26,12 @@ class ProductController extends Controller
 
     public function index(FilterRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->all();
+
         $page = $data['page'] ?? 0;
         $perPage = $data['perPage'] ?? 10;
         $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+
         $products = Product::filter($filter)->paginate($perPage, ['*'], 'page', $page);
         $collection = ProductResource::collection($products);
         $paginationData = [

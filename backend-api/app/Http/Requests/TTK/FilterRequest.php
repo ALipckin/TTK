@@ -22,8 +22,15 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => '',
-            'category_id' => '',
+            'name'          => 'string',
+            'category_id'   =>  'numeric',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'numeric'       => 'Поле должно содержать только числа',
+            'string'       => 'Поле должно содержать только строчные символы',
         ];
     }
 }

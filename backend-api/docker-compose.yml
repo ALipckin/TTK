@@ -18,6 +18,8 @@ services:
         depends_on:
             - db
         container_name: ttk_api_app
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
     db:
         image: mysql:9.0.1
         restart: always

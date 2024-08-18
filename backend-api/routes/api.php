@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ForemulationController;
+use App\Http\Controllers\FormulationController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -8,6 +8,7 @@ use App\Http\Controllers\QualityRequirementController;
 use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,8 +21,8 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::get('/', [ProfileController::class, "index"])->middleware('role:user');
     });
 
-    Route::group(['prefix' => 'products', 'middleware' => ['role:user']], function () {
-        Route::get('/', [ProductController::class, "index"])->middleware('role:user');
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('/', [ProductController::class, "index"]);
         Route::post('/', [ProductController::class, "store"])->middleware('role:moderator');
         Route::get('/{product}', [ProductController::class, "show"])->middleware('role:user');
         Route::patch('/{product}', [ProductController::class, "update"])->middleware('role:user');
@@ -67,10 +68,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         });
 
         Route::group(['middleware' => ['role:user']], function () {
-            Route::post('/{ttk}/formulation', [ForemulationController::class, 'store']);
-            Route::get('/{ttk}/formulation', [ForemulationController::class, 'show'])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/formulation/', [[ForemulationController::class, 'update']])->middleware(['verifyOwner']);
-            Route::delete('/{ttk}/formulation/', [[ForemulationController::class, 'destroy']])->middleware(['verifyOwner']);
+            Route::post('/{ttk}/formulations', [FormulationController::class, 'store']);
+            Route::get('/{ttk}/formulations', [FormulationController::class, 'index'])->middleware(['checkPublicity']);
+            Route::patch('/{ttk}/formulations/{id}', [[FormulationController::class, 'update']])->middleware(['verifyOwner:App\Models\Formulation']);
+            Route::delete('/{ttk}/formulations/{id}', [[FormulationController::class, 'destroy']])->middleware(['verifyOwner:App\Models\Formulation']);
         });
     });
 });

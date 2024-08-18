@@ -16,7 +16,7 @@ class TtkFilter extends AbstractFilter
     {
         return [
             self::NAME => [$this, self::NAME],
-            self::CATEGORY_ID => [$this, self::CATEGORY_ID],
+            self::CATEGORY_ID => [$this, 'categoryId'],
         ];
     }
 
@@ -25,7 +25,7 @@ class TtkFilter extends AbstractFilter
         $builder->where('name', 'like', "%{$value}%");
     }
 
-    public function category_id(Builder $builder, $value)
+    public function categoryId(Builder $builder, $value)
     {
         $builder->where('category_id', $value);
     }

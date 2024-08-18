@@ -8,6 +8,7 @@ use App\Models\Header;
 use App\Models\HeatTreatment;
 use App\Models\InitialProcessing;
 use App\Models\OrgCharacteristic;
+use App\Models\Package;
 use App\Models\Product;
 use App\Models\QualityRequirement;
 use App\Models\RealizationRequirement;
@@ -51,6 +52,8 @@ class DatabaseSeeder extends Seeder
         OrgCharacteristic::factory($ttk_number)->create();
         HeatTreatment::factory($ttk_number)->create();
         InitialProcessing::factory($ttk_number)->create();
+        Package::factory(10)->create();
         Formulation::factory($ttk_number * 5)->create();
+        ;
     }
 }

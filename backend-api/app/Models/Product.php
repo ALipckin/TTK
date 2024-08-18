@@ -12,8 +12,7 @@ class Product extends Model
     use Filterable;
 
     public $timestamps = false;
-    protected $table = 'products';
-    protected $guarded = [];
+    protected $guarded = false;
 
     public function category()
     {
