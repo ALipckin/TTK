@@ -1,6 +1,6 @@
-import "./AuthInput.css";
+import "./WideInput.css";
 
-const AuthInput = ({ disabled = false, className = '', ...props }) => (
+const WideInput = ({ disabled = false, className = '', ...props }) => (
     <input
         disabled={disabled}
         className={`input default-class ${className}`}
@@ -8,4 +8,4 @@ const AuthInput = ({ disabled = false, className = '', ...props }) => (
     />
 );
 
-export default AuthInput;
+export default WideInput;

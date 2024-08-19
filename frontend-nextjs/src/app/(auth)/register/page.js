@@ -1,13 +1,12 @@
 'use client'
 
-import Button from '@/components/buttons/Button'
-import AuthInput from '@/components/Inputs/AuthInput'
+import WideInput from '@/components/Inputs/WideInput'
 import InputError from '@/components/InputError'
-import Label from '@/components/Label'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 import './registation.css'
+import WideButton from '@/components/buttons/WideButton'
 
 const Page = () => {
     const { register } = useAuth({
@@ -42,7 +41,7 @@ const Page = () => {
                     <div className="d-flex justify-content-center flex-column align-items-center mb-4">
                         <div className="d-flex flex-column align-items-start">
                             <div>
-                                <AuthInput
+                                <WideInput
                                     id="name"
                                     type="text"
                                     value={name}
@@ -56,7 +55,7 @@ const Page = () => {
                             </div>
                             {/* Email Address */}
                             <div>
-                                <AuthInput
+                                <WideInput
                                     id="email"
                                     type="email"
                                     value={email}
@@ -71,7 +70,7 @@ const Page = () => {
 
                             {/* Password */}
                             <div>
-                                <AuthInput
+                                <WideInput
                                     id="password"
                                     type="password"
                                     value={password}
@@ -87,7 +86,7 @@ const Page = () => {
 
                             {/* Confirm Password */}
                             <div>
-                                <AuthInput
+                                <WideInput
                                     id="passwordConfirmation"
                                     type="password"
                                     value={passwordConfirmation}
@@ -112,7 +111,7 @@ const Page = () => {
                             className="underline text-sm text-gray-600 hover:text-gray-900">
                             Уже заригистрированны?
                         </Link>
-                        <Button>Зарегистрироваться</Button>
+                        <WideButton>Зарегистрироваться</WideButton>
                     </div>
                 </form>
             </div>

@@ -2,14 +2,14 @@ import Link from 'next/link';
 import "./WideButton.css";
 import React from 'react';
 
-const WideButton = ({ href = "#", onClick, className = "", iconSrc, children, type, ...props }) => {
+const WideButton = ({ href = "#", onClick, text = "",className = "", iconSrc, children, type = "button", ...props }) => {
     const buttonContent = (
         <>
             <div className="d-flex justify-content-start">
                 {iconSrc && <img src={iconSrc} alt="icon" className="button-icon" />}
             </div>
             <div className={`d-flex justify-content-start ${iconSrc ? "p-l" : "p-l-full"}`}>
-            {children}
+                {text}{children}
             </div>
         </>
     );
@@ -26,10 +26,9 @@ const WideButton = ({ href = "#", onClick, className = "", iconSrc, children, ty
         );
     } else {
         return (
-            <Link href={href} passHref>
-                <a className={`${className} wide-button text-center`} {...props}>
+            <Link href={href}
+                className={`${className} wide-button text-center`} {...props}>
                     {buttonContent}
-                </a>
             </Link>
         );
     }

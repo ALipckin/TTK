@@ -1,0 +1,61 @@
+.main-button{
+    display: flex;
+    text-align: start;
+    align-items: center; /* Вертикальное выравнивание иконки и текста */
+    justify-content: center; /* Центрирование текста и иконки */
+    background: transparent;
+    border-radius: 10px;
+    border-color: #d6d6d6;
+    border-style: solid;
+    color: #707070;
+    font-family: "Segoe UI", ui-serif;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    height: auto;
+    width:auto;
+}
+
+.main-button:hover{
+    background-color: #b59472;
+    color: white;
+}
+
+.main-window{
+    position: absolute;
+    top: 100%;
+    background-color: white;
+    border: 2px solid #ABABAB;
+    border-radius: 10px;
+    padding: 1px;
+    z-index: 1000;
+    width: 200px;
+}
+
+.close-icon{
+    width: 20px;
+    height: 20px;
+}
+
+.item{
+    display: flex;
+    text-align: start;
+    align-items: center; /* Вертикальное выравнивание иконки и текста */
+    justify-content: center; /* Центрирование текста и иконки */
+    background: transparent;
+    border-radius: 10px;
+    border-color: #d6d6d6;
+    border-style: solid;
+    color: #707070;
+    font-family: "Segoe UI", ui-serif;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    height: auto;
+    width:auto;
+    margin: 0 0 4px 0;
+}
+
+.content-width{
+    width: 190px !important;
+}

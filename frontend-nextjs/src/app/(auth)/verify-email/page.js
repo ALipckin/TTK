@@ -1,8 +1,8 @@
 'use client'
 
-import Button from '@/components/buttons/Button'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
+import WideButton from '@/components/buttons/WideButton'
 
 const Page = () => {
     const { logout, resendEmailVerification } = useAuth({
@@ -29,9 +29,9 @@ const Page = () => {
             )}
 
             <div className="mt-4 flex items-center justify-between">
-                <Button onClick={() => resendEmailVerification({ setStatus })}>
+                <WideButton onClick={() => resendEmailVerification({ setStatus })}>
                     Resend Verification Email
-                </Button>
+                </WideButton>
 
                 <button
                     type="button"

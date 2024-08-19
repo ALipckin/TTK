@@ -40,7 +40,7 @@ const Home = () => {
                                             технико-технологических карт или<br />
                                             чтобы скачать их?</p>
                                         <div className="d-flex justify-content-center">
-                                            <WideButton text={"Зарегистрироваться"} href="/register"/>
+                                            <WideButton type="link" href="/register">Зарегистрироваться</WideButton>
                                         </div>
                                     </div>
                                 </div>

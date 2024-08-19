@@ -1,14 +1,13 @@
 'use client'
 
-import Button from '@/components/buttons/Button'
-import AuthInput from '@/components/Inputs/AuthInput'
+import WideInput from '@/components/Inputs/WideInput'
 import InputError from '@/components/InputError'
-import Label from '@/components/Label'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
+import WideButton from '@/components/buttons/WideButton'
 
 const Login = () => {
     const router = useRouter()
@@ -55,7 +54,7 @@ const Login = () => {
                             <form onSubmit={submitForm}>
                                 {/* Email Address */}
                                 <div>
-                                    <AuthInput
+                                    <WideInput
                                         id="email"
                                         type="email"
                                         value={email}
@@ -71,7 +70,7 @@ const Login = () => {
 
                                 {/* Password */}
                                 <div className="mt-4">
-                                    <AuthInput
+                                    <WideInput
                                         id="password"
                                         type="password"
                                         value={password}
@@ -116,7 +115,7 @@ const Login = () => {
                                     </div>
                                 </div>
                                 <div className="d-flex flex-column align-content-center align-items-center">
-                                    <Button className="ml-3">Войти</Button>
+                                    <WideButton className="ml-3">Войти</WideButton>
                                 </div>
                             </form>
                         </div>

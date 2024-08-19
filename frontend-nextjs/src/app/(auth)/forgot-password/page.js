@@ -1,12 +1,12 @@
 'use client'
 
-import Button from '@/components/buttons/Button'
-import AuthInput from '@/components/Inputs/AuthInput'
+import WideInput from '@/components/Inputs/WideInput'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
+import WideButton from '@/components/buttons/WideButton'
 
 const Page = () => {
     const { forgotPassword } = useAuth({
@@ -26,37 +26,46 @@ const Page = () => {
 
     return (
         <>
-            <div className="mb-4 text-sm text-gray-600">
-                Forgot your password? No problem. Just let us know your email
-                address and we will email you a password reset link that
-                will allow you to choose a new one.
+            <div className="container">
+                <div className="col-md-12 mt-5 mb-5 flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center mb-4">
+                        <div className="d-flex flex-column align-items-center">
+
+                            <div className="mb-4 text-center text-sm text-gray-600">
+                                Forgot your password? No problem. Just let us know your email <br />
+                                address and we will email you a password reset link that<br />
+                                will allow you to choose a new one.<br />
+                            </div>
+
+                            {/* Session Status */}
+                            <AuthSessionStatus className="mb-4" status={status} />
+
+                            <form onSubmit={submitForm}>
+                                {/* Email Address */}
+                                <div>
+                                    <Label htmlFor="email">Email</Label>
+                                    <WideInput
+                                        id="email"
+                                        type="email"
+                                        name="email"
+                                        value={email}
+                                        className="block mt-1 w-full"
+                                        onChange={event => setEmail(event.target.value)}
+                                        required
+                                        autoFocus
+                                    />
+
+                                    <InputError messages={errors.email} className="mt-2" />
+                                </div>
+
+                                <div className="d-flex align-items-center justify-content-center mt-4">
+                                    <WideButton>Email Password Reset Link</WideButton>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            {/* Session Status */}
-            <AuthSessionStatus className="mb-4" status={status} />
-
-            <form onSubmit={submitForm}>
-                {/* Email Address */}
-                <div>
-                    <Label htmlFor="email">Email</Label>
-                    <AuthInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={email}
-                        className="block mt-1 w-full"
-                        onChange={event => setEmail(event.target.value)}
-                        required
-                        autoFocus
-                    />
-
-                    <InputError messages={errors.email} className="mt-2" />
-                </div>
-
-                <div className="flex items-center justify-end mt-4">
-                    <Button>Email Password Reset Link</Button>
-                </div>
-            </form>
         </>
     )
 }

@@ -9,6 +9,7 @@ export const API_ROUTES = {
     GET_CSRF_COOKIE: `${DOMAIN}/sanctum/csrf-cookie`,
     GET_PROFILE: `${API_BASE_URL}/profile`,
     GET_PRODUCTS: `${API_BASE_URL}/products`,
+    GET_PACKAGES: `${API_BASE_URL}/packages`,
     GET_MY_PRODUCTS: `${API_BASE_URL}/products/my`,
     POST_REGISTRATION: `${API_BASE_URL}/register`,
     POST_LOGIN: `${API_BASE_URL}/login`,

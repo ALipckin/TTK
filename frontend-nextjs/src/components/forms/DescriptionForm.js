@@ -168,7 +168,7 @@ export default function DescriptionForm({header, apiTable, params }) {
                                 </div>
                             ))}
                             <div className="d-flex justify-content-center">
-                                <WideButton type="button" onClick={submitForm}>Сохранить</WideButton>
+                                <WideButton  type="button" onClick={submitForm}>Сохранить</WideButton>
                             </div>
                             <TrashForm confirmEvent={clearInputs} />
                         </div>

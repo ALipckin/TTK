@@ -1,5 +1,6 @@
 .wide-button {
     display: flex;
+    text-align: center;
     align-items: center; /* Вертикальное выравнивание иконки и текста */
     justify-content: center; /* Центрирование текста и иконки */
     background-color: #b59472;
@@ -9,6 +10,7 @@
     border-style: solid;
     max-width: 250px;
     margin-top: 8px;
+
     margin-bottom: 8px;
     font-family: "Segoe UI", ui-serif;
     font-weight: bold;

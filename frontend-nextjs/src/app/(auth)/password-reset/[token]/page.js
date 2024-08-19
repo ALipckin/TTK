@@ -1,13 +1,13 @@
 'use client'
 
-import Button from '@/components/buttons/Button'
-import AuthInput from '@/components/Inputs/AuthInput'
+import WideInput from '@/components/Inputs/WideInput'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
+import WideButton from '@/components/buttons/WideButton'
 
 const PasswordReset = () => {
     const searchParams = useSearchParams()
@@ -46,7 +46,7 @@ const PasswordReset = () => {
                 <div>
                     <Label htmlFor="email">Email</Label>
 
-                    <AuthInput
+                    <WideInput
                         id="email"
                         type="email"
                         value={email}
@@ -62,7 +62,7 @@ const PasswordReset = () => {
                 {/* Password */}
                 <div className="mt-4">
                     <Label htmlFor="password">Password</Label>
-                    <AuthInput
+                    <WideInput
                         id="password"
                         type="password"
                         value={password}
@@ -83,7 +83,7 @@ const PasswordReset = () => {
                         Confirm Password
                     </Label>
 
-                    <AuthInput
+                    <WideInput
                         id="passwordConfirmation"
                         type="password"
                         value={passwordConfirmation}
@@ -101,7 +101,7 @@ const PasswordReset = () => {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    <Button>Reset Password</Button>
+                    <WideButton>Reset Password</WideButton>
                 </div>
             </form>
         </>
