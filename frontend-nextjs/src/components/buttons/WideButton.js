@@ -2,7 +2,7 @@ import Link from 'next/link';
 import "./WideButton.css";
 import React from 'react';
 
-const WideButton = ({ href = "#", onClick, className = "", iconSrc, children, ...props }) => {
+const WideButton = ({ href = "#", onClick, className = "", iconSrc, children, type, ...props }) => {
     const buttonContent = (
         <>
             <div className="d-flex justify-content-start">
@@ -14,7 +14,7 @@ const WideButton = ({ href = "#", onClick, className = "", iconSrc, children, ..
         </>
     );
 
-    if (props.type === "button") {
+    if (type === "button") {
         return (
             <button
                 className={`${className} wide-button text-center`}

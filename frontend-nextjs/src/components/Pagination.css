@@ -1,0 +1,64 @@
+.change-button {
+    display: flex;
+    align-items: center; /* Вертикальное выравнивание иконки и текста */
+    justify-content: center; /* Центрирование текста и иконки */
+    background-color: #b59472;
+    color: white;
+    border-radius: 10px;
+    border-style: none;
+    max-width: 100px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-family: "Segoe UI", ui-serif;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.pag-icon{
+    width:18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+.pag-icon-button{
+    border: #707070 solid 1px !important;
+    border-radius: 5px;
+    width:25px;
+    height: 25px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numbers{
+    margin: 5px 5px;
+    display: flex;
+    align-items: center;
+}
+
+.selected{
+    background-color: #b59472;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-family: "Segoe UI", ui-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+}
+
+.number{
+    margin: 0 5px;
+    border-radius: 5px;
+    border-color: #707070;
+    border-width: 1px;
+    border-style: solid;
+    font-family: "Segoe UI";
+    font-weight: bold;
+    font-size: 14px;
+}

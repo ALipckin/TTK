@@ -1,9 +1,9 @@
 import "./ActionIconButton.css"
 
-const actionIconButton = ({className,...props}) => {
+const actionIconButton = ({buttonClassName, className,...props}) => {
     return (
-        <button className={`${className} action-btn`} onClick={props.onClick}>
-            <img src={props.img} alt={props.alt} className="" />
+        <button className={`action-btn ${buttonClassName} ${buttonClassName}`} onClick={props.onClick} {...props} >
+            <img src={props.img} alt={props.alt} className={className} />
         </button>
     )
 }
