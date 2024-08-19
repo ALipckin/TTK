@@ -4,7 +4,7 @@ firstable install docker and then
 run these commands inside project directory: 
 - docker compose -d
 
-- sudo chmod 777 -R ./
+- sudo chmod 777 -R ./storage/
 
 - docker exec -it ttk_api_app bash
 
