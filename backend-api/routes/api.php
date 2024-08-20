@@ -8,7 +8,6 @@ use App\Http\Controllers\QualityRequirementController;
 use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,9 +30,8 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     Route::group(['prefix' => 'ttks', 'middleware' => ['role:user']], function () {
         Route::get('/my', [TtkController::class, "myTTKs"]);
-        Route::get('/public', [TtkController::class, "public"]);
+        Route::get('/', [TtkController::class, "index"]);
         Route::patch('/{ttk}/publish', [TtkController::class, "publish"])->middleware(['verifyOwner']);;
-        //Route::get('/', [TtkController::class, "index"])->middleware('role:moderator');
         Route::post('/', [TtkController::class, "store"]);
         Route::get('/{ttk}', [TtkController::class, "show"])->middleware(['checkPublicity']);
         Route::patch('/{ttk}', [TtkController::class, "update"])->middleware(['verifyOwner']);

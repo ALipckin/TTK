@@ -49,7 +49,7 @@ export default function page({params}) {
                         <a className="link" href={`/ttks/${params.id}/header/`}>Шапка документа</a>
                         <a className="link" href={`/ttks/${params.id}/scope/`}>Область применения</a>
                         <a className="link" href={`/ttks/${params.id}/requirement/`}><br/>Требования к качеству сырья</a>
-                        <a className="link">Рецептура</a>
+                        <a className="link" href={`/ttks/${params.id}/formulation/`}>Рецептура</a>
                         <a className="link" href={`/ttks/${params.id}/tp/`}>Описание технологического процесса</a>
                         <a className="link">Требования к оформлению и подаче</a>
                         <a className="link">Органолептические показатели</a>

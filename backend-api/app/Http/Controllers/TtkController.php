@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Filters\ProductFilter;
-use App\Http\Filters\TtkFilter;
-use App\Http\Requests\TTK\FilterRequest;
 use App\Http\Requests\TTK\StoreRequest;
 use App\Http\Resources\TTK\TTKResource;
 use App\Models\Requirement;
@@ -16,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 class TtkController extends Controller
 {
-    public function public(\App\Http\Requests\TTK\FilterRequest $request)
+    public function index(\App\Http\Requests\TTK\FilterRequest $request)
     {
         $data = $request->validated();
         $page = $data['page'] ?? 0;
@@ -56,29 +54,6 @@ class TtkController extends Controller
             'status' => true,
             'message' => "Deleted Successfully",
         ], 204);
-    }
-
-    public function index(FilterRequest $request)
-    {
-        $data = $request->validated();
-        $page = $data['page'] ?? 0;
-        $perPage = $data['perPage'] ?? 10;
-        $filter = app()->make(TtkFilter::class, ['queryParams' => array_filter($data)]);
-        $ttks = ttk::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-        $collection = TTKResource::collection($ttks);
-        $paginationData = [
-            'current_page' => $collection->currentPage(),
-            'per_page' => $collection->perPage(),
-            'last_page' => $collection->lastPage(),
-            // Другие данные о пагинации, которые вам нужны
-        ];
-
-        return response()->json([
-            'status' => true,
-            'message' => "Ttk data",
-            'data' => $collection->items(),
-            'pagination' => $paginationData
-        ], 200);
     }
 
     public function myTTKs()

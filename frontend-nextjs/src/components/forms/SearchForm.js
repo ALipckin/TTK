@@ -1,25 +1,20 @@
 "use client"
-import "./public.css"
-import { API_ROUTES } from "@/components/apiRoutes"
+
 import GreyCard from "@/components/cards/greyCard"
 import Pagination from '@/components/Pagination'
-import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import EditAction from "@/components/actions/editAction"
-import DeleteAction from "@/components/actions/deleteAction"
-import { redirect } from 'next/navigation'
 import AuthInput from '@/components/Inputs/AuthInput'
 import WideButton from '@/components/buttons/WideButton'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 
-
-const Page = () => {
+const SearchForm = ({header="Список", itemName="name", apiRoute, ...params}) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchVal, setSearchVal] = useState(null);
     const [pagination, setPagination] = useState({});
+    const [currPath, setCurrPath] = useState({});
     //const { page, name, category } = router.query;
     const ratingNum = "26";
     const searchParams = useSearchParams();
@@ -30,17 +25,19 @@ const Page = () => {
     .join('&');
     console.log("queryString =" + queryString);
 
+    var currentPath;
+
     const getTtks = async () => {
         try {
             var response;
             if(queryString) {
-                response = await axios.get(`${API_ROUTES.TTKS_PUBLIC}?${queryString}`, {
+                response = await axios.get(`${apiRoute}?${queryString}`, {
                     withCredentials: true,
                 });
-                setSearchVal(searchParams.get("name"));
+                setSearchVal(searchParams.get({itemName}));
             }
             else{
-                response = await axios.get(`${API_ROUTES.TTKS_PUBLIC}`, {
+                response = await axios.get(`${apiRoute}`, {
                     withCredentials: true,
                 });
             }
@@ -54,6 +51,8 @@ const Page = () => {
 
     useEffect(() => {
        getTtks()
+       setCurrPath(window.location.pathname);
+       console.log("curr path = " + currentPath);
     },[]);
     if (error) {
         return <div>Ошибка: {error.message}</div>;
@@ -80,7 +79,7 @@ const Page = () => {
         console.log("searching: " + searchVal);
         try {
             if(searchVal) {
-                const response = await axios.get(`${API_ROUTES.TTKS_PUBLIC}?name=${searchVal}`, {
+                const response = await axios.get(`${apiRoute}?${itemName}=${searchVal}`, {
                     withCredentials: true,
                 });
                 console.log(response.data);
@@ -94,12 +93,12 @@ const Page = () => {
         }
     }
 
+
     return (
         <div className="container d-flex justify-content-center">
             <div className="row mt-5 mb-5 d-flex justify-content-center col-md-12">
-                <h3 className="mh">Опубликованные работы</h3>
+                <h3 className="mh">{header}</h3>
                 <div className="mt-4 d-flex flex-column justify-content-center">
-                    <p>Все работы</p>
                     <AuthInput
                         id="search"
                         type="text"
@@ -115,9 +114,8 @@ const Page = () => {
                         {data.map((item, index) => (
                             <GreyCard
                                 key={index}
-                                title={item.name}
-                                apiUrl={API_ROUTES.GET_MY_ALL_TTKS}
-                                href={`/ttks/${item.id}`}
+                                title={item[itemName]}
+                                href={`${currPath}/${item.id}`}
                                 data={item}
                             />
                         ))}
@@ -130,4 +128,4 @@ const Page = () => {
     );
 };
 
-export default Page;
+export default SearchForm;
