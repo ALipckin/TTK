@@ -9,9 +9,8 @@ use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -32,7 +31,32 @@ class ProductController extends Controller
         $perPage = $data['perPage'] ?? 10;
         $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
 
-        $products = Product::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        $products = Product::filter($filter)->where('user_id', null)->paginate($perPage, ['*'], 'page', $page);
+        $collection = ProductResource::collection($products);
+        $paginationData = [
+            'current_page' => $collection->currentPage(),
+            'per_page' => $collection->perPage(),
+            'last_page' => $collection->lastPage(),
+            // Другие данные о пагинации, которые вам нужны
+        ];
+
+        return response()->json([
+            'status' => true,
+            'message' => "Product data",
+            'data' => $collection->items(),
+            'pagination' => $paginationData
+        ], 200);
+    }
+
+    public function my(FilterRequest $request)
+    {
+        $data = $request->all();
+
+        $page = $data['page'] ?? 0;
+        $perPage = $data['perPage'] ?? 10;
+        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+
+        $products = Product::filter($filter)->where("user_id", Auth::user()->id)->paginate($perPage, ['*'], 'page', $page);
         $collection = ProductResource::collection($products);
         $paginationData = [
             'current_page' => $collection->currentPage(),

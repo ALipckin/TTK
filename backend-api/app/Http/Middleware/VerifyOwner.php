@@ -2,18 +2,22 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Ttk;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Log;
 
 class VerifyOwner
 {
-    protected $modelClass;
+    protected $deniedResponse;
 
-    public function __construct($modelClass = null)
+    public function __construct()
     {
-        $this->modelClass = $modelClass;
+        $this->deniedResponse = response()->json([
+            'status' => false,
+            'message' => 'Access denied',
+        ], 403);
     }
 
     /**
@@ -21,30 +25,55 @@ class VerifyOwner
      *
      * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
-    public function handle(Request $request, Closure $next, $modelClass = null)
+    public function handle(Request $request, Closure $next, $baseModelClass = null, $childModelClass = null)
     {
-        $modelClass = $modelClass ?: $this->modelClass;
+        $namespace = 'App\\Models\\';
+        if ($baseModelClass) {
+            $baseModelClass = $namespace . $baseModelClass;
+        }
+        if ($childModelClass) {
+            $childModelClass = $namespace . $childModelClass;
+        }
 
         $deniedResponse = response()->json([
             'status' => false,
             'message' => 'Access denied',
         ], 403);
-
+        Log::info("baseModelClass = " . $baseModelClass);
+        Log::info("request = " . $request);
         $id = $request->route('id');
-        if ($id) {
-            $model = $modelClass::where('id', $id)->first();
+        if ($id && $childModelClass) {
+            log::info("id = " . $id);
+            $model = $childModelClass::where('id', $id)->first();
             $ttkId = $model->ttk_id;
-            $ttk = Ttk::findOrFail($ttkId);
-            if (!Gate::allows('update-ttk', $ttk)) {
-                return $deniedResponse;
+            $ttk = $baseModelClass::findOrFail($ttkId);
+            if (!$this->checkOwner($ttk)) {
+                return ($this->deniedResponse);
+            }
+        } else {
+            if ($id || $baseModelClass) {
+                $model = $baseModelClass::where('id', $id)->first();
+                if (!$this->checkOwner($model)) {
+                    return ($this->deniedResponse);
+                }
             }
         }
         $ttkId = $request->route('ttk') ?? null;
-        $ttk = Ttk::findOrFail($ttkId);
-        if (!Gate::allows('update-ttk', $ttk)) {
-            return $deniedResponse;
+        if ($ttkId) {
+            $ttk = $baseModelClass::findOrFail($ttkId);
+            if (!$this->checkOwner($ttk)) {
+                return ($this->deniedResponse);
+            }
         }
-
         return $next($request);
+    }
+
+    private function checkOwner($model)
+    {
+        $user = Auth::user();
+        if ($user->id == $model->user_id) {
+            return true;
+        }
+        return false;
     }
 }

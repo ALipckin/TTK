@@ -14,17 +14,19 @@ class ProductFactory extends Factory
      * @return array<string, mixed>
      */
     protected $model = Product::class;
+
     public function definition(): array
     {
         return [
-            'name'          => $this->faker->word,
-            'protein'      =>  random_int(0,10)/10,
-            'carbs'       =>  random_int(0,10)/10,
-            'fat'         =>   random_int(0,10)/10,
-            'water'         =>  random_int(0,10)/10,
-            'fiber'        =>  random_int(0,10)/10,
-            'ash'           =>  random_int(0,10)/10,
-            'category_id'           =>  Category::get()->random()->id,
+            'name' => $this->faker->word,
+            'protein' => random_int(0, 10) / 10,
+            'carbs' => random_int(0, 10) / 10,
+            'fat' => random_int(0, 10) / 10,
+            'water' => random_int(0, 10) / 10,
+            'fiber' => random_int(0, 10) / 10,
+            'ash' => random_int(0, 10) / 10,
+            'ash' => null,
+            'category_id' => Category::get()->random()->id,
         ];
     }
 }

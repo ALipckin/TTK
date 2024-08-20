@@ -18,6 +18,7 @@ use App\Models\TtkCategory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,8 +28,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        $faker = Faker::create();
 
-        $ttk_number = 5;
+        $ttk_number = 40;
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -45,6 +47,22 @@ class DatabaseSeeder extends Seeder
         Ttk::factory($ttk_number)->create();
         Category::factory(10)->create();
         Product::factory(20)->create();
+        $i = 0;
+        while ($i < 10) {
+            $faker = Faker::create();
+            Product::factory(1)->create([
+                'name' => $faker->unique()->word,
+                'protein' => random_int(0, 10) / 10,
+                'carbs' => random_int(0, 10) / 10,
+                'fat' => random_int(0, 10) / 10,
+                'water' => random_int(0, 10) / 10,
+                'fiber' => random_int(0, 10) / 10,
+                'ash' => random_int(0, 10) / 10,
+                'user_id' => User::inRandomOrder()->first()->id,
+                'category_id' => Category::inRandomOrder()->first()->id,
+            ]);
+            $i++;
+        }
         QualityRequirement::factory($ttk_number)->create();
         Header::factory($ttk_number)->create();
         Tp::factory($ttk_number)->create();
@@ -53,7 +71,6 @@ class DatabaseSeeder extends Seeder
         HeatTreatment::factory($ttk_number)->create();
         InitialProcessing::factory($ttk_number)->create();
         Package::factory(10)->create();
-        Formulation::factory($ttk_number * 5)->create();
-        ;
+        Formulation::factory($ttk_number * 5)->create();;
     }
 }

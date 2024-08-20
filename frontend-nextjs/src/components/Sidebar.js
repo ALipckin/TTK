@@ -21,7 +21,8 @@ const Sidebar = () => {
                     <ul>
                         <li><a href="/profile">Мой аккаунт</a></li>
                         <li><a href="/drafts">Черновики</a></li>
-                        <li><a href="/products">Мои список продуктов</a></li>
+                        <li><a href="/products">Список продуктов</a></li>
+                        <li><a href="/products/my">Мои список продуктов</a></li>
                         <li><a href="/ttks">Каталог технологических карт</a></li>
                     </ul>
                 </nav>

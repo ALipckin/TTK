@@ -8,7 +8,7 @@ import AuthInput from '@/components/Inputs/AuthInput'
 import WideButton from '@/components/buttons/WideButton'
 import { useSearchParams, useRouter } from 'next/navigation'
 
-const SearchForm = ({header="Список", itemName="name", apiRoute, ...params}) => {
+const SearchForm = ({header="Список", itemName="name", itemRoute, apiRoute, ...params}) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -20,7 +20,7 @@ const SearchForm = ({header="Список", itemName="name", apiRoute, ...params
     const searchParams = useSearchParams();
     const router = useRouter();
     const queryString = Array.from(searchParams.entries())
-    
+
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
     console.log("queryString =" + queryString);
@@ -73,7 +73,7 @@ const SearchForm = ({header="Список", itemName="name", apiRoute, ...params
                 window.location.reload();
               }, 600);
       };
-    
+
 
     const search = async () => {
         console.log("searching: " + searchVal);
@@ -115,7 +115,7 @@ const SearchForm = ({header="Список", itemName="name", apiRoute, ...params
                             <GreyCard
                                 key={index}
                                 title={item[itemName]}
-                                href={`${currPath}/${item.id}`}
+                                href={itemRoute ? `${itemRoute}/${item.id}` : `${currPath}/${item.id}`}
                                 data={item}
                             />
                         ))}

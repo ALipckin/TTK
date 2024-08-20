@@ -23,9 +23,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::group(['prefix' => 'products'], function () {
         Route::get('/', [ProductController::class, "index"]);
         Route::post('/', [ProductController::class, "store"])->middleware('role:moderator');
-        Route::get('/{product}', [ProductController::class, "show"])->middleware('role:user');
-        Route::patch('/{product}', [ProductController::class, "update"])->middleware('role:user');
-        Route::delete('/{product}', [ProductController::class, "destroy"])->middleware('role:admin');
+        Route::get('/my', [ProductController::class, "my"]);
+        Route::get('/{id}', [ProductController::class, "show"])->middleware('verifyOwner:Product');
+        Route::patch('/{id}', [ProductController::class, "update"])->middleware('verifyOwner:Product');
+        Route::delete('/{id}', [ProductController::class, "destroy"])->middleware('verifyOwner:Product');
     });
 
     Route::group(['prefix' => 'ttks', 'middleware' => ['role:user']], function () {
@@ -47,8 +48,8 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/scopes', [ScopeController::class, "store"]);
             Route::get('/{ttk}/scopes', [ScopeController::class, "index"])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/scopes/{id}', [ScopeController::class, "update"])->middleware(['verifyOwner:App\Models\Scope']);
-            Route::delete('/{ttk}/scopes/{id}', [ScopeController::class, "destroy"])->middleware(['verifyOwner:App\Models\Scope']);
+            Route::patch('/{ttk}/scopes/{id}', [ScopeController::class, "update"])->middleware(['verifyOwner:Ttk, Scope']);
+            Route::delete('/{ttk}/scopes/{id}', [ScopeController::class, "destroy"])->middleware(['verifyOwner:Ttk,Scope']);
         });
 
         Route::group(['middleware' => ['role:user']], function () {
