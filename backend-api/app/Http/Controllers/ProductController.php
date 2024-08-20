@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function destroy(Product $product)
+    public function destroy($id)
     {
+        $product = Product::find($id);
         $product->delete();
         return response()->json([
             'status' => true,
@@ -26,7 +27,6 @@ class ProductController extends Controller
     public function index(FilterRequest $request)
     {
         $data = $request->all();
-
         $page = $data['page'] ?? 0;
         $perPage = $data['perPage'] ?? 10;
         $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
@@ -73,8 +73,9 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function show(Product $product)
+    public function show($id)
     {
+        $product = Product::find($id);
         return response()->json([
             'status' => true,
             'message' => "Product data",
@@ -95,8 +96,9 @@ class ProductController extends Controller
         ], 201);
     }
 
-    public function update(Product $product, UpdateRequest $request)
+    public function update($id, UpdateRequest $request)
     {
+        $product = Product::find($id);
         $data = $request->validated();
 
         $product->update($data);

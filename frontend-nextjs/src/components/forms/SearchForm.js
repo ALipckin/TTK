@@ -4,7 +4,7 @@ import GreyCard from "@/components/cards/greyCard"
 import Pagination from '@/components/Pagination'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import AuthInput from '@/components/Inputs/AuthInput'
+import WideInput from '@/components/Inputs/WideInput'
 import WideButton from '@/components/buttons/WideButton'
 import { useSearchParams, useRouter } from 'next/navigation'
 
@@ -99,7 +99,7 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, apiRoute
             <div className="row mt-5 mb-5 d-flex justify-content-center col-md-12">
                 <h3 className="mh">{header}</h3>
                 <div className="mt-4 d-flex flex-column justify-content-center">
-                    <AuthInput
+                    <WideInput
                         id="search"
                         type="text"
                         value={searchVal}

@@ -71,7 +71,11 @@ class VerifyOwner
     private function checkOwner($model)
     {
         $user = Auth::user();
-        if ($user->id == $model->user_id) {
+        log::info("checkOwner = " . $model->user_id == $user->id);
+        if ($model->user_id == null) {
+            return true;
+        }
+        if ($model->user_id == $user->id) {
             return true;
         }
         return false;
