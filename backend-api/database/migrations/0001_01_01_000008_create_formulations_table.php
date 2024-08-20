@@ -44,7 +44,7 @@ return new class extends Migration
 
             $table->foreign('ttk_id')
                 ->references('id')->on('ttks')
-                ->onUpdate('NO ACTION')->onDelete('CASCADE');
+                ->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
