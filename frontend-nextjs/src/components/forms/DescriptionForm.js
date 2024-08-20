@@ -112,7 +112,7 @@ export default function DescriptionForm({header, apiTable, params }) {
                 await Promise.all(deleteRequests);
             }
 
-            //window.location.reload();
+            window.location.reload();
 
         } catch (error) {
             if (error.response && error.response.status === 422) {
