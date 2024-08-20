@@ -4,10 +4,12 @@ use App\Http\Controllers\FormulationController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\QualityRequirementController;
 use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,14 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::get('/{id}', [ProductController::class, "show"])->middleware('verifyOwner:Product');
         Route::patch('/{id}', [ProductController::class, "update"])->middleware('verifyOwner:Product');
         Route::delete('/{id}', [ProductController::class, "destroy"])->middleware('verifyOwner:Product');
+    });
+
+    Route::group(['prefix' => 'packages'], function () {
+        Route::get('/', [PackageController::class, "index"]);
+        Route::post('/', [PackageController::class, "store"])->middleware('role:moderator');
+        Route::get('/{package}', [PackageController::class, "show"])->middleware('role:user');
+        Route::patch('/{package}', [PackageController::class, "update"])->middleware('role:admin');
+        Route::delete('/{package}', [PackageController::class, "destroy"])->middleware('role:admin');
     });
 
     Route::group(['prefix' => 'ttks', 'middleware' => ['role:user']], function () {

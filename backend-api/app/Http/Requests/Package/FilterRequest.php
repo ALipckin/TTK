@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\TTK;
+namespace App\Http\Requests\Package;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,14 +22,12 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'          => 'string',
-            'category_id'   =>  'numeric',
+            'title'          => 'string',
         ];
     }
     public function messages()
     {
         return [
-            'numeric'       => 'Поле должно содержать только числа',
             'string'       => 'Поле должно содержать только строчные символы',
         ];
     }

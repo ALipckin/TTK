@@ -6,26 +6,20 @@ namespace App\Http\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class ProductFilter extends AbstractFilter
+class PackageFilter extends AbstractFilter
 {
-    public const NAME = 'name';
-    public const CATEGORY_ID = 'category_id';
+    public const TITLE = 'title';
 
     protected function getCallbacks(): array
     {
         return [
-            self::NAME => [$this, 'name'],
-            self::CATEGORY_ID => [$this, 'categoryId'],
+            self::TITLE => [$this, 'title'],
         ];
     }
 
-    public function name(Builder $builder, $value)
+    public function title(Builder $builder, $value)
     {
-        $builder->where('name', 'like', "%{$value}%");
+        $builder->where('title', 'like', "%{$value}%");
     }
 
-    public function categoryId(Builder $builder, $value)
-    {
-        $builder->where('category_id', $value);
-    }
 }

@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Filters\ProductFilter;
-use App\Http\Requests\Product\FilterRequest;
-use App\Http\Requests\Product\StoreRequest;
-use App\Http\Requests\Product\UpdateRequest;
-use App\Http\Resources\Product\ProductResource;
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Filters\PackageFilter;
+use App\Http\Requests\Package\FilterRequest;
+use App\Http\Requests\Package\StoreRequest;
+use App\Http\Requests\Package\UpdateRequest;
+use App\Http\Resources\Package\PackageResource;
+use App\Models\Package;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Log;
 
-class ProductController extends Controller
+class PackageController extends Controller
 {
-    public function destroy(Product $product)
+    public function destroy(Package $package)
     {
-        $product->delete();
+        $package->delete();
         return response()->json([
             'status' => true,
             'message' => "Deleted Successfully",
@@ -28,33 +26,23 @@ class ProductController extends Controller
     {
         $data = $request->all();
 
-        $page = $data['page'] ?? 0;
-        $perPage = $data['perPage'] ?? 10;
-        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
-
-        $products = Product::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-        $collection = ProductResource::collection($products);
-        $paginationData = [
-            'current_page' => $collection->currentPage(),
-            'per_page' => $collection->perPage(),
-            'last_page' => $collection->lastPage(),
-            // Другие данные о пагинации, которые вам нужны
-        ];
+        $filter = app()->make(PackageFilter::class, ['queryParams' => array_filter($data)]);
+        $packages = Package::filter($filter)->get();
 
         return response()->json([
             'status' => true,
-            'message' => "Product data",
-            'data' => $collection->items(),
-            'pagination' => $paginationData
+            'message' => "Package data",
+            'data' => $packages,
         ], 200);
     }
 
-    public function show(Product $product)
+    public function show(Package $package)
     {
+        $package = Package::find($package->id);
         return response()->json([
             'status' => true,
-            'message' => "Product data",
-            'data' => new ProductResource($product),
+            'message' => "Package data",
+            'data' => new $package,
         ], 200);
     }
 
@@ -62,25 +50,25 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
-        $product = Product::create($data);
+        $package = Package::create($data);
 
         return response()->json([
             'status' => true,
-            'message' => "Product created",
-            'data' => new ProductResource($product),
+            'message' => "Package created",
+            'data' => $package,
         ], 201);
     }
 
-    public function update(Product $product, UpdateRequest $request)
+    public function update(Package $package, UpdateRequest $request)
     {
         $data = $request->validated();
 
-        $product->update($data);
+        $package->update($data);
 
         return response()->json([
             'status' => true,
             'message' => "ttk updated",
-            'data' => new ProductResource($product),
+            'data' => $package,
         ], 200);
     }
 }
