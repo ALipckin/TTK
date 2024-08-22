@@ -23,7 +23,9 @@ class FormulationResource extends JsonResource
             'id' => $this->id,
             'netto' => $this->netto,
             'brutto' => $this->netto,
+            'package_id' => $this->package_id,
             'package_name' => $packageName,
+            'product_id' => $this->product_id,
             'product_name' => $productName,
         ];
     }
