@@ -49,7 +49,7 @@ const PopupBox = ({data, itemName, newSelectedItem, currItem, onMainButtonClick,
 
     return (
         <div style={{ position: 'relative' }}>
-            <button className="main-button" ref={buttonRef} onClick={handleClick}>
+            <button className="main-popup-button btn btn-secondary dropdown-toggle" ref={buttonRef} onClick={handleClick}>
                 {selectedItem ? selectedItem : currItem}
             </button>
             {isVisible && (

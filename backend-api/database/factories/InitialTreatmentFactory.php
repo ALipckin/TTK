@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class InitialProcessingFactory extends Factory
+class InitialTreatmentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -15,7 +16,8 @@ class InitialProcessingFactory extends Factory
     {
         return [
             'title' => $this->faker->word,
-            'loss' => random_int(0,10)/10,
+            'loss' => random_int(0, 10) / 10,
+            'product_id' => Product::query()->inRandomOrder()->value('id')
         ];
     }
 }

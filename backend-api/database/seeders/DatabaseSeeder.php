@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Formulation;
+use App\Models\FormulationHeatTreatment;
+use App\Models\FormulationInitialTreatment;
 use App\Models\Header;
 use App\Models\HeatTreatment;
-use App\Models\InitialProcessing;
+use App\Models\InitialTreatment;
 use App\Models\OrgCharacteristic;
 use App\Models\Package;
 use App\Models\Product;
@@ -31,6 +33,8 @@ class DatabaseSeeder extends Seeder
         $faker = Faker::create();
 
         $ttk_number = 40;
+        $product_number = 30;
+        $treatment_number = 10;
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -46,9 +50,9 @@ class DatabaseSeeder extends Seeder
         TtkCategory::factory(10)->create();
         Ttk::factory($ttk_number)->create();
         Category::factory(10)->create();
-        Product::factory(20)->create();
+        Product::factory($product_number / 2)->create();
         $i = 0;
-        while ($i < 10) {
+        while ($i < $product_number / 2) {
             $faker = Faker::create();
             Product::factory(1)->create([
                 'name' => $faker->unique()->word,
@@ -68,9 +72,11 @@ class DatabaseSeeder extends Seeder
         Tp::factory($ttk_number)->create();
         RealizationRequirement::factory($ttk_number)->create();
         OrgCharacteristic::factory($ttk_number)->create();
-        HeatTreatment::factory($ttk_number)->create();
-        InitialProcessing::factory($ttk_number)->create();
+        HeatTreatment::factory($product_number * $treatment_number)->create();
+        InitialTreatment::factory($product_number * $treatment_number)->create();
         Package::factory(10)->create();
-        Formulation::factory($ttk_number * 5)->create();;
+        Formulation::factory($ttk_number)->create();;
+        FormulationHeatTreatment::factory($ttk_number)->create();;
+        FormulationInitialTreatment::factory($ttk_number)->create();;
     }
 }

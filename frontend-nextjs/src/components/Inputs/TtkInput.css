@@ -14,6 +14,12 @@
     background-color: transparent;
     text-align: start;
 }
+@media screen and (max-width:  500px) {
+    .ttk-input{
+        font-size: 10px;
+    }
+}
+
 .input::placeholder {
     color: gray; /* Цвет текста placeholder */
     font-family: Arial, sans-serif; /* Шрифт для placeholder */

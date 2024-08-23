@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Formulation;
 
+use App\Models\Formulation;
+use App\Models\InitialTreatment;
 use App\Models\Package;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -18,6 +20,8 @@ class FormulationResource extends JsonResource
     {
         $productName = Product::where('id', $this->product_id)->pluck('name')->first();
         $packageName = Package::where('id', $this->package_id)->pluck('title')->first();
+        $initialTreatments = Formulation::find($this->id)->initialTreatment()->get(['id', 'title'])->makeHidden('pivot');;
+        $heatTreatments = Formulation::find($this->id)->heatTreatment()->get(['id', 'title'])->makeHidden('pivot');
 
         return [
             'id' => $this->id,
@@ -27,6 +31,8 @@ class FormulationResource extends JsonResource
             'package_name' => $packageName,
             'product_id' => $this->product_id,
             'product_name' => $productName,
+            'initial_treatments' => $initialTreatments,
+            'heat_treatments' => $heatTreatments,
         ];
     }
 }

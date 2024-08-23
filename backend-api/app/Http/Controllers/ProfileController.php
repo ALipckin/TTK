@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Downloads;
 use App\Models\Ttk;
 use App\Models\User;
-use App\Models\UsersHasProduct;
+use App\Models\UserProduct;
 
 class ProfileController extends Controller
 {
@@ -22,7 +22,7 @@ class ProfileController extends Controller
         //drafts
         $draftNum = $ttk->where('is_draft', 1)->count();
         //my product list
-        $productNum = UsersHasProduct::all()->where('user_id', $userId)->count();
+        $productNum = UserProduct::all()->where('user_id', $userId)->count();
 
         $nums = [
             "ttk_num" => $ttkNum,

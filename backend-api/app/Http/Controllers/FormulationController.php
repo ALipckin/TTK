@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Description\StoreRequest;
-use App\Http\Requests\Description\UpdateRequest;
+use App\Http\Requests\Formulation\StoreRequest;
+use App\Http\Requests\Formulation\UpdateRequest;
 use App\Http\Resources\Formulation\FormulationResource;
 use App\Models\Formulation;
 use App\Models\Tp;
@@ -25,11 +25,31 @@ class FormulationController extends Controller
 
     public function update(UpdateRequest $request, $ttk, $formulation,)
     {
+        Log::info($request->all());
         //$formulation = $request->route('requirement') ?? null;
-
         $data = $request->validated();
-        $formulation = Formulation::where('id', $formulation);
+        $formulation = Formulation::find($formulation);
+        if (!$formulation) {
+            return response()->json([
+                'status' => false,
+                'message' => "Formulation not found",
+            ], 404);
+        }
+        // Обновить данные Formulation
         $formulation->update($data);
+
+        // Обработка массива heat_treatment_ids
+        if (isset($data['heat_treatments']) && is_array($data['heat_treatment_ids'])) {
+            // Синхронизируем данные в связующей таблице
+            $formulation->heatTreatments()->sync($data['heat_treatment_ids']);
+        }
+
+        // Обработка массива initial_treatment_ids
+        if (isset($data['initial_treatments']) && is_array($data['initial_treatment_ids'])) {
+            // Синхронизируем данные в связующей таблице
+            $formulation->initialTreatments()->sync($data['initial_treatment_ids']);
+        }
+
         return response()->json([
             'status' => true,
             'message' => "requirement updated",

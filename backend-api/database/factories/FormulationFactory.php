@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\HeatTreatment;
-use App\Models\InitialProcessing;
+use App\Models\InitialTreatment;
 use App\Models\Package;
 use App\Models\Product;
 use App\Models\Ttk;
@@ -27,13 +27,11 @@ class FormulationFactory extends Factory
         static::$index++;
 
         return [
-        'netto' => random_int(1,10)/10,
-        'brutto' => random_int(1,10)/10,
-        'product_id' => Product::query()->inRandomOrder()->value('id'),
-        'ttk_id' => $ttkId,
-        'initial_processing_id' => InitialProcessing::query()->inRandomOrder()->value('id'),
-        'heat_treatment_id'=> HeatTreatment::query()->inRandomOrder()->value('id'),
-        'package_id'=> Package::query()->inRandomOrder()->value('id'),
+            'netto' => random_int(1, 10) / 10,
+            'brutto' => random_int(1, 10) / 10,
+            'product_id' => Product::query()->inRandomOrder()->value('id'),
+            'ttk_id' => $ttkId,
+            'package_id' => Package::query()->inRandomOrder()->value('id'),
         ];
     }
 }

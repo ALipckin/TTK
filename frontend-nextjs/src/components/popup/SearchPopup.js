@@ -32,6 +32,10 @@ const SearchPopup = ({apiRoute, itemName, selectedItemId, setSelectedItemId, cur
         }
     };
 
+    const setItem = (item) => {
+        setNewItem(item[itemName])
+        setSelectedItemId(item.id);
+    }
 
     return (
         <PopupBox itemName={"name"} currItem={newItem} >
@@ -52,7 +56,7 @@ const SearchPopup = ({apiRoute, itemName, selectedItemId, setSelectedItemId, cur
             </div>
             <ul className={"m-0 p-0"}>
                 {results.map((item, index) => (
-                    <li className="item" key={index} onClick={() => setNewItem(item[itemName])}>{item[itemName]}</li>
+                    <li className="item" key={index} onClick={() => setItem(item) }>{item[itemName]}</li>
                 ))}
             </ul>
         </PopupBox>

@@ -1,14 +1,19 @@
 table {
     border-collapse: collapse; /* Объединяет границы ячеек в одну линию */
+    border-left: none !important;
+    border-right: none !important;
     width: 100%; /* Пример ширины таблицы */
 }
+
 th, td {
-    border: 1px solid black; /* Граница для ячеек */
+    color: #646464;
+    border: 1px solid #ABABAB; /* Граница для ячеек */
     padding: 8px; /* Отступ внутри ячеек */
     text-align: left; /* Выравнивание текста в ячейках */
 }
 th {
     background-color: #f2f2f2; /* Цвет фона для заголовков */
+    word-break:break-all;
 }
 
 .select-button{
@@ -18,4 +23,27 @@ th {
     font-size: 14px;
     background-color: white;
     color: #ABABAB;
+    word-break:break-all
 }
+
+@media screen and (max-width:  800px) {
+    .select-button {
+        padding: 0 !important;
+        margin: 0 !important;;
+    }
+    table{
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 10px;
+    }
+    th{
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 10px;
+    }
+    td{
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 10px !important;
+    }
+  }

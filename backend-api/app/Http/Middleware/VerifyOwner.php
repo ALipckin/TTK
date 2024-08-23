@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class VerifyOwner
@@ -47,13 +48,13 @@ class VerifyOwner
             $model = $childModelClass::where('id', $id)->first();
             $ttkId = $model->ttk_id;
             $ttk = $baseModelClass::findOrFail($ttkId);
-            if (!$this->checkOwner($ttk)) {
+            if (!Gate::allows('changeRecord', $ttk)) {
                 return ($this->deniedResponse);
             }
         } else {
             if ($id || $baseModelClass) {
                 $model = $baseModelClass::where('id', $id)->first();
-                if (!$this->checkOwner($model)) {
+                if (!Gate::allows('changeRecord', $model)) {
                     return ($this->deniedResponse);
                 }
             }
@@ -61,23 +62,10 @@ class VerifyOwner
         $ttkId = $request->route('ttk') ?? null;
         if ($ttkId) {
             $ttk = $baseModelClass::findOrFail($ttkId);
-            if (!$this->checkOwner($ttk)) {
+            if (!Gate::allows('changeRecord', $ttk)) {
                 return ($this->deniedResponse);
             }
         }
         return $next($request);
-    }
-
-    private function checkOwner($model)
-    {
-        $user = Auth::user();
-        log::info("checkOwner = " . $model->user_id == $user->id);
-        if ($model->user_id == null) {
-            return true;
-        }
-        if ($model->user_id == $user->id) {
-            return true;
-        }
-        return false;
     }
 }

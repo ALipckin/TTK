@@ -1,4 +1,4 @@
-.main-button{
+.main-popup-button{
     display: flex;
     text-align: start;
     align-items: center; /* Вертикальное выравнивание иконки и текста */
@@ -14,9 +14,23 @@
     font-size: 14px;
     height: auto;
     width:auto;
+    white-space: nowrap !important; /* Запрет переноса текста на новую строку */
+    overflow: hidden !important; /* Скрыть содержимое, выходящее за пределы блока */
+    text-overflow: ellipsis !important; /* Добавить троеточие, если текст не вмещается */
 }
-
-.main-button:hover{
+@media (max-width: 700px) {
+    .main-popup-button{
+        font-size: 8px;
+    }
+}
+@media (max-width: 500px) {
+    .main-popup-button{
+        font-size: 8px;
+        margin:0px !important;
+        padding: 0px !important;
+    }
+}
+.main-popup-button:hover{
     background-color: #b59472;
     color: white;
 }
@@ -54,6 +68,12 @@
     height: auto;
     width:auto;
     margin: 0 0 4px 0;
+    word-break: normal;
+    overflow: hidden;
+}
+.item:hover{
+    background-color: #b59472;
+    color: white;
 }
 
 .content-width{

@@ -19,7 +19,7 @@ class CheckPublicity
 
         //$ttk = \App\Models\Ttk::findOrFail($ttkId);
         if ($ttk->public !== 1) {
-            if (!Gate::allows('update-ttk', $ttk)) {
+            if (!Gate::allows('changeRecord', $ttk)) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Access denied',

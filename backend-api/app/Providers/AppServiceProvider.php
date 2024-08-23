@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Policies\OwnerPolicy;
 use App\Policies\TTKPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Gate;
@@ -23,9 +24,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
-            return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
+            return config('app.frontend_url') . "/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
         });
 
-        Gate::define("update-ttk",  [TTKPolicy::class, 'update']);
+        Gate::define("changeRecord", [OwnerPolicy::class, 'checkOwner']);
     }
 }
