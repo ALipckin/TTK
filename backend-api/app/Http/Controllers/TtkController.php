@@ -9,6 +9,7 @@ use App\Models\Requirement;
 use App\Models\Ttk;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
@@ -49,11 +50,56 @@ class TtkController extends Controller
 
     public function destroy(ttk $ttk)
     {
-        $ttk->delete();
-        return response()->json([
-            'status' => true,
-            'message' => "Deleted Successfully",
-        ], 204);
+        Log::info("deleting");
+        Log::info("deleting ttk with id = " . $ttk);
+        DB::beginTransaction(); // Начало транзакции
+        try {
+            // Получаем все связанные записи
+            $records = $ttk->getAllRelatedRecords(type: 'model');
+            foreach ($records as $record) {
+                foreach ($record as $item ) {
+                    Log::info("item = " . $item. " record type = " . get_class($item)  );
+                }
+                //Log::info("record type = " . get_class($record) );
+            }
+
+            // Удаляем все связанные записи
+            foreach ($records as $record) {
+                foreach ($record as $item ) {
+                    Log::info("deleting record = " . $item );
+                    $item->delete();
+                }
+                //if ($record instanceof \Illuminate\Database\Eloquent\Model) {
+//                    Log::info("deleting record = " . $record );
+//                    $record->delete();
+//                } else {
+//                    Log::warning("Skipping non-model record during deletion.");
+//                }
+            }
+
+            // Удаляем основную запись
+            if ($ttk instanceof \Illuminate\Database\Eloquent\Model) {
+                $ttk->delete();
+            } else {
+                throw new \Exception("The provided ttk is not a valid model.");
+            }
+
+            // Если все операции успешны, подтверждаем транзакцию
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => "Deleted Successfully",
+            ], 204);
+        } catch (\Exception $e) {
+            // В случае ошибки откатываем транзакцию
+            DB::rollBack();
+
+            return response()->json([
+                'status' => false,
+                'message' => "Deletion Failed: " . $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function myTTKs()

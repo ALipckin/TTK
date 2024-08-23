@@ -36,22 +36,26 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     Route::group(['prefix' => 'packages'], function () {
         Route::get('/', [PackageController::class, "index"]);
+        Route::post('/', [PackageController::class, "store"])->middleware('role:moderator');
+        Route::get('/{package}', [PackageController::class, "show"])->middleware('role:user');
+        Route::patch('/{package}', [PackageController::class, "update"])->middleware('role:admin');
+        Route::delete('/{package}', [PackageController::class, "destroy"])->middleware('role:admin');
     });
 
     Route::group(['prefix' => 'ttks', 'middleware' => ['role:user']], function () {
         Route::get('/my', [TtkController::class, "myTTKs"]);
         Route::get('/', [TtkController::class, "index"]);
-        Route::patch('/{ttk}/publish', [TtkController::class, "publish"])->middleware(['verifyOwner']);;
+        Route::patch('/{ttk}/publish', [TtkController::class, "publish"])->middleware(['verifyOwner:Ttk']);;
         Route::post('/', [TtkController::class, "store"]);
         Route::get('/{ttk}', [TtkController::class, "show"])->middleware(['checkPublicity']);
-        Route::patch('/{ttk}', [TtkController::class, "update"])->middleware(['verifyOwner']);
-        Route::delete('/{ttk}', [TtkController::class, "destroy"])->middleware(['verifyOwner']);;
+        Route::patch('/{ttk}', [TtkController::class, "update"])->middleware(['verifyOwner:Ttk']);
+        Route::delete('/{ttk}', [TtkController::class, "destroy"])->middleware(['verifyOwner:Ttk']);;
 
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/header', [HeaderController::class, "store"]);
             Route::get('/{ttk}/header', [HeaderController::class, "show"])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/header', [HeaderController::class, "update"])->middleware(['verifyOwner']);
-            Route::delete('/{ttk}/header', [HeaderController::class, "destroy"])->middleware(['verifyOwner']);
+            Route::patch('/{ttk}/header', [HeaderController::class, "update"])->middleware(['verifyOwner:Ttk']);
+            Route::delete('/{ttk}/header', [HeaderController::class, "destroy"])->middleware(['verifyOwner:Ttk']);
         });
 
         Route::group(['middleware' => ['role:user']], function () {
@@ -78,9 +82,8 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/formulations', [FormulationController::class, 'store']);
             Route::get('/{ttk}/formulations', [FormulationController::class, 'index'])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/formulations/{id}', [[FormulationController::class, 'update']])->middleware(['verifyOwner:Ttk, Formulation']);;
+            Route::patch('/{ttk}/formulations/{id}', [[FormulationController::class, 'update']])->middleware(['verifyOwner:Ttk, Formulation']);
             Route::delete('/{ttk}/formulations/{id}', [[FormulationController::class, 'destroy']])->middleware(['verifyOwner:Ttk, Formulation']);
         });
-
     });
 });

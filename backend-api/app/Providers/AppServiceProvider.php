@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Policies\OwnerPolicy;
-use App\Policies\TTKPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;

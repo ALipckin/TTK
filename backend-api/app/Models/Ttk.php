@@ -46,7 +46,7 @@ class Ttk extends Model
     }
 
     // Получить все связанные комментарии и вложения
-    public function getAllRelatedRecords()
+    public function getAllRelatedRecords($type)
     {
         return [
             'headers' => $this->headers()->get(),

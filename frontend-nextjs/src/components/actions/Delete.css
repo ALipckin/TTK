@@ -1,0 +1,8 @@
+.confirm-button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #b59472;
+    font-size: 14px;
+    font-weight: bold;
+}

@@ -4,8 +4,8 @@ import { API_ROUTES } from "@/components/apiRoutes";
 import GreyCard from "@/components/cards/greyCard";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import EditAction from "@/components/actions/editAction";
-import DeleteAction from "@/components/actions/deleteAction";
+import EditAction from "@/components/actions/EditAction";
+import DeleteAction from "@/components/actions/DeleteAction";
 import { redirect } from 'next/navigation'
 
 const Page = () => {
@@ -13,9 +13,6 @@ const Page = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-
-    const ratingNum = "26";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,8 +49,8 @@ const Page = () => {
                             <GreyCard
                                 key={index}
                                 title={item.name}
-                                actions={[EditAction, DeleteAction]}
-                                apiUrl={API_ROUTES.GET_MY_ALL_TTKS}
+                                actions={[DeleteAction]}
+                                actionRoute={`${API_ROUTES.TTKS}/${item.id}`}
                                 href={`/ttks/${item.id}`}
                                 data={item}
                             />
