@@ -28,14 +28,15 @@ class VerifyOwner
      */
     public function handle(Request $request, Closure $next, $baseModelClass = null, $childModelClass = null)
     {
-        $namespace = 'App\\Models\\';
+        $namespace = "App\\Models\\";
         if ($baseModelClass) {
-            $baseModelClass = $namespace . $baseModelClass;
+            $baseModelClass = $namespace.$baseModelClass;
         }
         if ($childModelClass) {
-            $childModelClass = $namespace . $childModelClass;
+            $childModelClass = $namespace.$childModelClass;
         }
-
+        log::info("baseModelClass = " . $baseModelClass);
+        log::info("childModelClass = " . $childModelClass);
         $deniedResponse = response()->json([
             'status' => false,
             'message' => 'Access denied',

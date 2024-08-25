@@ -29,7 +29,7 @@ class FormulationFactory extends Factory
         return [
             'netto' => random_int(1, 10) / 10,
             'brutto' => random_int(1, 10) / 10,
-            'product_id' => Product::query()->inRandomOrder()->value('id'),
+            'product_id' => Product::query()->where('user_id', null)->inRandomOrder()->value('id'),
             'ttk_id' => $ttkId,
             'package_id' => Package::query()->inRandomOrder()->value('id'),
         ];

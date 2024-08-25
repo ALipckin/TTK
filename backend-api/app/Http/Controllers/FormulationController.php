@@ -23,9 +23,8 @@ class FormulationController extends Controller
         ], 200);
     }
 
-    public function update(UpdateRequest $request, $ttk, $formulation,)
+    public function update(UpdateRequest $request, $ttk, $formulation)
     {
-        Log::info($request->all());
         //$formulation = $request->route('requirement') ?? null;
         $data = $request->validated();
         $formulation = Formulation::find($formulation);

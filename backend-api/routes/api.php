@@ -9,7 +9,8 @@ use App\Http\Controllers\QualityRequirementController;
 use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
-use App\Http\Controllers\TreatmentController;
+use App\Http\Controllers\InitialTreatmentController;
+use App\Http\Controllers\HeatTreatmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,8 +31,8 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::patch('/{id}', [ProductController::class, "update"])->middleware('verifyOwner:Product');
         Route::delete('/{id}', [ProductController::class, "destroy"])->middleware('verifyOwner:Product');
 
-        Route::get('/{id}/treatments/initial', [TreatmentController::class, "initialTreatment"])->middleware('verifyOwner:Product');
-        Route::get('/{id}/treatments/heat', [TreatmentController::class, "heatTreatment"])->middleware('verifyOwner:Product');
+        Route::get('/{id}/initial_treatments', [InitialTreatmentController::class, "index"])->middleware('verifyOwner:Product');
+        Route::get('/{id}/heat_treatments', [HeatTreatmentController::class, "index"])->middleware('verifyOwner:Product');
     });
 
     Route::group(['prefix' => 'packages'], function () {
@@ -82,8 +83,11 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/formulations', [FormulationController::class, 'store']);
             Route::get('/{ttk}/formulations', [FormulationController::class, 'index'])->middleware(['checkPublicity']);
-            Route::patch('/{ttk}/formulations/{id}', [[FormulationController::class, 'update']])->middleware(['verifyOwner:Ttk, Formulation']);
-            Route::delete('/{ttk}/formulations/{id}', [[FormulationController::class, 'destroy']])->middleware(['verifyOwner:Ttk, Formulation']);
+            Route::patch('/{ttk}/formulations/{id}', [FormulationController::class, 'update'])->middleware(['verifyOwner:Ttk,Formulation']);
+            Route::delete('/{ttk}/formulations/{id}', [FormulationController::class, 'destroy'])->middleware(['verifyOwner:Ttk,Formulation']);
+
+            Route::post('/{ttk}/formulations/{id}/initial_treatments', [InitialTreatmentController::class, 'store'])->middleware(['verifyOwner:Ttk,Formulation']);
+            Route::post('/{ttk}/formulations/{id}/heat_treatments', [HeatTreatmentController::class, 'store'])->middleware(['verifyOwner:Ttk,Formulation']);
         });
     });
 });

@@ -24,13 +24,15 @@ class FormulationResource extends JsonResource
         $heatTreatments = Formulation::find($this->id)->heatTreatment()->get(['id', 'title'])->makeHidden('pivot');
 
         return [
-            'id' => $this->id,
-            'netto' => $this->netto,
-            'brutto' => $this->netto,
-            'package_id' => $this->package_id,
-            'package_name' => $packageName,
-            'product_id' => $this->product_id,
-            'product_name' => $productName,
+            'formulation' => [
+                'id' => $this->id,
+                'netto' => $this->netto,
+                'brutto' => $this->netto,
+                'package_id' => $this->package_id,
+                'package_name' => $packageName,
+                'product_id' => $this->product_id,
+                'product_name' => $productName,
+            ],
             'initial_treatments' => $initialTreatments,
             'heat_treatments' => $heatTreatments,
         ];
