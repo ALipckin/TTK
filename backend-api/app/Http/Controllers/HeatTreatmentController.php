@@ -40,10 +40,10 @@ class HeatTreatmentController extends Controller
         }
 
         // Извлечение только идентификаторов для синхронизации
-        $heatTreatmentIds = array_column($heats, 'id');
+        $treatmentIds = array_column($heats, 'id');
 
         // Синхронизация данных
-        $formulation->heatTreatment()->sync($heatTreatmentIds);
+        $formulation->heatTreatment()->sync($treatmentIds);
 
         return response()->json(['status' => true, 'message' => 'Heat treatments successfully added']);
     }

@@ -222,7 +222,8 @@ export default function Page({params }) {
 
     const submitData = async () => {
         await submitFormulationData();
-        await submitHeatTreatmentData();
+        await submitTreatmentData(currHeatTreatments, API_ROUTES.PATCH_HEAT_TREATMENTS, 'heat_treatments');
+        await submitTreatmentData(currInitialTreatments, API_ROUTES.PATCH_INITIAL_TREATMENTS, 'initial_treatments');
     }
     const submitFormulationData = async () => {
         const validationErrors = validate();
@@ -282,38 +283,29 @@ export default function Page({params }) {
         }
     };
 
-    const submitHeatTreatmentData = async () => {
+    const submitTreatmentData = async (currData, apiRoute, payloadArrayName) => {
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
         try {
-            // Логирование текущих данных
-            console.log("Current heat treatments:", currHeatTreatments);
-
             // Извлечение всех элементов из вложенных массивов
-            const flattenedHeatTreatments = currHeatTreatments.flat();
+            const flattened = currData.flat();
 
             // Фильтрация измененных данных
-            const changedHeatTreatmentData = flattenedHeatTreatments
-                .filter(item => item.isChanged && !item.isNew)
+            const changedData = flattened
+                .filter(item => item.isChanged && item.isNew)
                 .map(({ isNew, isChanged, ...rest }) => rest);
-            console.log("Changed heat treatments:", changedHeatTreatmentData);
-
-            // Фильтрация новых данных
-            const newHeatTreatmentData = flattenedHeatTreatments
-                .filter(item => item.isNew)
-                .map(({ isNew, isChanged, ...rest }) => rest);
-            console.log("New heat treatments:", newHeatTreatmentData);
+            console.log("Changed heat treatments:", changedData);
 
             // Отправка запросов для измененных данных
-            if (changedHeatTreatmentData.length > 0) {
-                const changeRequests = changedHeatTreatmentData.map((item, i) => {
+            if (changedData.length > 0) {
+                const changeRequests = currData.map((item, i) => {
                         const formulationId = formulationData[i]?.id;
                         axios.post(
-                            API_ROUTES.PATCH_HEAT_TREATMENTS(params.id, formulationId),
-                            { heat_treatments: [item] }, // Отправляем каждый объект в массиве
+                            apiRoute(params.id, formulationId),
+                            { [payloadArrayName]: item }, // Отправляем каждый объект в массиве
                             { withCredentials: true }
                         )
                     }
@@ -323,31 +315,6 @@ export default function Page({params }) {
             } else {
                 console.log('No heat treatments to update');
             }
-
-            // Отправка запросов для новых данных
-            if (newHeatTreatmentData.length > 0) {
-                const createRequests = newHeatTreatmentData.map((item, i) => {
-                    const formulationId = formulationData[i]?.id;
-                    axios.post(
-                        API_ROUTES.PATCH_HEAT_TREATMENTS(params.id, formulationId),
-                        { heat_treatments: [item] }, // Отправляем каждый объект в массиве
-                        { withCredentials: true }
-                    )
-                }
-                );
-                await Promise.all(createRequests);
-                console.log('All new heat treatments created successfully');
-            }
-
-            // Отправка запросов для удаленных данных
-            if (toDelete.length > 0) {
-                const deleteRequests = toDelete.map(id =>
-                    axios.delete(`${API_ROUTES.TTKS}/${params.id}/${apiTable}/${id}`, { withCredentials: true })
-                );
-                await Promise.all(deleteRequests);
-                console.log('All heat treatments deleted successfully');
-            }
-
         } catch (error) {
             console.error('Error submitting heat treatment data:', error);
         }
@@ -403,7 +370,6 @@ export default function Page({params }) {
         if (idToDelete) {
             setToDelete(prevToDelete => [...prevToDelete, idToDelete]);
         }
-
         setFormulationData(prevData => prevData.filter((_, i) => i !== index));
     }
     const SumItems = (itemName) => {
@@ -465,7 +431,7 @@ export default function Page({params }) {
                                             </div>
                                         </td>
                                         <td>
-                                            <div className="d-flex justify-content-between">
+                                        <div className="d-flex justify-content-between">
                                             {
                                                 Array.isArray(currHeatTreatments[index]) && currHeatTreatments[index].map((heat, j) => (
                                                         <PopupBox

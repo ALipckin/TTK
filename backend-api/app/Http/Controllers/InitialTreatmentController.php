@@ -39,10 +39,10 @@ class InitialTreatmentController extends Controller
         }
 
         // Извлечение только идентификаторов для синхронизации
-        $heatTreatmentIds = array_column($inits, 'id');
+        $treatmentIds = array_column($inits, 'id');
 
         // Синхронизация данных
-        $formulation->heatTreatment()->sync($heatTreatmentIds);
+        $formulation->initialTreatment()->sync($treatmentIds);
 
         return response()->json(['status' => true, 'message' => 'Initial treatments successfully added']);
     }
