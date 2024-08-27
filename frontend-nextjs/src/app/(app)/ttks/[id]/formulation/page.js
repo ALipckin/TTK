@@ -233,14 +233,14 @@ export default function Page({params }) {
         }
         try {
             console.log("sumbit");
+            // Фильтрация и очистка новых данных
+            const newFormulationData = formulationData
+                .map((item, index) => ({ ...item, originalIndex: index })) // Сохраняем оригинальный индекс
+                .filter(item => item.isNew);
+
             // Фильтрация и очистка измененных данных
             const changedFormulationData = formulationData
                 .filter(item => item.isChanged && !item.isNew)
-                .map(({ isNew, isChanged, ...rest }) => rest);
-
-            // Фильтрация и очистка новых данных
-            const newFormulationData = formulationData
-                .filter(item => item.isNew)
                 .map(({ isNew, isChanged, ...rest }) => rest);
 
             // Создаем массив запросов для измененных данных
@@ -257,7 +257,18 @@ export default function Page({params }) {
                 const createRequests = newFormulationData.map(item =>
                     axios.post(`${API_ROUTES.TTKS}/${params.id}/${apiTable}`, item, { withCredentials: true })
                 );
-                await Promise.all(createRequests);
+                const responses = await Promise.all(createRequests);
+
+                // Обновление массива данных с новыми ID
+                responses.forEach((response, index) => {
+                    const newId = response.data.data.id; // предполагаем, что ID находится в response.data.id
+                    const originalIndex = newFormulationData[index].originalIndex;
+                    console.log("originalIndex = ", originalIndex )
+                    console.log("new id = ", newId);
+                    formulationData[originalIndex].id = newId;
+                    console.log("formulationData = ", formulationData);
+                    formulationData[originalIndex].isNew = false; // Отметить как не новый
+                });
             }
 
             toDelete.map(item =>
@@ -322,10 +333,13 @@ export default function Page({params }) {
 
     const addNewRecord = () => {
         setFormulationData(prevData => [
-            ...prevData, { product_id: '', initial_treatment: [],
-                heat_treatment: [], package_id: '',package_name: '',
-                product_name:'', brutto: '', netto: '', isNew: true }
-        ]);
+            ...prevData, { product_id: '', package_id: '',package_name: '',
+                product_name:'', brutto: '', netto: '', isNew: true }]
+        );
+        setCurrInitialTreatments(prevData => [...prevData, []])
+        setCurrHeatTreatments(prevData => [...prevData, []])
+        setResponseHeatTreatments(prevData => [...prevData, []])
+        setResponseInitialTreatments(prevData => [...prevData, []])
     };
     const addNewInitialTreatment = (outerIndex) => {
         setCurrInitialTreatments(prevTreatments => {
