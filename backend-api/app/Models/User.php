@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
@@ -51,10 +52,12 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
+
     public function hasAnyRole(array $roles)
     {
         return in_array($this->role, $roles);
     }
+
     public function ttks()
     {
         return $this->belongsTo(ttk::class);

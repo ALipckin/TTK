@@ -7,14 +7,17 @@ import axios from 'axios';
 import WideInput from '@/components/Inputs/WideInput'
 import WideButton from '@/components/buttons/WideButton'
 import { useSearchParams, useRouter } from 'next/navigation'
+import MultiSelectDropdown from '@/components/dropdowns/MultiSelectDropdown'
 
-const SearchForm = ({header="Список", itemName="name", itemRoute, apiRoute, ...params}) => {
+const SearchForm = ({header="Список", itemName="name", itemRoute, categoriesRoute, apiRoute, ...params}) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchVal, setSearchVal] = useState(null);
     const [pagination, setPagination] = useState({});
     const [currPath, setCurrPath] = useState({});
+    const [categories, setCategories] = useState({});
+    const [selectedCategories, setSelectedCategories] = useState([]);
     //const { page, name, category } = router.query;
     const ratingNum = "26";
     const searchParams = useSearchParams();
@@ -23,7 +26,6 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, apiRoute
 
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
-    console.log("queryString =" + queryString);
 
     var currentPath;
 
@@ -41,18 +43,29 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, apiRoute
                     withCredentials: true,
                 });
             }
-            console.log(response.data);
             setData(response.data.data);
             setPagination(response.data.pagination)
         } catch (err) {
             setError(err);
         }
     }
+    const getCategories = async () => {
+        try {
+            const response = await axios.get(categoriesRoute, {
+                withCredentials: true,
+            });
+            setCategories(response.data.data);
+        } catch (err) {
+            setError(err);
+        }
+    }
 
     useEffect(() => {
-       getTtks()
+       getTtks();
+       if(categoriesRoute){
+        getCategories();
+       }
        setCurrPath(window.location.pathname);
-       console.log("curr path = " + currentPath);
     },[]);
     if (error) {
         return <div>Ошибка: {error.message}</div>;
@@ -63,9 +76,7 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, apiRoute
     }
 
     const handlePageChange = (newPage) => {
-            console.log("true");
             const params = new URLSearchParams(searchParams);
-            console.log("params = " + params);
             params.set('page', newPage);
             const newPath = `${window.location.pathname}?${params.toString()}`;
             router.replace(newPath);
@@ -76,13 +87,26 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, apiRoute
 
 
     const search = async () => {
-        console.log("searching: " + searchVal);
         try {
-            if(searchVal) {
-                const response = await axios.get(`${apiRoute}?${itemName}=${searchVal}`, {
+            const params = new URLSearchParams();
+
+            // Добавляем searchVal, если он существует
+            if (searchVal) {
+                params.append(itemName, searchVal);
+            }
+
+            // Проверка и добавление selectedCategories
+            if (selectedCategories && selectedCategories.length > 0) {
+                selectedCategories.forEach((item) => {
+                    params.append('category_id', item);
+                });
+            }
+
+            // Обязательно, чтобы хотя бы один параметр был добавлен
+            if (params.toString()) {
+                const response = await axios.get(`${apiRoute}?${params.toString()}`, {
                     withCredentials: true,
                 });
-                console.log(response.data);
                 setData(response.data.data);
             }
             else{
@@ -108,8 +132,20 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, apiRoute
                         required
                         autoFocus
                         placeholder="Введите название"
-                    />
-                    <WideButton type="button" onClick={search}>Поиск</WideButton>
+                    />{
+                        categoriesRoute ?
+                        <div className="row d-flex justify-content-start col-12">
+                            <WideButton type="button" onClick={search}>Поиск</WideButton>
+                            <div className="mb-3">
+                                <p className="p-1 m-0">Категории:</p>
+                                <MultiSelectDropdown
+                                    items={categories} selectedItems={selectedCategories} setSelectedItems={setSelectedCategories}>
+                                </MultiSelectDropdown>
+                            </div>
+                        </div>
+                        : null
+                    }
+          
                     <div className="row flex-column col-md-12">
                         {data.map((item, index) => (
                             <GreyCard

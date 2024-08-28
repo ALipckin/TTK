@@ -9,6 +9,7 @@ export const API_ROUTES = {
     GET_CSRF_COOKIE: `${DOMAIN}/sanctum/csrf-cookie`,
     GET_PROFILE: `${API_BASE_URL}/profile`,
     GET_PRODUCTS: `${API_BASE_URL}/products`,
+    GET_PRODUCTS_CATEGORIES: `${API_BASE_URL}/products/all_categories`,
     GET_HEAT_TREATMENTS: (id) => `${API_BASE_URL}/products/${id}/heat_treatments`,
     PATCH_HEAT_TREATMENTS: (ttk, id) => `${API_BASE_URL}/ttks/${ttk}/formulations/${id}/heat_treatments`,
     GET_INITIAL_TREATMENTS: (id) => `${API_BASE_URL}/products/${id}/initial_treatments`,
@@ -19,6 +20,7 @@ export const API_ROUTES = {
     POST_LOGIN: `${API_BASE_URL}/login`,
     GET_MY_ALL_TTKS: `${API_BASE_URL}/ttks/my`,
     TTKS: `${API_BASE_URL}/ttks`,
+    TTKS_CATEGORIES: `${API_BASE_URL}/ttks/all_categories`,
     TTKS_PUBLIC: `${API_BASE_URL}/ttks/public`,
     // Добавьте другие пути API по мере необходимости
 };

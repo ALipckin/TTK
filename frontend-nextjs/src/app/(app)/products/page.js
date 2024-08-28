@@ -6,6 +6,6 @@ import SearchForm from '@/components/forms/SearchForm'
 
 export default function Page({ params }) {
     return (
-        <SearchForm header="Список продуктов" itemName="name" apiRoute={API_ROUTES.GET_PRODUCTS}/>
+        <SearchForm header="Список продуктов" itemName="name" apiRoute={API_ROUTES.GET_PRODUCTS} categoriesRoute={API_ROUTES.GET_PRODUCTS_CATEGORIES}/>
     );
 }

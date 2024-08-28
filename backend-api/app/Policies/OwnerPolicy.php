@@ -19,7 +19,6 @@ class OwnerPolicy
         if ($model->user_id == $user->id) {
             return true;
         }
-
         return false;
     }
 }

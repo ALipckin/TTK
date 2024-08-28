@@ -19,23 +19,26 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::group(["middleware" => ["auth:sanctum"]], function () {
+    
+    Route::get('/products/all_categories', [ProductController::class, "categories_index"]);
+
     Route::group(['prefix' => 'profile', 'middleware' => ['role:user']], function () {
         Route::get('/', [ProfileController::class, "index"])->middleware('role:user');
     });
 
-    Route::group(['prefix' => 'products'], function () {
+    Route::group(['prefix' => 'products', 'middleware' => ['role:user']], function () {
         Route::get('/', [ProductController::class, "index"]);
         Route::post('/', [ProductController::class, "store"])->middleware('role:moderator');
         Route::get('/my', [ProductController::class, "my"]);
         Route::get('/{id}', [ProductController::class, "show"])->middleware('verifyOwner:Product');
         Route::patch('/{id}', [ProductController::class, "update"])->middleware('verifyOwner:Product');
         Route::delete('/{id}', [ProductController::class, "destroy"])->middleware('verifyOwner:Product');
-
         Route::get('/{id}/initial_treatments', [InitialTreatmentController::class, "index"])->middleware('verifyOwner:Product');
         Route::get('/{id}/heat_treatments', [HeatTreatmentController::class, "index"])->middleware('verifyOwner:Product');
     });
 
-    Route::group(['prefix' => 'packages'], function () {
+
+    Route::group(['prefix' => 'packages', 'middleware' => ['role:user']], function () {
         Route::get('/', [PackageController::class, "index"]);
         Route::post('/', [PackageController::class, "store"])->middleware('role:moderator');
         Route::get('/{package}', [PackageController::class, "show"])->middleware('role:user');
@@ -44,13 +47,14 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     });
 
     Route::group(['prefix' => 'ttks', 'middleware' => ['role:user']], function () {
+        Route::get('/all_categories', [TtkController::class, "categories_index"]);
         Route::get('/my', [TtkController::class, "myTTKs"]);
         Route::get('/', [TtkController::class, "index"]);
         Route::patch('/{ttk}/publish', [TtkController::class, "publish"])->middleware(['verifyOwner:Ttk']);;
         Route::post('/', [TtkController::class, "store"]);
         Route::get('/{ttk}', [TtkController::class, "show"])->middleware(['checkPublicity']);
         Route::patch('/{ttk}', [TtkController::class, "update"])->middleware(['verifyOwner:Ttk']);
-        Route::delete('/{ttk}', [TtkController::class, "destroy"])->middleware(['verifyOwner:Ttk']);;
+        Route::delete('/{ttk}', [TtkController::class, "destroy"])->middleware(['verifyOwner:Ttk']);
 
         Route::group(['middleware' => ['role:user']], function () {
             Route::post('/{ttk}/header', [HeaderController::class, "store"]);

@@ -1,0 +1,14 @@
+.multi-dropdown-menu {
+    max-height: 200px; /* Ограничение высоты выпадающего списка */
+    overflow-y: scroll; /* Прокрутка при переполнении */
+    z-index: 1000; /* Убедитесь, что выпадающий список выше других элементов */
+}
+
+.multi-dropdown-item:hover {
+    background-color: #f8f9fa; /* Цвет фона при наведении */
+    cursor: pointer; /* Указатель при наведении на элемент */
+}
+
+.multi-dropdown-width{
+    width:170px;
+}

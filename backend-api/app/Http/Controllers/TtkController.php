@@ -7,6 +7,7 @@ use App\Http\Requests\TTK\StoreRequest;
 use App\Http\Resources\TTK\TTKResource;
 use App\Models\Requirement;
 use App\Models\Ttk;
+use App\Models\TtkCategory;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +39,18 @@ class TtkController extends Controller
         ], 200);
     }
 
+    public function categories_index()
+    {
+        // Получение всех категорий с полями 'id' и 'title'
+        $categories = TtkCategory::select('id', 'title')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Ttk categories data",
+            'data' => $categories,
+        ], 200);
+    }
+
     public function publish(ttk $ttk)
     {
         $ttk->public = 1;
@@ -57,16 +70,16 @@ class TtkController extends Controller
             // Получаем все связанные записи
             $records = $ttk->getAllRelatedRecords(type: 'model');
             foreach ($records as $record) {
-                foreach ($record as $item ) {
-                    Log::info("item = " . $item. " record type = " . get_class($item)  );
+                foreach ($record as $item) {
+                    Log::info("item = " . $item . " record type = " . get_class($item));
                 }
                 //Log::info("record type = " . get_class($record) );
             }
 
             // Удаляем все связанные записи
             foreach ($records as $record) {
-                foreach ($record as $item ) {
-                    Log::info("deleting record = " . $item );
+                foreach ($record as $item) {
+                    Log::info("deleting record = " . $item);
                     $item->delete();
                 }
                 //if ($record instanceof \Illuminate\Database\Eloquent\Model) {

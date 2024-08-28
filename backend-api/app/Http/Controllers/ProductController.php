@@ -8,6 +8,7 @@ use App\Http\Requests\Product\FilterRequest;
 use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Resources\Product\ProductResource;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -107,6 +108,17 @@ class ProductController extends Controller
             'status' => true,
             'message' => "ttk updated",
             'data' => new ProductResource($product),
+        ], 200);
+    }
+
+    public function categories_index()
+    {
+        $categories = Category::select('id', 'title')->get();
+   
+        return response()->json([
+            'status' => true,
+            'message' => "Categories data",
+            'data' => $categories,
         ], 200);
     }
 }

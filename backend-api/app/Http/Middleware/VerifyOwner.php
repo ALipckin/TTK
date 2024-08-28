@@ -28,24 +28,25 @@ class VerifyOwner
      */
     public function handle(Request $request, Closure $next, $baseModelClass = null, $childModelClass = null)
     {
+        log::info("Verifying owner");
+        log::info("Request" . $request);
         $namespace = "App\\Models\\";
         if ($baseModelClass) {
-            $baseModelClass = $namespace.$baseModelClass;
+            $baseModelClass = $namespace . $baseModelClass;
         }
         if ($childModelClass) {
-            $childModelClass = $namespace.$childModelClass;
+            $childModelClass = $namespace . $childModelClass;
         }
-        log::info("baseModelClass = " . $baseModelClass);
-        log::info("childModelClass = " . $childModelClass);
+        //log::info("baseModelClass = " . $baseModelClass);
+        //log::info("childModelClass = " . $childModelClass);
         $deniedResponse = response()->json([
             'status' => false,
             'message' => 'Access denied',
         ], 403);
-        Log::info("baseModelClass = " . $baseModelClass);
-        Log::info("request = " . $request);
+        //Log::info("baseModelClass = " . $baseModelClass);
+        //Log::info("request = " . $request);
         $id = $request->route('id');
         if ($id && $childModelClass) {
-            log::info("id = " . $id);
             $model = $childModelClass::where('id', $id)->first();
             $ttkId = $model->ttk_id;
             $ttk = $baseModelClass::findOrFail($ttkId);
@@ -53,10 +54,12 @@ class VerifyOwner
                 return ($this->deniedResponse);
             }
         } else {
-            if ($id || $baseModelClass) {
+            if ($id && $baseModelClass) {
                 $model = $baseModelClass::where('id', $id)->first();
-                if (!Gate::allows('changeRecord', $model)) {
-                    return ($this->deniedResponse);
+                if ($model) {
+                    if (!Gate::allows('changeRecord', $model)) {
+                        return ($this->deniedResponse);
+                    }
                 }
             }
         }
