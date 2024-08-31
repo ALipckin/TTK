@@ -14,6 +14,7 @@ export const API_ROUTES = {
     PATCH_HEAT_TREATMENTS: (ttk, id) => `${API_BASE_URL}/ttks/${ttk}/formulations/${id}/heat_treatments`,
     GET_INITIAL_TREATMENTS: (id) => `${API_BASE_URL}/products/${id}/initial_treatments`,
     PATCH_INITIAL_TREATMENTS: (ttk, id) => `${API_BASE_URL}/ttks/${ttk}/formulations/${id}/initial_treatments`,
+    GET_NE_VALUE: (ttk) => `${API_BASE_URL}/ttks/${ttk}/formulations/ne_value`,
     GET_PACKAGES: `${API_BASE_URL}/packages`,
     GET_MY_PRODUCTS: `${API_BASE_URL}/products/my`,
     POST_REGISTRATION: `${API_BASE_URL}/register`,

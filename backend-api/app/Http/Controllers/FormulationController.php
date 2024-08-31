@@ -6,6 +6,8 @@ use App\Http\Requests\Formulation\StoreRequest;
 use App\Http\Requests\Formulation\UpdateRequest;
 use App\Http\Resources\Formulation\FormulationResource;
 use App\Models\Formulation;
+use App\Models\HeatTreatment;
+use App\Models\Product;
 use App\Models\Tp;
 use App\Models\Ttk;
 use Illuminate\Routing\Controller;

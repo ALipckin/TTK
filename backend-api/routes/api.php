@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::group(["middleware" => ["auth:sanctum"]], function () {
-    
+
     Route::get('/products/all_categories', [ProductController::class, "categories_index"]);
 
     Route::group(['prefix' => 'profile', 'middleware' => ['role:user']], function () {

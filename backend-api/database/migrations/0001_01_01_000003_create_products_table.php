@@ -21,6 +21,8 @@ return new class extends Migration {
             $table->float('water', 10, 0)->nullable();
             $table->float('fiber', 10, 0)->nullable();
             $table->float('ash', 10, 0)->nullable();
+            $table->float('kcal', 10, 0)->nullable();
+            $table->float('kj', 10, 0)->nullable();
             $table->unsignedBigInteger('user_id')->index('fk_ttks_user_idx')->nullable();
             $table->unsignedBigInteger('category_id')->index('fk_products_category1_idx');
             $table->foreign('user_id', 'fk_products_users1')->on('users')->references('id');

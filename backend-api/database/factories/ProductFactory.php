@@ -25,7 +25,8 @@ class ProductFactory extends Factory
             'water' => random_int(0, 10) / 10,
             'fiber' => random_int(0, 10) / 10,
             'ash' => random_int(0, 10) / 10,
-            'ash' => null,
+            'kcal' => random_int(0, 10) / 10,
+            'kj' => random_int(0, 10) / 10,
             'category_id' => Category::get()->random()->id,
         ];
     }

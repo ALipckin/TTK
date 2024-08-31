@@ -48,11 +48,19 @@ export default function page({params}) {
                     <div className="row flex-column col-md-12">
                         <a className="link" href={`/ttks/${params.id}/header/`}>Шапка документа</a>
                         <a className="link" href={`/ttks/${params.id}/scope/`}>Область применения</a>
-                        <a className="link" href={`/ttks/${params.id}/requirement/`}><br/>Требования к качеству сырья</a>
+                        <a className="link" href={`/ttks/${params.id}/requirement/`}>Требования к качеству сырья</a>
                         <a className="link" href={`/ttks/${params.id}/formulation/`}>Рецептура</a>
                         <a className="link" href={`/ttks/${params.id}/tp/`}>Описание технологического процесса</a>
                         <a className="link">Требования к оформлению и подаче</a>
-                        <a className="link">Органолептические показатели</a>
+                        <ul className="mt-3">
+                            <b>Показатели качества и безопасности</b>
+                            <div className="ml">
+                                <li><a className="link">Органолептические показатели</a></li>
+                                <li><a className="link">Физико-химические показатели</a></li>
+                                <li><a className="link">Микробиологические показатели</a></li>
+                            </div>
+                        </ul>
+                        <a className="link" href={`/ttks/${params.id}/ne-value/`}>Пищевая и энергетическая ценность</a>
                     </div>
                 </div>
             </div>
