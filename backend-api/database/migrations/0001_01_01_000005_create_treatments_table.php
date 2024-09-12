@@ -10,10 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('heat_treatments', function (Blueprint $table) {
+        Schema::create('treatments', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('loss');
+            $table->string('name');
+            $table->float('cold', 5, 2)->nullable();
+            $table->float('hot', 5, 2)->nullable();
+            $table->float('fin', 5, 2)->nullable();
+            $table->float('protein', 5, 2)->nullable();
+            $table->float('fat', 5, 2)->nullable();
+            $table->float('carbs', 5, 2)->nullable();
             $table->unsignedBigInteger('product_id')->index('product_id');
 
             $table->foreign('product_id')

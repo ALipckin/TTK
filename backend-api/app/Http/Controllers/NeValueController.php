@@ -6,7 +6,7 @@ use App\Http\Requests\Formulation\StoreRequest;
 use App\Http\Requests\Formulation\UpdateRequest;
 use App\Http\Resources\Formulation\FormulationResource;
 use App\Models\Formulation;
-use App\Models\HeatTreatment;
+use App\Models\Treatment;
 use App\Models\InitialTreatment;
 use App\Models\Product;
 use App\Models\Ttk;
@@ -50,7 +50,7 @@ class NeValueController extends Controller
                     foreach ($heatTreatments as $item) {
                         log::info("heat treatment = ". $item);
                         log::info('item->heat_treatment_id ='. $item->pivot->heat_treatment_id);
-                        $currHeatTreatment = HeatTreatment::find($item->pivot->heat_treatment_id);
+                        $currHeatTreatment = Treatment::find($item->pivot->heat_treatment_id);
                         log::info('currHeatTreatment'. $currHeatTreatment);
                         $result -= $result * $currHeatTreatment->loss;
                     }

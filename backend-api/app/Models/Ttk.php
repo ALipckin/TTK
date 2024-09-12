@@ -44,6 +44,10 @@ class Ttk extends Model
     {
         return $this->hasMany(OrgCharacteristic::class);
     }
+    public function formulationHeatTreatment()
+    {
+        return $this->hasMany(FormulationHeatTreatment::class);
+    }
 
     // Получить все связанные комментарии и вложения
     public function getAllRelatedRecords($type)
@@ -56,6 +60,7 @@ class Ttk extends Model
             'tps' => $this->tps()->get(),
             'realization_requirements' => $this->realizationRequirement()->get(),
             'org_characteristics' => $this->orgCharacteristics()->get(),
+            'formulation_has_heat_treatments' => $this->formulationHeatTreatment()->get(),
         ];
     }
 }

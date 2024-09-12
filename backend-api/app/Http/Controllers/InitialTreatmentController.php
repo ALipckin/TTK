@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Formulation;
-use App\Models\HeatTreatment;
+use App\Models\Treatment;
 use App\Models\InitialTreatment;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

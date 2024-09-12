@@ -113,8 +113,8 @@ class ProductController extends Controller
 
     public function categories_index()
     {
-        $categories = Category::select('id', 'title')->get();
-   
+        $categories = Category::select('id', 'name')->get();
+
         return response()->json([
             'status' => true,
             'message' => "Categories data",

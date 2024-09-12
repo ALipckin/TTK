@@ -15,16 +15,11 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'protein' => $this->protein,
-            'carbs' => $this->carbs,
-            'fat' => $this->fat,
-            'water' => $this->water,
-            'fiber' => $this->fiber,
-            'ash' => $this->ash,
-            'category' => new CategoryResource($this->category) ,
-        ];
+        return array_merge(
+            parent::toArray($request), // Включаем все поля модели
+            [
+                'category' => new CategoryResource($this->whenLoaded('category')), // Добавляем связанные данные
+            ]
+        );
     }
 }

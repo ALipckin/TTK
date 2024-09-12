@@ -19,7 +19,7 @@ class Formulation extends Model
 
     public function heatTreatment()
     {
-        return $this->belongsToMany(HeatTreatment::class, 'formulations_has_heat_treatments', 'formulation_id', 'heat_treatment_id');
+        return $this->belongsToMany(Treatment::class, 'formulations_has_heat_treatments', 'formulation_id', 'heat_treatment_id');
     }
 
     public function initialTreatment()

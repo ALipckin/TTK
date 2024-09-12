@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Formulation;
-use App\Models\HeatTreatment;
+use App\Models\Treatment;
 use App\Models\InitialTreatment;
 
 use Illuminate\Routing\Controller;
@@ -13,7 +13,7 @@ class HeatTreatmentController extends Controller
 {
     public function index($id)
     {
-        $heatT = HeatTreatment::where('product_id', $id)->get();
+        $heatT = Treatment::where('product_id', $id)->get();
 
         return response()->json([
             'status' => true,

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\HeatTreatment;
+use App\Models\Treatment;
 use App\Models\InitialTreatment;
 use App\Models\Package;
 use App\Models\Product;
@@ -23,15 +23,15 @@ class FormulationFactory extends Factory
         $ttkIds = Ttk::whereDoesntHave('Formulations')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
-
+        $productId = Product::query()->where('user_id', null)->inRandomOrder()->value('id');
         static::$index++;
 
         return [
             'netto' => random_int(1, 10) / 10,
             'brutto' => random_int(1, 10) / 10,
-            'product_id' => Product::query()->where('user_id', null)->inRandomOrder()->value('id'),
+            'product_id' => $productId,
+            'treatment_id' => Treatment::query()->where('product_id', $productId)->inRandomOrder()->value('id'),
             'ttk_id' => $ttkId,
-            'package_id' => Package::query()->inRandomOrder()->value('id'),
         ];
     }
 }

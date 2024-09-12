@@ -10,7 +10,7 @@ class TtkCategory extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'ttks_categories';
+    protected $table = 'ttk_categories';
 
     public function ttks()
     {

@@ -17,17 +17,17 @@ return new class extends Migration {
             $table->string('netto', 45)->nullable();
             $table->string('brutto', 45)->nullable();
             $table->unsignedBigInteger('product_id')->index('product_id');
-            $table->unsignedBigInteger('package_id')->nullable()->index('package_id');
+            $table->unsignedBigInteger('treatment_id')->nullable()->index('treatment_id');
             $table->unsignedBigInteger('ttk_id')->index('ttk_id');
 
             $table->foreign('product_id')
                 ->references('id')->on('products')
                 ->onUpdate('NO ACTION')->onDelete('NO ACTION');
 
-            $table->foreign('package_id')
-                ->references('id')->on('packages')
+            $table->foreign('treatment_id')
+                ->references('id')->on('treatments')
                 ->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            
+
             $table->foreign('ttk_id')
                 ->references('id')->on('ttks')
                 ->onUpdate('NO ACTION')->onDelete('NO ACTION');
