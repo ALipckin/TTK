@@ -42,7 +42,7 @@ class TtkController extends Controller
     public function categories_index()
     {
         // Получение всех категорий с полями 'id' и 'title'
-        $categories = TtkCategory::select('id', 'title')->get();
+        $categories = TtkCategory::select('id', 'name')->get();
 
         return response()->json([
             'status' => true,
