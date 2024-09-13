@@ -4,8 +4,8 @@ use App\Http\Controllers\FormulationController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PackageController;
 use App\Http\Controllers\QualityRequirementController;
+use App\Http\Controllers\RealizationRequirementController;
 use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
@@ -37,15 +37,6 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         Route::delete('/{id}', [ProductController::class, "destroy"])->middleware('verifyOwner:Product');
     });
 
-
-    Route::group(['prefix' => 'packages', 'middleware' => ['role:user']], function () {
-        Route::get('/', [PackageController::class, "index"]);
-        Route::get('/{package}', [PackageController::class, "show"])->middleware('role:user');
-        Route::post('/', [PackageController::class, "store"])->middleware('role:moderator');
-        Route::patch('/{package}', [PackageController::class, "update"])->middleware('role:admin');
-        Route::delete('/{package}', [PackageController::class, "destroy"])->middleware('role:admin');
-    });
-
     Route::group(['prefix' => 'ttks', 'middleware' => ['role:user']], function () {
         Route::get('/all_categories', [TtkController::class, "categories_index"]);
         Route::get('/my', [TtkController::class, "myTTKs"]);
@@ -75,6 +66,13 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
             Route::post('/{ttk}/quality-requirements', [QualityRequirementController::class, 'store']);
             Route::patch('/{ttk}/quality-requirements/{id}', [QualityRequirementController::class, 'update'])->middleware(['verifyOwner:Ttk, QualityRequirement']);
             Route::delete('/{ttk}/quality-requirements/{id}', [QualityRequirementController::class, 'destroy'])->middleware(['verifyOwner:Ttk, QualityRequirement']);
+        });
+
+        Route::group(['middleware' => ['role:user']], function () {
+            Route::get('/{ttk}/realization-requirements', [RealizationRequirementController::class, 'index'])->middleware(['checkPublicity']);
+            Route::post('/{ttk}/realization-requirements', [RealizationRequirementController::class, 'store']);
+            Route::patch('/{ttk}/realization-requirements/{id}', [RealizationRequirementController::class, 'update'])->middleware(['verifyOwner:Ttk, RealizationRequirement']);
+            Route::delete('/{ttk}/realization-requirements/{id}', [RealizationRequirementController::class, 'destroy'])->middleware(['verifyOwner:Ttk, RealizationRequirement']);
         });
 
         Route::group(['middleware' => ['role:user']], function () {
