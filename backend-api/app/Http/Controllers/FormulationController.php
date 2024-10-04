@@ -20,8 +20,28 @@ class FormulationController extends Controller
         $formulations = Formulation::Where('Ttk_id', $Ttk->id)->get();
         return response()->json([
             'status' => true,
-            'message' => "requirement data",
+            'message' => "formulation data",
             'data' => FormulationResource::collection($formulations),
+        ], 200);
+    }
+
+    public function createOrUpdate(UpdateRequest $request, $ttk, $formulation)
+    {
+        $data = $request->validated();
+        if (!$formulation) {
+            return response()->json([
+                'status' => false,
+                'message' => "Formulation not found",
+            ], 404);
+        }
+        $data['ttk_id'] = $ttk;
+        // Обновить данные Formulation
+        $formulation = Formulation::updateOrCreate(['id' => $formulation], $data);
+
+        return response()->json([
+            'status' => true,
+            'message' => "formulation updated",
+            'data' => $formulation,
         ], 200);
     }
 
@@ -39,21 +59,9 @@ class FormulationController extends Controller
         // Обновить данные Formulation
         $formulation->update($data);
 
-        // Обработка массива heat_treatment_ids
-        if (isset($data['heat_treatments']) && is_array($data['heat_treatment_ids'])) {
-            // Синхронизируем данные в связующей таблице
-            $formulation->heatTreatments()->sync($data['heat_treatment_ids']);
-        }
-
-        // Обработка массива initial_treatment_ids
-        if (isset($data['initial_treatments']) && is_array($data['initial_treatment_ids'])) {
-            // Синхронизируем данные в связующей таблице
-            $formulation->initialTreatments()->sync($data['initial_treatment_ids']);
-        }
-
         return response()->json([
             'status' => true,
-            'message' => "requirement updated",
+            'message' => "formulation updated",
             'data' => $formulation,
         ], 200);
     }

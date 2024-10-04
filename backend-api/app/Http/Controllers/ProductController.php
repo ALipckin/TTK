@@ -10,6 +10,7 @@ use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Treatment;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -119,6 +120,17 @@ class ProductController extends Controller
             'status' => true,
             'message' => "Categories data",
             'data' => $categories,
+        ], 200);
+    }
+
+    public function treatments($id)
+    {
+        $initT = Treatment::Where('product_id', $id)->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Treatments data",
+            'data' => $initT,
         ], 200);
     }
 }

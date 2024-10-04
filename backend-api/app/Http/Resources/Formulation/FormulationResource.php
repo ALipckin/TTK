@@ -19,22 +19,14 @@ class FormulationResource extends JsonResource
     public function toArray(Request $request): array
     {
         $productName = Product::where('id', $this->product_id)->pluck('name')->first();
-        $packageName = Package::where('id', $this->package_id)->pluck('title')->first();
-        $initialTreatments = Formulation::find($this->id)->initialTreatment()->get(['id', 'title'])->makeHidden('pivot');;
-        $heatTreatments = Formulation::find($this->id)->heatTreatment()->get(['id', 'title'])->makeHidden('pivot');
 
         return [
-            'formulation' => [
-                'id' => $this->id,
-                'netto' => $this->netto,
-                'brutto' => $this->netto,
-                'package_id' => $this->package_id,
-                'package_name' => $packageName,
-                'product_id' => $this->product_id,
-                'product_name' => $productName,
-            ],
-            'initial_treatments' => $initialTreatments,
-            'heat_treatments' => $heatTreatments,
+            'id' => $this->id,
+            'netto' => $this->netto,
+            'brutto' => $this->brutto,
+            'product_id' => $this->product_id,
+            'product_name' => $productName,
+            'treatment_id' => $this->treatment_id,
         ];
     }
 }

@@ -139,8 +139,7 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, categori
                             <div className="mb-3">
                                 <p className="p-1 m-0">Категории:</p>
                                 <MultiSelectDropdown
-                                    items={categories} selectedItems={selectedCategories} setSelectedItems={setSelectedCategories}>
-                                </MultiSelectDropdown>
+                                    items={categories} selectedItems={selectedCategories} setSelectedItems={setSelectedCategories} />
                             </div>
                         </div>
                         : null
@@ -157,7 +156,7 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, categori
                         ))}
                     </div>
                     {/* Пагинация */}
-                    <Pagination pagination={pagination} handlePageChange={handlePageChange}></Pagination>
+                    <Pagination pagination={pagination} handlePageChange={handlePageChange} />
                 </div>
             </div>
         </div>

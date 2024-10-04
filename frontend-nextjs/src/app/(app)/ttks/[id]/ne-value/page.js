@@ -46,7 +46,7 @@ export default function Page({params }) {
                             <h2 className="mb-5 title">Пищевая и энергетическая ценность</h2>
                         </div>
                         <div className="row flex-column">
-                            <table class="bg-transparent">
+                            <table className="bg-transparent">
                                 <thead>
                                 <tr>
                                     <th scope="col">Белки г.</th>
@@ -68,10 +68,8 @@ export default function Page({params }) {
                                         <td>
                                             {item.elems.carbs}
                                         </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
+                                        <td />
+                                        <td />
                                     </tr>
                                 ))
                                 }
@@ -86,8 +84,7 @@ export default function Page({params }) {
                                     <td>
                                        {Data.result?.carbs ?? null}
                                     </td>
-                                    <td>
-                                    </td>
+                                    <td />
                                     <td>
                                        <b>
                                            {}
@@ -96,7 +93,7 @@ export default function Page({params }) {
                                 </tr>
                                 </tbody>
                             </table>
-                            <table class="bg-transparent mt-2" border="1">
+                            <table className="bg-transparent mt-2" border="1">
                                 <thead>
                                     <tr>
                                         <th>

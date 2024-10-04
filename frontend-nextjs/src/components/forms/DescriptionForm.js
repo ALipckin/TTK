@@ -148,7 +148,7 @@ export default function DescriptionForm({header, apiTable, params }) {
                 <div className="row col-12 col-md-8 d-flex justify-content-center">
                     <div className="mt-5 mb-5 d-flex justify-content-center flex-column">
                         <div className="d-flex justify-content-between">
-                            <div className=""></div>
+                            <div className="" />
                             <h3 className="mh mb-5 title">{header}</h3>
                             <ActionIconButton img="/images/add.svg" className="" onClick={addNewDescription}/>
                         </div>

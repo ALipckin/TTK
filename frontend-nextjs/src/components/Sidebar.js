@@ -11,8 +11,7 @@ const Sidebar = () => {
 
     return (
         <>
-            <button style={{backgroundImage: 'url(\'/images/menu.svg\')'}} onClick={toggleSidebar} className="icon-button m-4">
-            </button>
+            <button style={{backgroundImage: 'url(\'/images/menu.svg\')'}} onClick={toggleSidebar} className="icon-button m-4" />
             <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
                 <button onClick={toggleSidebar} className={styles.closeButton}>
                     ×

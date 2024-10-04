@@ -18,20 +18,13 @@ import { forEach } from 'react-bootstrap/ElementChildren'
 
 export default function Page({params }) {
     const [formulationData, setFormulationData] = useState([
-        {netto: '', brutto: '', package: '', product_id: ''}
+        {netto: '', brutto: '', package: '', product_id: '', treatment_id: ''}
     ]); // Инициализируем как массив
-    const [responseData, setResponseData] = useState([]); // Инициализируем как массив
     const [errors, setErrors] = useState({});
-    const [toDelete, setToDelete] = useState([]);
     const header = "Рецептура";
     const apiTable = "formulations";
-    const [packageData, setPackageData] = useState([]);
-    const [initialTreatmentData, setInitialTreatmentsData] = useState([]);
-    const [heatTreatmentData, setHeatTreatmentsData] = useState([]);
-    const [currInitialTreatments, setCurrInitialTreatments] = useState([]);
-    const [responseInitialTreatments, setResponseInitialTreatments] = useState([]);
-    const [responseHeatTreatments, setResponseHeatTreatments] = useState([]);
-    const [currHeatTreatments, setCurrHeatTreatments] = useState([]);
+    const [treatmentData, setTreatmentsData] = useState([]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -40,21 +33,8 @@ export default function Page({params }) {
                 });
                 if (response.data.data.length) {
                     const data = response.data.data;
-
-                    const formulations = data.map(item => item.formulation);
-                    const heatTreatments = data.map(item => item.heat_treatments);
-                    const initialTreatments = data.map(item => item.initial_treatments);
-
-                    // Установка состояния
-                    setFormulationData(formulations);
-                    setCurrHeatTreatments(heatTreatments);
-                    setResponseHeatTreatments(heatTreatments);
-                    setCurrInitialTreatments(initialTreatments);
-                    setResponseInitialTreatments(initialTreatments);
-                    setResponseData([data]);
-                } else {
-                    setFormulationData([{ description: '', isNew: true }]);
-                    setResponseData([{ description: '', isNew: true }]);
+                    setFormulationData(data);
+                    console.log("data = ", data);
                 }
             } catch (err) {
                 setErrors({ fetch: err.message });
@@ -63,47 +43,15 @@ export default function Page({params }) {
         fetchData();
     }, [params.id, apiTable]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const packages = await axios.get(API_ROUTES.GET_PACKAGES, {
-                    withCredentials: true,
-                });
-                if (packages.data.data.length) {
-                    setPackageData(packages.data.data);
-                }
-            } catch (err) {
-                setErrors({ fetch: err.message });
-            }
-        };
-        fetchData();
-    }, []);
-
-    const getHeatTreatments = async (productId, index) => {
+    const getTreatments = async (productId, index) => {
         try{
-            const heatTreatments = await axios.get(API_ROUTES.GET_HEAT_TREATMENTS(productId), {
+            const treatments = await axios.get(API_ROUTES.GET_TREATMENTS(productId), {
                 withCredentials: true,
             });
-            if (heatTreatments.data.data.length) {
-                setHeatTreatmentsData(prevData => ({
+            if (treatments.data.data.length) {
+                setTreatmentsData(prevData => ({
                     ...prevData,
-                    [index]: heatTreatments.data.data,
-                }));
-            }
-        } catch (err) {
-            setErrors({ fetch: err.message });
-        }
-    }
-
-    const getInitialTreatments = async (productId, index) => {
-        try{
-            const initialTreatments = await axios.get(API_ROUTES.GET_INITIAL_TREATMENTS(productId), {
-                withCredentials: true,
-            });
-            if (initialTreatments.data.data.length) {
-                setInitialTreatmentsData(prevData => ({
-                    ...prevData,
-                    [index]: initialTreatments.data.data,
+                    [index]: treatments.data.data,
                 }));
             }
         } catch (err) {
@@ -116,115 +64,12 @@ export default function Page({params }) {
         const validationErrors = {};
         formulationData.forEach((record, i) => {
             if (!record.product_id) validationErrors.product_id = 'Выберите продукт';
-            if (!record.package_id) validationErrors.package_id = 'Выберите тип упаковки';
             if (!record.brutto) validationErrors.brutto = 'Поле брутто обязательно для заполнения';
             if (!record.netto) validationErrors.netto = 'Поле нетто обязательно для заполнения';
         });
 
         return validationErrors;
     };
-
-    const handleFormulationChange = (index, e, name = null, value = null) => {
-        console.log("handling changes");
-        if(e && e.target)
-        {
-            ({ name, value } = e.target);
-        }
-        console.log("name = "+ name);
-        console.log("value = "+ value);
-        setFormulationData(prevData => {
-            const updatedData = prevData.map((item, i) =>
-                i === index ? { ...item, [name]: value} : item
-            );
-            // Проверяем изменения
-            const changes = updatedData.map((item, i) => {
-                const originalItem = responseData[i];
-                return {
-                    ...item,
-                    isChanged: item[name] !== originalItem?.[name] || item.isNew
-                };
-            });
-            return changes;
-        });
-    };
-
-    // Универсальная функция для обработки изменений
-    const handleChange = (updateStateFunction, responseData, index, j, e, name = null, value = null) => {
-        // Если event объект существует, извлекаем name и value
-        if (e && e.target) {
-            ({ name, value } = e.target);
-        }
-
-        updateStateFunction(prevData => {
-            // Обновляем данные с учетом изменений
-            const updatedData = prevData.map((outerArray, i) => {
-                if (i === index) {
-                    // Обрабатываем внутренний массив по индексу j
-                    const updatedInnerArray = outerArray.map((innerItem, innerIndex) => {
-                        if (innerIndex === j) {
-                            return { ...innerItem, [name]: value };
-                        }
-                        return innerItem;
-                    });
-                    return updatedInnerArray;
-                }
-                return outerArray;
-            });
-            console.log("updatedData = " + updatedData);
-            // Проверяем изменения по сравнению с responseData
-            const changes = updatedData.map((outerArray, i) => {
-                const originalOuterArray = responseData[i];
-                if (i === index) {
-                    const updatedInnerArray = outerArray.map((innerItem, innerIndex) => {
-                        const originalInnerItem = originalOuterArray[innerIndex];
-                        return {
-                            ...innerItem,
-                            isChanged: innerItem[name] !== originalInnerItem?.[name] || innerItem.isNew
-                        };
-                    });
-                    return updatedInnerArray;
-                }
-                return outerArray.map((innerItem, innerIndex) => {
-                    const originalInnerItem = originalOuterArray[innerIndex];
-                    return {
-                        ...innerItem,
-                        isChanged: innerItem[name] !== originalInnerItem?.[name] || innerItem.isNew
-                    };
-                });
-            });
-
-            return changes;
-        });
-
-    };
-
-    const removeHeatTreatment = (itemIndex, treatmentIndex) => {
-        setFormulationData(prevData => {
-            const newData = [...prevData];
-            newData[itemIndex] = {
-                ...newData[itemIndex],
-                heat_treatments: newData[itemIndex].heat_treatments.filter((_, i) => i !== treatmentIndex)
-            };
-            return newData;
-        });
-    };
-
-    const removeInitialTreatment = (itemIndex, treatmentIndex) => {
-        setFormulationData(prevData => {
-            const newData = [...prevData];
-            newData[itemIndex] = {
-                ...newData[itemIndex],
-                initial_treatments: newData[itemIndex].initial_treatments.filter((_, i) => i !== treatmentIndex)
-            };
-            return newData;
-        });
-    };
-
-    const submitData = async () => {
-        await submitFormulationData();
-        await submitTreatmentData(currHeatTreatments, API_ROUTES.PATCH_HEAT_TREATMENTS, 'heat_treatments');
-        await submitTreatmentData(currInitialTreatments, API_ROUTES.PATCH_INITIAL_TREATMENTS, 'initial_treatments');
-    }
     const submitFormulationData = async () => {
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
@@ -232,56 +77,27 @@ export default function Page({params }) {
             return;
         }
         try {
-            console.log("sumbit");
-            // Фильтрация и очистка новых данных
-            const newFormulationData = formulationData
-                .map((item, index) => ({ ...item, originalIndex: index })) // Сохраняем оригинальный индекс
-                .filter(item => item.isNew);
-
-            // Фильтрация и очистка измененных данных
-            const changedFormulationData = formulationData
-                .filter(item => item.isChanged && !item.isNew)
-                .map(({ isNew, isChanged, ...rest }) => rest);
-
-            // Создаем массив запросов для измененных данных
-            if(changedFormulationData.length > 0) {
-                const changeRequests = changedFormulationData.map(item =>
-                    axios.patch(`${API_ROUTES.TTKS}/${params.id}/${apiTable}/${item.id}`, item, { withCredentials: true })
+                const Requests = formulationData.map(item => {
+                        return axios.put(API_ROUTES.PUT_FORMULATION(params.id, item.id), item, { withCredentials: true })
+                    }
                 );
-                // Отправка запросов для измененных данных параллельно
-                await Promise.all(changeRequests);
-            }
 
-            // Параллельное выполнение запросов для новых данных
-            if (newFormulationData.length > 0) {
-                const createRequests = newFormulationData.map(item =>
-                    axios.post(`${API_ROUTES.TTKS}/${params.id}/${apiTable}`, item, { withCredentials: true })
-                );
-                const responses = await Promise.all(createRequests);
+                const responses = await Promise.all(Requests);
 
                 // Обновление массива данных с новыми ID
+            console.log("responses = ", responses);
                 responses.forEach((response, index) => {
+                    console.log("response = ", response);
                     const newId = response.data.data.id; // предполагаем, что ID находится в response.data.id
-                    const originalIndex = newFormulationData[index].originalIndex;
-                    console.log("originalIndex = ", originalIndex )
-                    console.log("new id = ", newId);
-                    formulationData[originalIndex].id = newId;
-                    console.log("formulationData = ", formulationData);
-                    formulationData[originalIndex].isNew = false; // Отметить как не новый
+                    formulationData[index].id = newId;
                 });
-            }
 
-            toDelete.map(item =>
-                console.log("delete = "),
-            )
-
-            console.log("deleting ")
-            if (toDelete.length > 0) {
-                const deleteRequests = toDelete.map(id =>
-                    axios.delete(`${API_ROUTES.TTKS}/${params.id}/${apiTable}/${id}`, { withCredentials: true })
-                );
-                await Promise.all(deleteRequests);
-            }
+            // if (toDelete.length > 0) {
+            //     const deleteRequests = toDelete.map(id =>
+            //         axios.delete(`${API_ROUTES.TTKS}/${params.id}/${apiTable}/${id}`, { withCredentials: true })
+            //     );
+            //     await Promise.all(deleteRequests);
+            // }
 
             //window.location.reload();
 
@@ -293,98 +109,41 @@ export default function Page({params }) {
             }
         }
     };
-
-    const submitTreatmentData = async (currData, apiRoute, payloadArrayName) => {
-        const validationErrors = validate();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            return;
-        }
-        try {
-            // Извлечение всех элементов из вложенных массивов
-            const flattened = currData.flat();
-
-            // Фильтрация измененных данных
-            const changedData = flattened
-                .filter(item => item.isChanged && item.isNew)
-                .map(({ isNew, isChanged, ...rest }) => rest);
-            console.log("Changed heat treatments:", changedData);
-
-            // Отправка запросов для измененных данных
-            if (changedData.length > 0) {
-                const changeRequests = currData.map((item, i) => {
-                        const formulationId = formulationData[i]?.id;
-                        axios.post(
-                            apiRoute(params.id, formulationId),
-                            { [payloadArrayName]: item }, // Отправляем каждый объект в массиве
-                            { withCredentials: true }
-                        )
-                    }
-                );
-                await Promise.all(changeRequests);
-                console.log('All heat treatments updated successfully');
-            } else {
-                console.log('No heat treatments to update');
-            }
-        } catch (error) {
-            console.error('Error submitting heat treatment data:', error);
-        }
-    };
+    const submitData = async () => {
+        await submitFormulationData();
+    }
 
     const addNewRecord = () => {
         setFormulationData(prevData => [
-            ...prevData, { product_id: '', package_id: '',package_name: '',
+            ...prevData, { product_id: '', formulation_id: '',
                 product_name:'', brutto: '', netto: '', isNew: true }]
         );
-        setCurrInitialTreatments(prevData => [...prevData, []])
-        setCurrHeatTreatments(prevData => [...prevData, []])
-        setResponseHeatTreatments(prevData => [...prevData, []])
-        setResponseInitialTreatments(prevData => [...prevData, []])
-    };
-    const addNewInitialTreatment = (outerIndex) => {
-        setCurrInitialTreatments(prevTreatments => {
-            // Клонируем массив, чтобы не мутировать оригинальный
-            const newTreatments = prevTreatments.map((innerArray, index) => {
-                if (index === outerIndex) {
-                    // Если это нужный вложенный массив, добавляем новый элемент
-                    return [...innerArray, { id: '', title: '', isNew: true }];
-                }
-                // Иначе возвращаем как есть
-                return innerArray;
-            });
-            return newTreatments;
-        });
     };
 
-    const addNewHeatTreatment = (outerIndex) => {
-        setCurrHeatTreatments(prevTreatments => {
-            // Клонируем массив, чтобы не мутировать оригинальный
-            const newTreatments = prevTreatments.map((innerArray, index) => {
-                if (index === outerIndex) {
-                    // Если это нужный вложенный массив, добавляем новый элемент
-                    return [...innerArray, { id: '', title: '', isNew: true }];
-                }
-                // Иначе возвращаем как есть
-                return innerArray;
-            });
-            return newTreatments;
-        });
-    };
     const clearInputs = () => {
         // Создаем новый массив, исключая элементы, которые нужно удалить
-        const idsToDelete = formulationData.map(item => item.id);
-        setToDelete(idsToDelete);
-
+        formulationData.forEach((_, index) => {deleteRecord(index)})
         // Удаляем все элементы из data и responseData
         setFormulationData([]);
-        setResponseData([]);
     };
     const deleteRecord = (index) => {
         const idToDelete = formulationData[index]?.id;
-        if (idToDelete) {
-            setToDelete(prevToDelete => [...prevToDelete, idToDelete]);
+        try {
+               axios.delete(API_ROUTES.DELETE_FORMULATION(params.id, idToDelete), { withCredentials: true });
         }
-        setFormulationData(prevData => prevData.filter((_, i) => i !== index));
+         catch (error) {
+            if (error.response && error.response.status === 422) {
+                setErrors(error.response.data.errors || {});
+            } else {
+                setErrors({ submit: error.message });
+            }
+        }
+    }
+    const clearInput = (index) => {
+        deleteRecord(index);
+        var newFormulation = [...formulationData];
+        var array =  newFormulation.filter((item, i) => i !== index);
+        setFormulationData(array);
     }
     const SumItems = (itemName) => {
         // Сумма элементов массива с определенным названием
@@ -396,6 +155,11 @@ export default function Page({params }) {
         }
         return Math.round(sum * 100)/100;
     };
+    const handleFormulation = (index, itemValue, itemName) => {
+        var newFormulation = [...formulationData];
+        newFormulation[index][itemName] = itemValue;
+        setFormulationData(newFormulation);
+    }
 
     return (
         <div className="container">
@@ -403,21 +167,19 @@ export default function Page({params }) {
                 <div className="row col-12 d-flex justify-content-center">
                     <div className="mt-5 mb-5 d-flex justify-content-center flex-column">
                         <div className="d-flex justify-content-between">
-                            <div className=""></div>
+                            <div className="" />
                             <h2 className="mb-5 title">{header}</h2>
                             <ActionIconButton img="/images/add.svg" className="" onClick={addNewRecord}/>
                         </div>
                         <div className="row flex-column">
-                            <table class="bg-transparent">
+                            <table className="bg-transparent">
                                 <thead>
                                 <tr>
                                     <th scope="col" >Наименование</th>
-                                    <th scope="col">Первичная обработка</th>
-                                    <th scope="col">Тепловая обработка</th>
-                                    <th scope="col">Упаковка</th>
+                                    <th scope="col">Обработка</th>
                                     <th scope="col">Брутто г.</th>
                                     <th scope="col">Нетто г.</th>
-                                    <th scope="col"></th>
+                                    <th scope="col" />
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -425,53 +187,38 @@ export default function Page({params }) {
                                     <tr scope="row" className="mb-4" key={index}>
                                         <td>
                                             <SearchPopup className="select-button" itemName={"name"} apiRoute={API_ROUTES.GET_PRODUCTS} currItem={item.product_name}
-                                                         setSelectedItemId={(id) => handleFormulationChange(index, null, "product_id", id)}
+                                                         setSelectedItemId={(id) => handleFormulation(index, id, "product_id")
+                                            }
+                                            />
+                                        </td>
+                                        {/*<td>*/}
+                                        {/*    <div className="d-flex justify-content-between">*/}
+                                        {/*        {*/}
+                                        {/*            Array.isArray(currInitialTreatments[index]) && currInitialTreatments[index].map((init, j) => (*/}
+                                        {/*                <PopupBox*/}
+                                        {/*                    onMainButtonClick={() => getInitialTreatments(item.product_id, index)}*/}
+                                        {/*                    className="select-button" data={initialTreatmentData?.[index]}*/}
+                                        {/*                    itemName={'title'} currItem={init.title}*/}
+                                        {/*                    setSelectedItemId={(id) => handleChange(setCurrInitialTreatments, responseInitialTreatments, index, j, null, 'id', id)}*/}
+                                        {/*                />*/}
+                                        {/*            ))*/}
+                                        {/*        }*/}
+                                        {/*        <ActionIconButton img="/images/add.svg" className=""*/}
+                                        {/*                          onClick={() => addNewInitialTreatment(index)} />*/}
+                                        {/*    </div>*/}
+                                        {/*</td>*/}
+                                        <td>
+                                            <PopupBox className="select-button" onMainButtonClick={() => getTreatments(item.product_id, index)} data={treatmentData[index]} itemName={"name"} currItem={item.treatment_id}
+                                                      setSelectedItemId={(id) => handleFormulation(index, id, "treatment_id")}
                                             />
                                         </td>
                                         <td>
-                                            <div className="d-flex justify-content-between">
-                                                {
-                                                    Array.isArray(currInitialTreatments[index]) && currInitialTreatments[index].map((init, j) => (
-                                                        <PopupBox
-                                                            onMainButtonClick={() => getInitialTreatments(item.product_id, index)}
-                                                            className="select-button" data={initialTreatmentData?.[index]}
-                                                            itemName={'title'} currItem={init.title}
-                                                            setSelectedItemId={(id) => handleChange(setCurrInitialTreatments, responseInitialTreatments, index, j, null, 'id', id)}
-                                                        />
-                                                    ))
-                                                }
-                                                <ActionIconButton img="/images/add.svg" className=""
-                                                                  onClick={() => addNewInitialTreatment(index)} />
-                                            </div>
+                                            <TtkInput name="brutto" type="text" value={item.brutto} onChange={(e) => handleFormulation(index, e.target.value, 'brutto')}/>
                                         </td>
                                         <td>
-                                        <div className="d-flex justify-content-between">
-                                            {
-                                                Array.isArray(currHeatTreatments[index]) && currHeatTreatments[index].map((heat, j) => (
-                                                        <PopupBox
-                                                            onMainButtonClick={() => getHeatTreatments(item.product_id, index)}
-                                                            className="select-button" data={heatTreatmentData?.[index]}
-                                                            itemName={'title'} currItem={heat.title}
-                                                            setSelectedItemId={(id) => handleChange(setCurrHeatTreatments, responseHeatTreatments, index, j, null, 'id', id)}
-                                                        />
-                                                    ))
-                                                }
-                                            <ActionIconButton img="/images/add.svg" className=""
-                                                              onClick={() => addNewHeatTreatment(index)} />
-                                            </div>
+                                            <TtkInput name="netto" type="text" value={item.netto} onChange={(e) => handleFormulation(index, e.target.value, 'netto')}/>
                                         </td>
-                                        <td>
-                                            <PopupBox className="select-button" data={packageData} itemName={"title"} currItem={item.package_name}
-                                                      setSelectedItemId={(id) => handleFormulationChange(index, null, "package_id", id)}
-                                            />
-                                        </td>
-                                        <td>
-                                            <TtkInput name="brutto" type="text" value={item.brutto} onChange={(e) => handleFormulationChange(index, e)}/>
-                                        </td>
-                                        <td>
-                                            <TtkInput name="netto" type="text" value={item.netto} onChange={(e) => handleFormulationChange(index, e)}/>
-                                        </td>
-                                        <td onClick={() => deleteRecord(index)}><ActionIconButton img="/images/minus.svg" className=""/></td>
+                                        <td onClick={() => clearInput(index)}><ActionIconButton img="/images/minus.svg" className=""/></td>
                                     </tr>
                                 ))
                                 }
@@ -481,12 +228,7 @@ export default function Page({params }) {
                                             Итого
                                         </b>
                                     </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
+                                    <td />
                                     <td>
                                        <b>
                                             {SumItems("brutto")}
@@ -500,7 +242,7 @@ export default function Page({params }) {
                                 </tr>
                                 </tbody>
                             </table>
-                            <table class="bg-transparent mt-2" border="1">
+                            <table className="bg-transparent mt-2" border="1">
                                 <thead>
                                     <tr>
                                         <th>

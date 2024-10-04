@@ -25,9 +25,7 @@ class UpdateRequest extends FormRequest
             'brutto' => 'required|numeric',
             'netto' => 'required|numeric',
             "product_id" => 'required',
-            "package_id" => 'required',
-            "heat_treatments" => 'array',
-            "initial_treatments" => 'array',
+            "treatment_id" => 'nullable|exists:treatments,id',
         ];
     }
 
@@ -38,6 +36,7 @@ class UpdateRequest extends FormRequest
             'numeric' => 'Поле должно содержать только числа.',
             'digits_between' => 'Поле должно содержать от :min до :max цифр.',
             'date' => 'Поле должно быть действительной датой.',
+            'exist' => 'В поле должен быть действительный id',
         ];
     }
 }

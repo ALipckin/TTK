@@ -19,12 +19,12 @@ const Navigation = ({ user }) => {
             {/* Primary Navigation Menu */}
             <div className="layout-background w-100 d-flex align-items-center">
                 <div className="logo">
-                    <button className="icon-button logo-img"></button>
+                    <button className="icon-button logo-img" />
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center w-100" style={{ marginRight: '20px'}}>
                     <div className="d-flex">
-                        <Sidebar style={{ backgroundImage: 'url(\'/images/menu.svg\')' }}></Sidebar>
+                        <Sidebar style={{ backgroundImage: 'url(\'/images/menu.svg\')' }} />
                         {/*<button className="icon-button"*/}
                         {/*        style={{ backgroundImage: 'url(\'/images/back-arrow.svg\')' }} />*/}
                         {/*<button className="icon-button"*/}

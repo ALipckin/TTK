@@ -12,8 +12,7 @@ const Dropdown = () => {
     return (
         <div className="main-div">
             <button onClick={toggleDropdown} className="main-button"
-                    style={{ backgroundImage: 'url(\'/images/profile.svg\')' }}>
-            </button>
+                    style={{ backgroundImage: 'url(\'/images/profile.svg\')' }} />
             {isOpen && (
                 <div className="window">
                     <button className="button" onClick={logout}>
