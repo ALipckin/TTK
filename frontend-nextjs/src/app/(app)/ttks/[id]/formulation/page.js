@@ -225,7 +225,7 @@ export default function Page({params }) {
                                 <tr scope="row" className="mb-4" >
                                     <td className='text-end'>
                                         <b>
-                                            Итого
+                                            Итого, выход на порцию:
                                         </b>
                                     </td>
                                     <td />
@@ -241,21 +241,6 @@ export default function Page({params }) {
                                     </td>
                                 </tr>
                                 </tbody>
-                            </table>
-                            <table className="bg-transparent mt-2" border="1">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Выход на порцию
-                                        </th>
-                                        <th>
-                                            -
-                                        </th>
-                                        <th>
-                                            3.4
-                                        </th>
-                                    </tr>
-                                </thead>
                             </table>
                             <div className="mt-1 mb-1 d-flex justify-content-center flex-column text-center">
                                 {Object.keys(errors).map(key => (
