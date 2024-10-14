@@ -1,69 +1,71 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './MultiSelect.css';
+import React, { useEffect, useRef, useState } from 'react'
+import './MultiSelect.css'
 
 const MultiplySelectDropdown = ({ items, itemName, selectedCategories, setSelectedCategories }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedNames, setSelectedNames] = useState('');
-    const dropdownRef = useRef(null);
+    const [isOpen, setIsOpen] = useState(false)
+    const [selectedNames, setSelectedNames] = useState('')
+    const dropdownRef = useRef(null)
 
     useEffect(() => {
-        const names = getSelectedNames(items, selectedCategories);
-        setSelectedNames(names);
-    }, [selectedCategories, items]);
+        const names = getSelectedNames(items, selectedCategories)
+        setSelectedNames(names)
+    }, [selectedCategories, items])
 
     function getSelectedNames(items, selectedCategories) {
-        let selectedNames = [];
+        let selectedNames = []
+
         function traverse(item) {
             if (selectedCategories.includes(item.id)) {
-                selectedNames.push(item[itemName]);
+                selectedNames.push(item[itemName])
             }
 
             if (item.children && Array.isArray(item.children)) {
-                item.children.forEach(child => traverse(child));
+                item.children.forEach(child => traverse(child))
             }
         }
+
         if (Array.isArray(items)) {
-            items.forEach(item => traverse(item));
+            items.forEach(item => traverse(item))
         }
-        return selectedNames.join(', ');
+        return selectedNames.join(', ')
     }
 
     const handleCategoryChange = (id) => {
-        const isSelected = selectedCategories.includes(id);
+        const isSelected = selectedCategories.includes(id)
         if (isSelected) {
-            const updatedItems = selectedCategories.filter(itemId => itemId !== id);
-            const childrenIds = getAllChildrenIds(id);
-            const filtered = updatedItems.filter(itemId => !childrenIds.includes(itemId));
-            setSelectedCategories(filtered);
+            const updatedItems = selectedCategories.filter(itemId => itemId !== id)
+            const childrenIds = getAllChildrenIds(id)
+            const filtered = updatedItems.filter(itemId => !childrenIds.includes(itemId))
+            setSelectedCategories(filtered)
         } else {
-            const updatedItems = [...selectedCategories, id];
-            const childrenIds = getAllChildrenIds(id);
-            setSelectedCategories([...updatedItems, ...childrenIds]);
+            const updatedItems = [...selectedCategories, id]
+            const childrenIds = getAllChildrenIds(id)
+            setSelectedCategories([...updatedItems, ...childrenIds])
         }
-    };
+    }
 
     const getAllChildrenIds = (parentId) => {
-        const parentCategory = items.find(category => category.id === parentId);
-        if (!parentCategory || !parentCategory.children) return [];
-        const childrenIds = parentCategory.children.map(child => child.id);
+        const parentCategory = items.find(category => category.id === parentId)
+        if (!parentCategory || !parentCategory.children) return []
+        const childrenIds = parentCategory.children.map(child => child.id)
         childrenIds.forEach(childId => {
-            childrenIds.push(...getAllChildrenIds(childId));
-        });
-        return childrenIds;
-    };
+            childrenIds.push(...getAllChildrenIds(childId))
+        })
+        return childrenIds
+    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsOpen(false);
+                setIsOpen(false)
             }
-        };
+        }
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside)
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
 
     const renderCategoryTree = (categories, depth = 0) => {
         return categories.map((category) => (
@@ -81,8 +83,8 @@ const MultiplySelectDropdown = ({ items, itemName, selectedCategories, setSelect
                     <div>{renderCategoryTree(category.children, depth + 1)}</div>
                 )}
             </div>
-        ));
-    };
+        ))
+    }
 
     return (
         <div className="position-relative" ref={dropdownRef}>
@@ -100,7 +102,7 @@ const MultiplySelectDropdown = ({ items, itemName, selectedCategories, setSelect
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default MultiplySelectDropdown;
+export default MultiplySelectDropdown

@@ -21,10 +21,8 @@ class TtkController extends Controller
         $data = $request->validated();
         $page = $data['page'] ?? 0;
         $perPage = $data['perPage'] ?? 10;
-        Log::info("request = ". $request);
         $category_id = $request->input("category_id", []);
         $filter = app()->make(TtkFilter::class, ['queryParams' => array_filter($data)]);
-        Log::info("queryParams = ", array_filter($data));
         $ttks = Ttk::filter($filter)->where('public', 1)->paginate($perPage, ['*'], 'page', $page);
         $collection = TTKResource::collection($ttks);
         $paginationData = [
@@ -93,15 +91,12 @@ class TtkController extends Controller
 
     public function destroy(ttk $ttk)
     {
-        Log::info("deleting");
-        Log::info("deleting ttk with id = " . $ttk);
         DB::beginTransaction(); // Начало транзакции
         try {
             // Получаем все связанные записи
             $records = $ttk->getAllRelatedRecords(type: 'model');
             foreach ($records as $record) {
                 foreach ($record as $item) {
-                    Log::info("item = " . $item . " record type = " . get_class($item));
                 }
                 //Log::info("record type = " . get_class($record) );
             }
@@ -109,7 +104,7 @@ class TtkController extends Controller
             // Удаляем все связанные записи
             foreach ($records as $record) {
                 foreach ($record as $item) {
-                    Log::info("deleting record = " . $item);
+                    //Log::info("deleting record = " . $item);
                     $item->delete();
                 }
                 //if ($record instanceof \Illuminate\Database\Eloquent\Model) {
