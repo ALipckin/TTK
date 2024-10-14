@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Filters\ProductFilter;
+use App\Http\Filters\TtkFilter;
 use App\Http\Requests\TTK\StoreRequest;
 use App\Http\Resources\TTK\TTKResource;
 use App\Models\Requirement;
@@ -21,7 +21,10 @@ class TtkController extends Controller
         $data = $request->validated();
         $page = $data['page'] ?? 0;
         $perPage = $data['perPage'] ?? 10;
-        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+        Log::info("request = ". $request);
+        $category_id = $request->input("category_id", []);
+        $filter = app()->make(TtkFilter::class, ['queryParams' => array_filter($data)]);
+        Log::info("queryParams = ", array_filter($data));
         $ttks = Ttk::filter($filter)->where('public', 1)->paginate($perPage, ['*'], 'page', $page);
         $collection = TTKResource::collection($ttks);
         $paginationData = [
@@ -41,16 +44,43 @@ class TtkController extends Controller
 
     public function categories_index()
     {
-        // Получение всех категорий с полями 'id' и 'title'
-        $categories = TtkCategory::select('id', 'name')->get();
+        $categories = TtkCategory::select('id', 'name', 'parent_id')->get();
+        $tree = $this->buildTree($categories);
 
         return response()->json([
             'status' => true,
             'message' => "Ttk categories data",
-            'data' => $categories,
+            'data' => $tree,
         ], 200);
     }
+    function buildTree($categories) {
+        // Группируем категории по parent_id
+        $grouped = $categories->groupBy('parent_id');
 
+        // Строим дерево начиная с корневых категорий (у которых parent_id == null)
+        $rootCategories = $grouped->get(null, collect()); // Получаем корневые категории (parent_id == null)
+
+        return $this->buildBranch($grouped, $rootCategories);
+    }
+
+    function buildBranch($grouped, $categories) {
+        $branch = [];
+
+        foreach ($categories as $category) {
+            // Если есть дочерние элементы
+            if (isset($grouped[$category->id])) {
+                // Рекурсивно строим дерево для дочерних элементов
+                $category->children = $this->buildBranch($grouped, $grouped[$category->id]);
+            } else {
+                // Если нет детей, то устанавливаем пустой массив для children
+                $category->children = [];
+            }
+
+            $branch[] = $category;
+        }
+
+        return $branch;
+    }
     public function publish(ttk $ttk)
     {
         $ttk->public = 1;

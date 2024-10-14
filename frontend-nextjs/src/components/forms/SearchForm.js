@@ -85,7 +85,6 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, categori
               }, 600);
       };
 
-
     const search = async () => {
         try {
             const params = new URLSearchParams();
@@ -94,11 +93,10 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, categori
             if (searchVal) {
                 params.append(itemName, searchVal);
             }
-
-            // Проверка и добавление selectedCategories
+            // Проверка и добавление selectedCategories с квадратными скобками
             if (selectedCategories && selectedCategories.length > 0) {
                 selectedCategories.forEach((item) => {
-                    params.append('category_id', item);
+                    params.append('category_id[]', item); // Добавляем параметр с []
                 });
             }
 
@@ -107,15 +105,22 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, categori
                 const response = await axios.get(`${apiRoute}?${params.toString()}`, {
                     withCredentials: true,
                 });
-                setData(response.data.data);
-            }
-            else{
-                getTtks()
+
+                // Проверка на существование данных в ответе
+                if (response.data && response.data.data) {
+                    setData(response.data.data);
+                } else {
+                    setError('Данные не найдены');
+                }
+            } else {
+                getTtks(); // Вызов другого метода, если нет параметров
             }
         } catch (err) {
-            setError(err);
+            setError(err); // Устанавливаем ошибку
         }
-    }
+    };
+
+
 
 
     return (
@@ -134,17 +139,18 @@ const SearchForm = ({header="Список", itemName="name", itemRoute, categori
                         placeholder="Введите название"
                     />{
                         categoriesRoute ?
-                        <div className="row d-flex justify-content-start col-12">
-                            <WideButton type="button" onClick={search}>Поиск</WideButton>
-                            <div className="mb-3">
-                                <p className="p-1 m-0">Категории:</p>
-                                <MultiSelectDropdown
-                                    items={categories} selectedItems={selectedCategories} setSelectedItems={setSelectedCategories} />
+                            <div className="row d-flex justify-content-start col-12">
+                                <WideButton type="button" onClick={search}>Поиск</WideButton>
+                                <div className="mb-3">
+                                    <p className="p-1 m-0">Категории:</p>
+                                    <MultiSelectDropdown
+                                        items={categories} itemName={"name"} selectedCategories={selectedCategories}
+                                        setSelectedCategories={setSelectedCategories} />
+                                </div>
                             </div>
-                        </div>
-                        : null
-                    }
-          
+                            : null
+                }
+
                     <div className="row flex-column col-md-12">
                         {data.map((item, index) => (
                             <GreyCard

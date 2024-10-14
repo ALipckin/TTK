@@ -23,7 +23,7 @@ class FilterRequest extends FormRequest
     {
         return [
             'name'          => 'string',
-            'category_id'   =>  'numeric',
+            'category_id'   =>  '',
         ];
     }
 

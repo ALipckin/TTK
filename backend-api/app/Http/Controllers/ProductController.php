@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Models\Treatment;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -31,8 +32,11 @@ class ProductController extends Controller
         $data = $request->all();
         $page = $data['page'] ?? 0;
         $perPage = $data['perPage'] ?? 10;
-        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+        $category_id = $request->input("category_id", []);
+        Log::info("product category_id  =". json_encode($category_id));
+        Log::info("request->all()". json_encode($request->all()));
 
+        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
         $products = Product::filter($filter)->where('user_id', null)->paginate($perPage, ['*'], 'page', $page);
         $collection = ProductResource::collection($products);
         $paginationData = [

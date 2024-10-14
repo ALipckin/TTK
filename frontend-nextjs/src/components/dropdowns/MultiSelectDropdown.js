@@ -1,16 +1,55 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './MultiSelect.css';
 
-const MultiplySelectDropdown = ({ items, selectedItems, setSelectedItems }) => {
+const MultiplySelectDropdown = ({ items, itemName, selectedCategories, setSelectedCategories }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [selectedNames, setSelectedNames] = useState('');
     const dropdownRef = useRef(null);
 
-    const handleCategoryChange = (id) => {
-        const updatedItems = selectedItems.includes(id)
-            ? selectedItems.filter((itemId) => itemId !== id)
-            : [...selectedItems, id];
+    useEffect(() => {
+        const names = getSelectedNames(items, selectedCategories);
+        setSelectedNames(names);
+    }, [selectedCategories, items]);
 
-        setSelectedItems(updatedItems);
+    function getSelectedNames(items, selectedCategories) {
+        let selectedNames = [];
+        function traverse(item) {
+            if (selectedCategories.includes(item.id)) {
+                selectedNames.push(item[itemName]);
+            }
+
+            if (item.children && Array.isArray(item.children)) {
+                item.children.forEach(child => traverse(child));
+            }
+        }
+        if (Array.isArray(items)) {
+            items.forEach(item => traverse(item));
+        }
+        return selectedNames.join(', ');
+    }
+
+    const handleCategoryChange = (id) => {
+        const isSelected = selectedCategories.includes(id);
+        if (isSelected) {
+            const updatedItems = selectedCategories.filter(itemId => itemId !== id);
+            const childrenIds = getAllChildrenIds(id);
+            const filtered = updatedItems.filter(itemId => !childrenIds.includes(itemId));
+            setSelectedCategories(filtered);
+        } else {
+            const updatedItems = [...selectedCategories, id];
+            const childrenIds = getAllChildrenIds(id);
+            setSelectedCategories([...updatedItems, ...childrenIds]);
+        }
+    };
+
+    const getAllChildrenIds = (parentId) => {
+        const parentCategory = items.find(category => category.id === parentId);
+        if (!parentCategory || !parentCategory.children) return [];
+        const childrenIds = parentCategory.children.map(child => child.id);
+        childrenIds.forEach(childId => {
+            childrenIds.push(...getAllChildrenIds(childId));
+        });
+        return childrenIds;
     };
 
     useEffect(() => {
@@ -26,11 +65,24 @@ const MultiplySelectDropdown = ({ items, selectedItems, setSelectedItems }) => {
         };
     }, []);
 
-    const selectedNames = Array.isArray(items)   
-    ? items.filter(({ id }) => selectedItems.includes(id))  
-           .map(({ title }) => title)  
-           .join(', ')  
-    : '';  
+    const renderCategoryTree = (categories, depth = 0) => {
+        return categories.map((category) => (
+            <div key={category.id} style={{ paddingLeft: `${depth * 20}px` }}>
+                <label className="multi-dropdown-item d-flex align-items-center p-2">
+                    <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(category.id)}
+                        onChange={() => handleCategoryChange(category.id)}
+                        className="me-2"
+                    />
+                    {category[itemName]}
+                </label>
+                {category.children && category.children.length > 0 && (
+                    <div>{renderCategoryTree(category.children, depth + 1)}</div>
+                )}
+            </div>
+        ));
+    };
 
     return (
         <div className="position-relative" ref={dropdownRef}>
@@ -40,22 +92,11 @@ const MultiplySelectDropdown = ({ items, selectedItems, setSelectedItems }) => {
                 value={selectedNames}
                 onClick={() => setIsOpen(!isOpen)}
                 placeholder="Выберите элементы"
-                className="form-control multi-dropdown-width"
+                className="form-control col-8"
             />
-
             {isOpen && (
-                <div className="multi-dropdown-menu position-absolute bg-white border rounded shadow-lg mt-1 multi-dropdown-width">
-                    {Array.isArray(items) && items.map(({ id, title }) => (
-                        <label key={id} className="multi-dropdown-item d-flex align-items-center p-2">
-                            <input
-                                type="checkbox"
-                                checked={selectedItems.includes(id)}
-                                onChange={() => handleCategoryChange(id)}
-                                className="me-2"
-                            />
-                            {title}
-                        </label>
-                    ))}
+                <div className="multi-dropdown-menu position-absolute bg-white border rounded shadow-lg mt-1">
+                    {Array.isArray(items) && renderCategoryTree(items)}
                 </div>
             )}
         </div>
