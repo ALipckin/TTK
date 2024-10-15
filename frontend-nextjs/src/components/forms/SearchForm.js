@@ -155,14 +155,27 @@ const SearchForm = ({ header = 'Список', itemName = 'name', itemRoute, cat
                 }
 
                     <div className="row flex-column col-md-12">
-                        {data.map((item, index) => (
-                            <GreyCard
-                                key={index}
-                                title={item[itemName]}
-                                href={itemRoute ? `${itemRoute}/${item.id}` : `${currPath}/${item.id}`}
-                                data={item}
-                            />
-                        ))}
+
+                        {data[0].user_name ?
+                            data.map((item, index) => (
+                                <GreyCard
+                                    key={index}
+                                    title={item[itemName]}
+                                    href={itemRoute ? `${itemRoute}/${item.id}` : `${currPath}/${item.id}`}
+                                    data={item}
+                                    children={<p>Автор: <a className={"title"} href={`/profile/${item.user_id}`}>{item.user_name}</a></p>}
+                                />
+                            ))
+                            :
+                            data.map((item, index) => (
+                                <GreyCard
+                                    key={index}
+                                    title={item[itemName]}
+                                    href={itemRoute ? `${itemRoute}/${item.id}` : `${currPath}/${item.id}`}
+                                    data={item}
+                                />
+                            ))
+                        }
                     </div>
                     {/* Пагинация */}
                     <Pagination pagination={pagination} handlePageChange={handlePageChange} />

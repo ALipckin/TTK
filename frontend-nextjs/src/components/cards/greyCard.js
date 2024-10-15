@@ -2,7 +2,7 @@ import React from 'react'
 import './greyCard.css'
 import { redirect } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-function GreyCard({ title, actions, onActionClick, actionRoute, href}) {
+function GreyCard({ title, actions, onActionClick, actionRoute, href, children}) {
     const id = 0
     const router = useRouter();
     return (
@@ -16,6 +16,7 @@ function GreyCard({ title, actions, onActionClick, actionRoute, href}) {
                 <div className="card-actions d-flex justify-content-end" style={{ background: 'transparent' }}>
                     {actions && actions.map((ActionComponent, index) => (
                         <ActionComponent key={index} id={id} actionRoute={actionRoute}/>))}
+                    {children}
                 </div>
             </div>
         </div>
