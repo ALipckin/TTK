@@ -10,20 +10,15 @@ import "./profileDataList.css"
 import { useRouter } from 'next/navigation'
 const profileDataList = (data) => {
     data = data.data;
-    var dateObject = new Date(data.created_at);
-    const registrationDate= ("0" + dateObject.getDate()).slice(-2)+ "." +
-        ("0" + (dateObject.getMonth() + 1)).slice(-2) + "."
-        + dateObject.getFullYear();
-    const lastVisit = "10.10.2024" ?? 0;
-    const views = "6" ?? 0;
+    const dayjs = require('dayjs');
+    const registrationDate= dayjs(data.created_at).format('DD.MM.YYYY');
+    const lastVisit = dayjs(data.last_visit).format('DD.MM.YYYY HH:mm')+" msk";
+    const views = data.views ?? 0;
     const worksNum = data.ttk_num ?? 0;
-    const downloadsNum = data.downloads_num ?? 0;
     const draftsNum = data.draft_num ?? 0;
     const productsNum = data.product_num ?? 0;
-    const [newTtkId, setTtkId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [error, setError] = useState(null);
-    const router = useRouter()
+    const router = useRouter();
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -38,9 +33,6 @@ const profileDataList = (data) => {
 
             const response = await axios.post(API_ROUTES.TTKS, {name}, {withCredentials: true});
             const ttkId = response.data.data.id;
-            console.log("data = " + response.data);
-            console.log("data data = " + response.data.data);
-            console.log("id = " + ttkId);
             if(ttkId != undefined) {
                 router.push(`/ttks/${ttkId}`)
                 //redirect(`/ttks/${ttkId}`); // Замените на ваш путь к странице с технико-технологической картой

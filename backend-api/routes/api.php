@@ -16,12 +16,13 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(["middleware" => ["auth:sanctum"]], function () {
-
+Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () {
     Route::get('/products/all_categories', [ProductController::class, "categories_index"]);
 
     Route::group(['prefix' => 'profile', 'middleware' => ['role:user']], function () {
         Route::get('/', [ProfileController::class, "index"])->middleware('role:user');
+        Route::get('/my', [ProfileController::class, "my"])->middleware('role:user');
+        Route::get('/{user}', [ProfileController::class, "show"])->middleware('role:user');
         Route::post('/upload-avatar', [ProfileController::class, 'uploadAvatar']);
     });
 

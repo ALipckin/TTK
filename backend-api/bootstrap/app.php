@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
+            'updateLastVisit' => \App\Http\Middleware\UpdateLastVisit::class,
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'verifyOwner' => \App\Http\Middleware\VerifyOwner::class,
             'checkPublicity' => \App\Http\Middleware\CheckPublicity::class,

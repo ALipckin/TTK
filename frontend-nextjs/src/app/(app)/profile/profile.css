@@ -14,11 +14,13 @@
     margin-right: 30px;
     position: relative; /* Для кнопки загрузки */
     overflow: hidden; /* Чтобы содержимое не выходило за границы */
+    border-radius: 15px; /* Закругляем рамку до круга */
 }
 
 .avatar img {
     object-fit: cover; /* Для правильного масштабирования изображения */
 }
+
 
 .text {
     color: #707070;

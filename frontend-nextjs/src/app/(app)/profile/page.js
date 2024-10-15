@@ -18,7 +18,7 @@ const Page = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(API_ROUTES.GET_PROFILE, {
+                const response = await axios.get(API_ROUTES.GET_MY_PROFILE, {
                     withCredentials: true,
                 });
                 setData(response.data.data);
