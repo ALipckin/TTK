@@ -1,7 +1,8 @@
 ## TTK API
 
 firstable install docker and then
-run these commands inside project directory: 
+run these commands inside project directory:
+
 - docker compose -d
 
 - sudo chmod 777 -R ./storage/
@@ -16,6 +17,7 @@ run these commands inside project directory:
 
 - php artisan migrate
 
+- php artisan storage:link
 
 if you need testing data run: php artisan db:seed
 

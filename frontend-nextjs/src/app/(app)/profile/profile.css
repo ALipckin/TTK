@@ -1,8 +1,9 @@
-.user-card{
+.user-card {
     padding: 0;
     margin-left: 20px;
 }
-.avatar{
+
+.avatar {
     background-color: #D6D6D6;
     border-color: #707070;
     border-style: solid;
@@ -11,17 +12,22 @@
     margin: 0;
     padding: 0;
     margin-right: 30px;
+    position: relative; /* Для кнопки загрузки */
+    overflow: hidden; /* Чтобы содержимое не выходило за границы */
 }
 
-.text{
+.avatar img {
+    object-fit: cover; /* Для правильного масштабирования изображения */
+}
+
+.text {
     color: #707070;
     font-weight: normal;
     font-size: 14px;
     margin: 0;
-
 }
 
-.hr-underline{
+.hr-underline {
     border-top: 2px solid #d6d6d6;
     opacity: 1;
     width: 100%;
@@ -29,7 +35,37 @@
     margin-block: 0;
 }
 
-li{
+li {
     margin: 0;
     padding: 0;
+}
+
+/* Стили для кнопки загрузки нового фото */
+.upload-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Плавный переход */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar:hover .upload-overlay {
+    opacity: 1; /* Показываем кнопку при наведении */
+}
+
+.file-input {
+    display: none; /* Скрываем стандартный инпут */
+}
+
+.upload-label {
+    cursor: pointer;
 }

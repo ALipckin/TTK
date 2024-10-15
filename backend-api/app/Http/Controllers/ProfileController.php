@@ -6,6 +6,8 @@ use App\Models\Downloads;
 use App\Models\Ttk;
 use App\Models\User;
 use App\Models\UserProduct;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -34,6 +36,32 @@ class ProfileController extends Controller
             'status' => true,
             'message' => "Profile data",
             'data' => array_merge($profile, $nums)
+        ], 200);
+    }
+
+    public function uploadAvatar(Request $request)
+    {
+        // Валидация входящего файла
+        $validated = $request->validate([
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',  // Ограничение на тип и размер файла
+        ]);
+        $user = Auth::user();
+        
+        // Получаем файл из запроса
+        $file = $request->file('image');
+
+        // Генерируем уникальное имя для файла
+        $filename = $user->id . '.' . $file->getClientOriginalExtension();
+
+        $file->storeAs('public/img/avatars/', $filename);
+
+        // Обновляем путь к изображению в профиле пользователя
+        $user->avatar = '/storage/img/avatars/' . $filename;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Фото профиля успешно загружено',
+            'profile_picture_url' => asset('storage/img/avatars/' . $filename),
         ], 200);
     }
 }

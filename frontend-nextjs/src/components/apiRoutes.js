@@ -8,6 +8,7 @@ export const API_ROUTES = {
     DOMAIN_NAME: `${DOMAIN}`,
     GET_CSRF_COOKIE: `${DOMAIN}/sanctum/csrf-cookie`,
     GET_PROFILE: `${API_BASE_URL}/profile`,
+    UPLOAD_PROFILE_PICTURE: `${API_BASE_URL}/profile/upload-avatar`,
     GET_PRODUCTS: `${API_BASE_URL}/products`,
     GET_PRODUCTS_CATEGORIES: `${API_BASE_URL}/products/all_categories`,
     GET_TREATMENTS: (id) => `${API_BASE_URL}/products/${id}/treatments`,

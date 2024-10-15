@@ -9,8 +9,6 @@ use App\Http\Controllers\RealizationRequirementController;
 use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
-use App\Http\Controllers\InitialTreatmentController;
-use App\Http\Controllers\HeatTreatmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +22,7 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     Route::group(['prefix' => 'profile', 'middleware' => ['role:user']], function () {
         Route::get('/', [ProfileController::class, "index"])->middleware('role:user');
+        Route::post('/upload-avatar', [ProfileController::class, 'uploadAvatar']);
     });
 
     Route::group(['prefix' => 'products', 'middleware' => ['role:user']], function () {
@@ -86,6 +85,7 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
             Route::post('/{ttk}/formulations', [FormulationController::class, 'store']);
             Route::put('/{ttk}/formulations/{id}', [FormulationController::class, 'createOrUpdate']);
             Route::patch('/{ttk}/formulations/{id}', [FormulationController::class, 'update'])->middleware(['verifyOwner:Ttk,Formulation']);
-            Route::delete('/{ttk}/formulations/{id}', [FormulationController::class, 'destroy'])->middleware(['verifyOwner:Ttk,Formulation']);});
+            Route::delete('/{ttk}/formulations/{id}', [FormulationController::class, 'destroy'])->middleware(['verifyOwner:Ttk,Formulation']);
+        });
     });
 });
