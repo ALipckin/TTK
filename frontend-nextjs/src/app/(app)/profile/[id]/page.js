@@ -7,14 +7,18 @@ import axios from 'axios'
 import ConstItem from '@/app/(app)/profile/constItem'
 import IconItem from '@/app/(app)/profile/iconItem'
 import dayjs from 'dayjs'
-
+import GreyCard from '@/components/cards/greyCard'
+import { redirect } from 'next/navigation'
+import { router } from 'next/client'
+import { useRouter } from 'next/navigation';
 export default function page({ params }) {
-    const [data, setData] = useState(null)
+    const [user, setUser] = useState(null)
+    const [ttks, setTtks] = useState(null)
     const [error, setError] = useState(null)
     const [selectedFile, setSelectedFile] = useState(null)  // Для хранения выбранного файла
     const [avatarUrl, setAvatarUrl] = useState('/images/defaultAvatar.png')  // Ссылка на аватар по умолчанию
     const [isHovered, setIsHovered] = useState(false)  // Для отслеживания наведения на аватар
-
+    const router = useRouter();
     // Получение данных профиля
     useEffect(() => {
         const fetchData = async () => {
@@ -22,10 +26,19 @@ export default function page({ params }) {
                 const response = await axios.get(API_ROUTES.GET_PROFILE(params.id), {
                     withCredentials: true,
                 })
-                setData(response.data.data)
+                setUser(response.data.data)
                 if (response.data.data.avatar) {
                     setAvatarUrl(API_ROUTES.DOMAIN_NAME + response.data.data.avatar)  // Устанавливаем аватар, если он уже есть
                 }
+            } catch (err) {
+                setError(err)
+            }
+
+            try {
+                const responseTtk = await axios.get(API_ROUTES.TTKS +"/?user_id=" + params.id, {
+                    withCredentials: true,
+                })
+                setTtks(responseTtk.data.data)
             } catch (err) {
                 setError(err)
             }
@@ -34,51 +47,14 @@ export default function page({ params }) {
         fetchData()
     }, [])
 
-    // Обработчик выбора файла и автоматическая загрузка
-    const handleFileChange = async (event) => {
-        const file = event.target.files[0]
-        if (file) {
-            setSelectedFile(file)
-            const imageUrl = URL.createObjectURL(file)
-            setAvatarUrl(imageUrl)  // Отображаем превью загруженного файла
-
-            // Автоматическая отправка изображения на сервер после выбора файла
-            const formData = new FormData()
-            formData.append('image', file)
-
-            try {
-                const response = await axios.post(API_ROUTES.UPLOAD_PROFILE_PICTURE, formData, {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                })
-
-                if (response.status === 200) {
-                    alert('Фото профиля успешно загружено!')
-                    setAvatarUrl(response.data.profile_picture_url)  // Обновляем URL аватара
-                } else {
-                    alert('Ошибка при загрузке фото.')
-                }
-            } catch (error) {
-                alert('Ошибка при отправке запроса.')
-                console.error(error)
-            }
-        }
-    }
-
-    if (error) {
-        return <div>Ошибка: {error.message}</div>
-    }
-
-    if (!data) {
-        return <div>Загрузка...</div>
-    }
     return (
+
         <div className="container d-flex justify-content-center text">
+            {user ? (
             <div className="row mt-5 mb-5 d-flex justify-content-center col-md-8">
+
                 <div className="user-card p-0">
-                    <h3 className="mh d-flex align-content-start">{data.name}</h3>
+                    <h3 className="mh d-flex align-content-start">{user.name}</h3>
                     <div className="d-flex justify-content-start">
                         <div
                             className="avatar d-flex justify-content-center align-items-center position-relative"
@@ -89,20 +65,30 @@ export default function page({ params }) {
                         </div>
                     </div>
                 </div>
-
                 <div className="p-0 m-0">
                     <div className="mt-4 d-flex flex-column justify-content-start">
                         <ul className="mb-2 p-0">
-                            <ConstItem title="Дата регистрации" data={dayjs(data.created_at).format('DD.MM.YYYY')} />
+                            <ConstItem title="Дата регистрации" data={dayjs(user.created_at).format('DD.MM.YYYY')} />
                             <ConstItem title="Последний визит"
-                                       data={dayjs(data.last_visit).format('DD.MM.YYYY HH:mm') + ' msk'} />
-                            <ConstItem title="Просмотры" data={data.views} />
-                            <ConstItem title="Количество работ" data={data.ttk_num} />
+                                       data={ user.last_visit ? (dayjs(user.last_visit).format('DD.MM.YYYY HH:mm') + ' msk') : "-"} />
+                            <ConstItem title="Просмотры" data={user.views} />
+                            <ConstItem title="Количество работ" data={user.ttk_num} />
                         </ul>
                     </div>
+                    <div className={"mb-2"}>
+                        {ttks && ttks.map((item, index) => (
+                            <GreyCard
+                                key={index}
+                                title={item.name}
+                                href={`ttks/${item.id}`}
+                                data={item}
+                            />
+                        ))}
+                    </div>
+                    <IconItem title="Показать все работы" img={`/images/picture.svg`} onClick={() => router.push("/ttks?user_id=" + params.id)}/>
                 </div>
-            </div>
+            </div> ) : null}
         </div>
+
     )
 }
-

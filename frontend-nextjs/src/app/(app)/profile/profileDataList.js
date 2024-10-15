@@ -30,14 +30,12 @@ const profileDataList = (data) => {
     const [name, setName] = useState(''); // Используйте useState для хранения значения поля Name
 
     const handleCreateTTK = async () => {
-
             const response = await axios.post(API_ROUTES.TTKS, {name}, {withCredentials: true});
             const ttkId = response.data.data.id;
             if(ttkId != undefined) {
                 router.push(`/ttks/${ttkId}`)
                 //redirect(`/ttks/${ttkId}`); // Замените на ваш путь к странице с технико-технологической картой
             }
-
     };
 
     return (

@@ -156,7 +156,7 @@ const SearchForm = ({ header = 'Список', itemName = 'name', itemRoute, cat
 
                     <div className="row flex-column col-md-12">
 
-                        {data[0].user_name ?
+                        {data && data[0]?.user_name ?
                             data.map((item, index) => (
                                 <GreyCard
                                     key={index}

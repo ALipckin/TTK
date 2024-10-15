@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\UserProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -63,12 +64,12 @@ class ProfileController extends Controller
 
         // Получаем файл из запроса
         $file = $request->file('image');
-
+        Log::info("request = ". json_encode($request));
+        Log::info("file = " . $file);
         // Генерируем уникальное имя для файла
         $filename = $user->id . '.' . $file->getClientOriginalExtension();
 
         $file->storeAs('public/img/avatars/', $filename);
-
         // Обновляем путь к изображению в профиле пользователя
         $user->avatar = '/storage/img/avatars/' . $filename;
         $user->save();
@@ -81,12 +82,16 @@ class ProfileController extends Controller
 
     public function show(User $user)
     {
-        $profile = $user->get(['id', 'name', 'avatar', 'last_visit'])->toArray();
+        $profile = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'avatar' => $user->avatar,
+            'last_visit' => $user->last_visit
+        ];
         $userId = $user->id;
-        //my ttk
-        $ttk = TTK::all()->where('user_id', $userId)->where('public', 1);
-        //my ttks num
-        $ttkNum = $ttk->count();
+        $ttkNum = TTK::where('user_id', $userId)
+            ->where('public', 1)
+            ->count();
         //downloaded ttks
         $downloadsNum = Downloads::all()->where('user_id', $userId)->count();
         //drafts

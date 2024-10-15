@@ -24,6 +24,7 @@ class FilterRequest extends FormRequest
         return [
             'name'          => 'string',
             'category_id'   =>  '',
+            'user_id'       =>  '',
         ];
     }
     public function messages()

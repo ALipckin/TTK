@@ -78,7 +78,7 @@ export default function page({ params }) {
                     )}
                     {data.dry !== null && data.dry !== undefined && (
                         <InfoCard title="Сухость" className="">
-                            {data.dry} % 
+                            {data.dry} %
                         </InfoCard>
                     )}
                     {data.alko !== null && data.alko !== undefined && (

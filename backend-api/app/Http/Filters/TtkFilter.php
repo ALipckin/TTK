@@ -11,22 +11,33 @@ use Illuminate\Support\Facades\Log;
 class TtkFilter extends AbstractFilter
 {
     public const NAME = 'name';
+    public const USER_ID = 'user_id';
     public const CATEGORY_ID = 'category_id';
 
     protected function getCallbacks(): array
     {
         return [
             self::NAME => [$this, self::NAME],
-            self::CATEGORY_ID => [$this, 'categoryId'],
+            self::USER_ID => [$this, self::USER_ID],
+            self::CATEGORY_ID => [$this, 'category_id'],
         ];
     }
-
     public function name(Builder $builder, $value)
     {
         $builder->where('name', 'like', "%{$value}%");
     }
+    public function user_id(Builder $builder, $ids)
+    {
+        Log::info("ids = ". json_encode($ids));
 
-    public function categoryId(Builder $builder, $value)
+        // Убедимся, что $ids является массивом
+        if (!is_array($ids)) {
+            $ids = [$ids]; // Приводим к массиву
+        }
+
+        $builder->whereIn('user_id', $ids);
+    }
+    public function category_id(Builder $builder, $value)
     {
         // Если $value не массив, делаем его массивом
         if (!is_array($value)) {
@@ -34,21 +45,21 @@ class TtkFilter extends AbstractFilter
         }
         $ids = [];
 
-        foreach ($value as $categoryId) {
+        foreach ($value as $category_id) {
             // Получаем все дочерние категории для каждой категории из массива
-            $childCategories = $this->getChildCategories($categoryId);
+            $childCategories = $this->getChildCategories($category_id);
             // Добавляем основную категорию и дочерние в массив $ids
-            $ids = array_merge($ids, [$categoryId], $childCategories);
+            $ids = array_merge($ids, [$category_id], $childCategories);
         }
 
         // Применяем фильтр whereIn для всех категорий
         $builder->whereIn('category_id', $ids);
     }
 
-    private function getChildCategories($categoryId)
+    private function getChildCategories($category_id)
     {
         // Предположим, у вас есть модель Category с методом для получения дочерних категорий
-        $category = TtkCategory::find($categoryId);
+        $category = TtkCategory::find($category_id);
 
         if (!$category) {
             return [];
