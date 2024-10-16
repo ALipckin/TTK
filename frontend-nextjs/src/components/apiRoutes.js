@@ -13,7 +13,7 @@ export const API_ROUTES = {
     GET_PRODUCTS: `${API_BASE_URL}/products`,
     GET_PRODUCTS_CATEGORIES: `${API_BASE_URL}/products/all_categories`,
     GET_TREATMENTS: (id) => `${API_BASE_URL}/products/${id}/treatments`,
-    GET_NE_VALUE: (ttk) => `${API_BASE_URL}/ttks/${ttk}/formulations/ne_value`,
+    GET_NE_VALUE: (ttk) => `${API_BASE_URL}/ttks/${ttk}/ne_value`,
     PUT_FORMULATION: (ttk, formulation) => `${API_BASE_URL}/ttks/${ttk}/formulations/${formulation}`,
     DELETE_FORMULATION: (ttk, formulation) => `${API_BASE_URL}/ttks/${ttk}/formulations/${formulation}`,
     GET_PACKAGES: `${API_BASE_URL}/packages`,

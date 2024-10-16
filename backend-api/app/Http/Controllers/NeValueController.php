@@ -15,69 +15,65 @@ use Illuminate\Support\Facades\Log;
 
 class NeValueController extends Controller
 {
-    public function index(Ttk $Ttk)
-    {
-        $formulations = Formulation::Where('Ttk_id', $Ttk->id)->get();
-        return response()->json([
-            'status' => true,
-            'message' => "requirement data",
-            'data' => FormulationResource::collection($formulations),
-        ], 200);
-    }
-
     public function result($ttk)
     {
         $result = 0;
         $formulations = Formulation::where('ttk_id', $ttk)->get();
         $grams = 100;
 
-        foreach($formulations as  $i => $formulation ) {
+        foreach ($formulations as $i => $formulation) {
             $product = Product::find($formulation->product_id);
             $id = $formulation->id;
             $elementsIndexes = ['protein', 'fat', 'carbs'];
 
             $nutritionalElements[$id]['id'] = $formulation->id;
-            $nutritionalElements[$id]["elems"]['protein'] = $formulation->netto/$grams*$product->protein;
-            $nutritionalElements[$id]["elems"]['fat'] = $formulation->netto/$grams*$product->fat;
-            $nutritionalElements[$id]["elems"]['carbs'] = $formulation->netto/$grams*$product->carbs;
+            $protein = $formulation->netto / $grams * $product->protein;
+            $fat = $formulation->netto / $grams * $product->fat;
+            $carbs = $formulation->netto / $grams * $product->carbs;
+            $nutritionalElements[$id]["elems"]['protein'] = $protein;
+            $nutritionalElements[$id]["elems"]['fat'] = $fat;
+            $nutritionalElements[$id]["elems"]['carbs'] = $carbs;
+            $kcal = ($protein * 4) + ($fat * 9) + ($carbs * 4);
+            $nutritionalElements[$id]["elems"]['kcal'] = round($kcal, 3);
+            $nutritionalElements[$id]["elems"]['kj'] = round($kcal * 4.184, 3);
 
-            $protein = $formulation->netto/$grams*$product->protein;
-
-            foreach ($nutritionalElements[$id]['elems'] as $j => $elem){
+            foreach ($nutritionalElements[$id]['elems'] as $j => $elem) {
                 $result = $elem;
-                $heatTreatments = $formulation->heatTreatment()->where('formulation_id',$formulation->id)->get();
-                if($heatTreatments) {
-                    foreach ($heatTreatments as $item) {
-                        log::info("heat treatment = ". $item);
-                        log::info('item->heat_treatment_id ='. $item->pivot->heat_treatment_id);
-                        $currHeatTreatment = Treatment::find($item->pivot->heat_treatment_id);
-                        log::info('currHeatTreatment'. $currHeatTreatment);
-                        $result -= $result * $currHeatTreatment->loss;
-                    }
+                $currTreatment = $formulation->treatment;
+                $elemName = $j;
+                $result -= $result * $currTreatment->cold / 100;
+                $result -= $result * $currTreatment->hot / 100;
+                if (in_array($elemName, $elementsIndexes)) {
+                    $result -= $result * $currTreatment->$elemName / 100;
                 }
-                $nutritionalElements[$id]['elems'][$j] = $result;
             }
+            $nutritionalElements[$id]['elems'][$j] = $result;
         }
+
         $data = [];
         $sumProtein = 0;
         $sumFat = 0;
         $sumCarbs = 0;
+        $sumKcal = 0;
+        $sumKj = 0;
         foreach ($nutritionalElements as $item) {
-            Log::info("nutritionalElements = ");
-            Log::info(json_encode($nutritionalElements));
             $sumProtein += $item['elems']['protein'];
             $sumFat += $item['elems']['fat'];
             $sumCarbs += $item['elems']['carbs'];
+            $sumKcal += $item['elems']['kcal'];
+            $sumKj += $item['elems']['kj'];
         }
         $data['result']['protein'] = $sumProtein;
         $data['result']['fat'] = $sumFat;
         $data['result']['carbs'] = $sumCarbs;
+        $data['result']['kcal'] = $sumKcal;
+        $data['result']['kj'] = $sumKj;
 
         $data['ne_values'] = array_values($nutritionalElements);
 
         return response()->json([
             'status' => true,
-            'message' => "requirement data",
+            'message' => "ne value data",
             'data' => $data,
         ], 200);
     }

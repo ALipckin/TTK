@@ -19,7 +19,6 @@ export default function page({params}) {
                     const response = await axios.get(API_ROUTES.TTKS + "/" + params.id, {
                         withCredentials: true,
                     })
-                    console.log(response.data)
                     setData(response.data.data)
                 } catch (err) {
                     //router.push('/ttks/my')

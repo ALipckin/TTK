@@ -17,13 +17,8 @@ class Formulation extends Model
         return $this->belongsTo(Ttk::class);
     }
 
-    public function heatTreatment()
+    public function treatment()
     {
-        return $this->belongsToMany(Treatment::class, 'formulations_has_heat_treatments', 'formulation_id', 'heat_treatment_id');
-    }
-
-    public function initialTreatment()
-    {
-        return $this->belongsToMany(InitialTreatment::class, 'formulations_has_initial_treatments', 'formulation_id', 'initial_treatment_id');
+        return $this->belongsTo(Treatment::class);
     }
 }
