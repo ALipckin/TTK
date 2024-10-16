@@ -75,7 +75,6 @@ class DatabaseSeeder extends Seeder
         Header::factory($ttk_number)->create();
         Tp::factory($ttk_number)->create();
         RealizationRequirement::factory($ttk_number)->create();
-        OrgCharacteristic::factory($ttk_number)->create();
         Formulation::factory($ttk_number)->create();;
     }
 }

@@ -31,8 +31,6 @@ class VerifyOwner
      */
     public function handle(Request $request, Closure $next, $baseModelClass = null, $childModelClass = null)
     {
-        log::info("Verifying owner");
-        log::info("Request" . $request);
         $namespace = "App\\Models\\";
         if ($baseModelClass) {
             $baseModelClass = $namespace . $baseModelClass;
@@ -40,7 +38,6 @@ class VerifyOwner
         if ($childModelClass) {
             $childModelClass = $namespace . $childModelClass;
         }
-        log::info("baseModelClass = " . $baseModelClass);
         //log::info("childModelClass = " . $childModelClass);
         $deniedResponse = response()->json([
             'status' => false,
@@ -48,9 +45,8 @@ class VerifyOwner
         ], 403);
         //Log::info("baseModelClass = " . $baseModelClass);
         //Log::info("request = " . $request);
-        if($request->route('id')){
+        if ($request->route('id')) {
             $id = $request->route('id');
-            Log::info("id = " . $id);
             if ($id && $childModelClass) {
                 $model = $childModelClass::where('id', $id)->first();
                 $ttkId = $model->ttk_id;
@@ -70,21 +66,18 @@ class VerifyOwner
             }
         }
 
-            $ttkId = $request->route('ttk') ?? null;
-            Log::info("ttk = ". $ttkId);
-            if ($ttkId) {
-                if($ttkId instanceof Ttk){
-                    $ttk = $ttkId;
-                    Log::info("ttk = ". $ttk);
-                }
-                else {
-                    $ttk = $baseModelClass::findOrFail($ttkId);
-                }
-                if (!Gate::allows('changeRecord', $ttk)) {
-                    return ($this->deniedResponse);
-                }
+        $ttkId = $request->route('ttk') ?? null;
+        if ($ttkId) {
+            if ($ttkId instanceof Ttk) {
+                $ttk = $ttkId;
+            } else {
+                $ttk = $baseModelClass::findOrFail($ttkId);
             }
-            return $next($request);
+            if (!Gate::allows('changeRecord', $ttk)) {
+                return ($this->deniedResponse);
+            }
         }
+        return $next($request);
+    }
 
 }

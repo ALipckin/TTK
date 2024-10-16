@@ -10,6 +10,7 @@ use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
 use App\Http\Controllers\NeValueController;
+use App\Http\Controllers\OrgCharacteristicController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -95,6 +96,14 @@ Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () 
             Route::put('/{ttk}/formulations/{id}', [FormulationController::class, 'createOrUpdate']);
             Route::patch('/{ttk}/formulations/{id}', [FormulationController::class, 'update'])->middleware(['verifyOwner:Ttk,Formulation']);
             Route::delete('/{ttk}/formulations/{id}', [FormulationController::class, 'destroy'])->middleware(['verifyOwner:Ttk,Formulation']);
+        });
+
+        //Показатели качества и безопасности
+        //Органолептические показатели
+        Route::group(['middleware' => ['role:user']], function () {
+            Route::get('/{ttk}/org_characteristics', [OrgCharacteristicController::class, 'show']);
+            Route::put('/{ttk}/org_characteristics', [OrgCharacteristicController::class, 'createOrUpdate'])->middleware(['verifyOwner:Ttk']);
+            Route::delete('/{ttk}/org_characteristics', [OrgCharacteristicController::class, 'destroy'])->middleware(['verifyOwner:Ttk,OrgCharacteristic']);
         });
 
         //Пищевая и энергетическая ценность

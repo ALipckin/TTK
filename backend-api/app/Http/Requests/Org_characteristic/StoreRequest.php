@@ -11,7 +11,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,11 +22,10 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'look' => 'required|string',
-            'color' => 'required|string',
-            'consistency' =>'required|string',
-            'flavor' =>'required|string',
-            'ttk_id' =>'',
+            'view' => 'string',
+            'color' => 'string',
+            'cons' => 'string',
+            'taste' => 'string',
         ];
     }
 }

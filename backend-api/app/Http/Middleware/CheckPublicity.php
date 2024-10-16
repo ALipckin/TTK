@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Ttk;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class CheckPublicity
 {
@@ -16,8 +18,9 @@ class CheckPublicity
     public function handle(Request $request, Closure $next)
     {
         $ttk = $request->route('ttk');
-
-        //$ttk = \App\Models\Ttk::findOrFail($ttkId);
+        if (!$ttk instanceof Ttk) {
+            $ttk = \App\Models\Ttk::findOrFail($ttk);
+        }
         if ($ttk->public !== 1) {
             if (!Gate::allows('changeRecord', $ttk)) {
                 return response()->json([

@@ -9,6 +9,7 @@ const TtkInputBox = ({
   value = '',
     onDeleteButton = false,
   errors,
+    type,
   disabled = false,
   titleClassName = '',
   className = '',
@@ -29,6 +30,7 @@ const TtkInputBox = ({
         <TtkInput
           title={title}
           value={value}
+          type={type}
           disabled={disabled}
           className={className}
           onChange={onChange}

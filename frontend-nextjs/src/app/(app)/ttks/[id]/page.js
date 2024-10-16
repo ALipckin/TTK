@@ -54,7 +54,7 @@ export default function page({params}) {
                         <ul className="mt-3">
                             <b>Показатели качества и безопасности</b>
                             <div className="ml">
-                                <li><a className="link">Органолептические показатели</a></li>
+                                <li><a className="link" href={`/ttks/${params.id}/org-characteristics/`}>Органолептические показатели</a></li>
                                 <li><a className="link">Физико-химические показатели</a></li>
                                 <li><a className="link">Микробиологические показатели</a></li>
                             </div>

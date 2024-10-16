@@ -10,8 +10,10 @@ class Ttk extends Model
 {
     use HasFactory;
     use Filterable;
-    protected $fillable=['image'];
+
+    protected $fillable = ['image'];
     public $timestamps = false;
+
     public function headers()
     {
         return $this->hasMany(Header::class);
@@ -26,6 +28,7 @@ class Ttk extends Model
     {
         return $this->hasMany(QualityRequirement::class);
     }
+
     public function formulations()
     {
         return $this->hasMany(Formulation::class);
@@ -35,6 +38,7 @@ class Ttk extends Model
     {
         return $this->hasMany(Tp::class);
     }
+
     public function realizationRequirement()
     {
         return $this->hasMany(RealizationRequirement::class);
@@ -42,8 +46,9 @@ class Ttk extends Model
 
     public function orgCharacteristics()
     {
-        return $this->hasMany(OrgCharacteristic::class);
+        return $this->hasMany(OrgCharacteristic::class)->first();
     }
+
     public function formulationHeatTreatment()
     {
         return $this->hasMany(FormulationHeatTreatment::class);

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('org_characteristics', function (Blueprint $table) {
             $table->id();
-            $table->string('look', 45)->nullable();
-            $table->string('color', 45)->nullable();
-            $table->string('consistency', 45)->nullable();
-            $table->string('flavor', 60)->nullable();
+            $table->text('view')->nullable();
+            $table->string('color')->nullable();
+            $table->string('cons')->nullable();
+            $table->string('taste')->nullable();
             $table->unsignedBigInteger('ttk_id')->index('fk_org_characteristics_ttks_idx');
             $table->foreign(['ttk_id'], 'fk_org_characteristics_ttks')
                 ->references(['id'])->on('ttks')
