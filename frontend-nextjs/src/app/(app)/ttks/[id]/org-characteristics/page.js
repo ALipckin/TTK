@@ -7,6 +7,7 @@ import WideButton from '@/components/buttons/WideButton';
 import '../data.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
+import SimpleInput from '@/components/Inputs/SimpleInput'
 
 export default function Page({ params }) {
     const [data, setData] = useState({
@@ -72,40 +73,10 @@ export default function Page({ params }) {
                         <h3 className="mh text-center title">Органолептические показатели</h3>
                         <div className="row flex-column">
                             <div className="mb-4">
-                                <InputBox
-                                    name="view"
-                                    placeholder="Внешний вид"
-                                    title="Внешний вид"
-                                    value={data.view}
-                                    type="text"
-                                    onChange={handleChange}
-                                    errors={errors.view}
-                                />
-
-                                <InputBox
-                                    name="color"
-                                    placeholder="Цвет"
-                                    title="Цвет"
-                                    value={data.color}
-                                    onChange={handleChange}
-                                    errors={errors.color}
-                                />
-                                <InputBox
-                                    name="cons"
-                                    placeholder="Консистенция"
-                                    title="Консистенция"
-                                    value={data.cons}
-                                    onChange={handleChange}
-                                    errors={errors.cons}
-                                />
-                                <InputBox
-                                    name="taste"
-                                    placeholder="Вкус и запах"
-                                    title="Вкус и запах"
-                                    value={data.taste}
-                                    onChange={handleChange}
-                                    errors={errors.taste}
-                                />
+                                <SimpleInput title="Внешний вид:" name="view" value={data.view} onChange={handleChange} errors={errors.view} />
+                                <SimpleInput title="Цвет:" name="color" value={data.color} onChange={handleChange} errors={errors.color} />
+                                <SimpleInput title="Консистенция:" name="cons" value={data.cons} onChange={handleChange} errors={errors.cons} />
+                                <SimpleInput title="Вкус и запах:" name="taste" value={data.taste} onChange={handleChange} errors={errors.taste} />
                             </div>
                             <div className="d-flex justify-content-center">
                                 <WideButton type="button" text="Сохранить" onClick={submitForm} />
