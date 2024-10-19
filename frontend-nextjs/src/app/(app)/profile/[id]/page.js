@@ -80,7 +80,7 @@ export default function page({ params }) {
                             <GreyCard
                                 key={index}
                                 title={item.name}
-                                href={`ttks/${item.id}`}
+                                href={`/ttks/${item.id}`}
                                 data={item}
                             />
                         ))}

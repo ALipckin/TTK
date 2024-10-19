@@ -41,9 +41,9 @@
     font-size: 14px;
     font-weight: bold;
     color: #707070;
-    margin: 0;
     padding: 0;
     white-space: nowrap;
+    margin-bottom: 15px
 }
 .ml-1{
    margin-left: 10px;

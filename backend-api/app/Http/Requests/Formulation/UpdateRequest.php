@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Formulation;
 
+use App\Models\Treatment;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -24,11 +25,24 @@ class UpdateRequest extends FormRequest
         return [
             'brutto' => 'required|numeric',
             'netto' => 'required|numeric',
-            "product_id" => 'required',
+            'product_id' => 'required|exists:products,id',
             "treatment_id" => 'nullable|exists:treatments,id',
         ];
     }
-
+    /**
+     * Дополнительная логика проверки после стандартной валидации.
+     */
+    public function withValidator($validator)
+    {
+        // Добавляем кастомную проверку
+        $validator->after(function ($validator) {
+            $treatment = Treatment::find($this->treatment_id);
+            if ($treatment && $treatment->product_id != $this->product_id) {
+                // Добавляем ошибку, если product_id не соответствует
+                $validator->errors()->add('product_id', 'Выбранный продукт не имеет выбранную обработку');
+            }
+        });
+    }
     public function messages()
     {
         return [

@@ -107,8 +107,8 @@ Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () 
         });
 
         //Пищевая и энергетическая ценность
-        Route::group(['middleware' => ['role:user']], function () {
-            Route::get('/{ttk}/ne_value', [NeValueController::class, 'result']);
-        });
+        Route::get('/{ttk}/ne_value', [NeValueController::class, 'result']);
+        Route::get('/{ttk}/phys_chem_params', [\App\Http\Controllers\PhysChemParamsController::class, 'index']);
+
     });
 });

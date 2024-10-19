@@ -49,12 +49,17 @@ class FormulationController extends Controller
     {
         //$formulation = $request->route('requirement') ?? null;
         $data = $request->validated();
+
         $formulation = Formulation::find($formulation);
         if (!$formulation) {
             return response()->json([
                 'status' => false,
                 'message' => "Formulation not found",
             ], 404);
+        }
+        if (isset($data['product_id']) && $formulation->product_id != $data['product_id']) {
+            $formulation->treatment_id = null;
+            $formulation->save();
         }
         // Обновить данные Formulation
         $formulation->update($data);

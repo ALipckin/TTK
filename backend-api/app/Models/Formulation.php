@@ -21,4 +21,14 @@ class Formulation extends Model
     {
         return $this->belongsTo(Treatment::class);
     }
+
+    public function getPortionNettoGrams($ttk_id)
+    {
+        $formulations = Formulation::where('ttk_id', $ttk_id)->get();
+        $portionGrams = 0;
+        foreach ($formulations as $key => $formulation) {
+            $portionGrams += $formulation->netto;
+        }
+        return $portionGrams;
+    }
 }

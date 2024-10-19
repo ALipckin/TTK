@@ -15,6 +15,7 @@ export const API_ROUTES = {
     GET_TREATMENTS: (id) => `${API_BASE_URL}/products/${id}/treatments`,
     GET_NE_VALUE: (ttk) => `${API_BASE_URL}/ttks/${ttk}/ne_value`,
     ORG_CHARACTERISTICS: (ttk) => `${API_BASE_URL}/ttks/${ttk}/org_characteristics`,
+    PHYS_CHEM_PARAMS: (ttk) => `${API_BASE_URL}/ttks/${ttk}/phys_chem_params`,
     PUT_FORMULATION: (ttk, formulation) => `${API_BASE_URL}/ttks/${ttk}/formulations/${formulation}`,
     DELETE_FORMULATION: (ttk, formulation) => `${API_BASE_URL}/ttks/${ttk}/formulations/${formulation}`,
     GET_PACKAGES: `${API_BASE_URL}/packages`,
