@@ -1,10 +1,11 @@
 body {
     font-family: Arial, sans-serif;
 }
-select {
-    margin-top: 20px;
-    padding: 8px;
-    font-size: 16px;
+table {
+    border-collapse: collapse; /* Объединяет границы ячеек в одну линию */
+    border-left: none !important;
+    border-right: none !important;
+    width: 100%; /* Пример ширины таблицы */
 }
 th, td {
     color: #646464;

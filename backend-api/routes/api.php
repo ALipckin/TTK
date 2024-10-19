@@ -11,6 +11,8 @@ use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
 use App\Http\Controllers\NeValueController;
 use App\Http\Controllers\OrgCharacteristicController;
+use App\Http\Controllers\PhysChemParamsController;
+use App\Http\Controllers\MicrobioParamsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -108,7 +110,7 @@ Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () 
 
         //Пищевая и энергетическая ценность
         Route::get('/{ttk}/ne_value', [NeValueController::class, 'result']);
-        Route::get('/{ttk}/phys_chem_params', [\App\Http\Controllers\PhysChemParamsController::class, 'index']);
-
+        Route::get('/{ttk}/phys_chem_params', [PhysChemParamsController::class, 'index']);
+        Route::get('/{ttk}/microbio_params', [MicrobioParamsController::class, 'index']);
     });
 });

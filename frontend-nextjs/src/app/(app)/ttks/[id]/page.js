@@ -56,7 +56,7 @@ export default function page({params}) {
                             <div className="ml">
                                 <li><a className="link" href={`/ttks/${params.id}/org-characteristics/`}>Органолептические показатели</a></li>
                                 <li><a className="link" href={`/ttks/${params.id}/phys-chem-params/`}>Физико-химические показатели</a></li>
-                                <li><a className="link">Микробиологические показатели</a></li>
+                                <li><a className="link" href={`/ttks/${params.id}/microbio-params/`}>Микробиологические показатели</a></li>
                             </div>
                         </ul>
                         <a className="link" href={`/ttks/${params.id}/ne-value/`}>Пищевая и энергетическая ценность</a>
