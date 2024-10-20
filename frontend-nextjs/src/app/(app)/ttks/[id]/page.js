@@ -41,8 +41,8 @@ export default function page({params}) {
     return (
         <div className="container d-flex justify-content-center">
             <div className="row mt-5 mb-5 d-flex justify-content-center col-md-12">
-                <h3 className="mh">ТТК</h3>
                 <h4 className="mh">{data.name}</h4>
+                <h4 className="mh">{data.category_name}</h4>
                 <div className="mt-4 d-flex flex-column justify-content-center">
                     <div className="row flex-column col-md-12">
                         <a className="link" href={`/ttks/${params.id}/header/`}>Шапка документа</a>

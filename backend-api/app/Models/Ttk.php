@@ -11,9 +11,13 @@ class Ttk extends Model
     use HasFactory;
     use Filterable;
 
-    protected $fillable = ['image'];
+    protected $fillable = ['image', 'category_id', 'name', 'public', 'isDraft', 'user_id'];
     public $timestamps = false;
 
+    public function category()
+    {
+        return $this->belongsTo(TtkCategory::class);
+    }
     public function headers()
     {
         return $this->hasMany(Header::class);

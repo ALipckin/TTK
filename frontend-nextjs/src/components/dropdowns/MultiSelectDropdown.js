@@ -97,7 +97,7 @@ const MultiplySelectDropdown = ({ items, itemName, selectedCategories, setSelect
                 className="form-control col-8"
             />
             {isOpen && (
-                <div className="multi-dropdown-menu position-absolute bg-white border rounded shadow-lg mt-1">
+                <div className="multi-dropdown-menu position-absolute bg-white border shadow-lg mt-1">
                     {Array.isArray(items) && renderCategoryTree(items)}
                 </div>
             )}

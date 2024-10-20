@@ -26,6 +26,7 @@ class StoreRequest extends FormRequest
             'image'          =>  'image| max:10000',
             'public'           =>  'boolean',
             'isDraft'           =>  'boolean',
+            'category_id'    =>  'exists:ttk_categories,id',
         ];
     }
     public function messages()

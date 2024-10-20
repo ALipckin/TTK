@@ -8,6 +8,8 @@ import React, { useState } from 'react';
 import { redirect } from 'next/navigation'
 import "./profileDataList.css"
 import { useRouter } from 'next/navigation'
+import PopupBox from '@/components/popup/PopupBox'
+import MultiSelectDropdown from '@/components/dropdowns/MultiSelectDropdown'
 const profileDataList = (data) => {
     data = data.data;
     const dayjs = require('dayjs');
@@ -19,8 +21,11 @@ const profileDataList = (data) => {
     const productsNum = data.product_num ?? 0;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter();
+    const [ttkCategories, setTtkCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([])
     const openModal = () => {
-        setIsModalOpen(true);
+        getTtkCategories().then(r => setIsModalOpen(true));
+
     };
 
     const closeModal = () => {
@@ -30,14 +35,24 @@ const profileDataList = (data) => {
     const [name, setName] = useState(''); // Используйте useState для хранения значения поля Name
 
     const handleCreateTTK = async () => {
-            const response = await axios.post(API_ROUTES.TTKS, {name}, {withCredentials: true});
+            const response = await axios.post(API_ROUTES.TTKS, {name, category_id: selectedCategories[0]}, {withCredentials: true});
             const ttkId = response.data.data.id;
-            if(ttkId != undefined) {
+            if(ttkId !== undefined) {
                 router.push(`/ttks/${ttkId}`)
-                //redirect(`/ttks/${ttkId}`); // Замените на ваш путь к странице с технико-технологической картой
             }
     };
-
+    const getTtkCategories = async () => {
+        try {
+            const response = await axios.get(API_ROUTES.TTKS_CATEGORIES, {
+                withCredentials: true
+            });
+            if (response && response.data) {
+                setTtkCategories(response.data.data); // Проверяем, что данные существуют
+            }
+        } catch (err) {
+            alert(err);
+        }
+    };
     return (
         <div>
             <div className="mt-4 d-flex flex-column justify-content-start">
@@ -70,9 +85,11 @@ const profileDataList = (data) => {
                             bottom: 'auto',
                             marginRight: '-50%',
                             transform: 'translate(-50%, -50%)',
-                            width: '50%', // Ширина модального окна
-                            maxWidth: '500px', // Максимальная ширина модального окна
+                            width: '80%', // Ширина модального окна
+                            maxWidth: '1000px', // Максимальная ширина модального окна
                             minWidth: '300px', // Минимальная ширина модального окна
+                            maxHeight: '1000px', // Минимальная ширина модального окна
+                            minHeight: '500px', // Минимальная ширина модального окна
                         },
                     }}
                     contentLabel="Модальное окно"
@@ -81,8 +98,18 @@ const profileDataList = (data) => {
                     <p className="m-1">Наименование</p>
                     <input className="modal-input" value={name} onChange={(event) => setName(event.target.value)} />
                     <div className="d-flex justify-content-between mt-3">
-                        <button onClick={handleCreateTTK} className="modal-btn">Создать</button>
-                        <button onClick={closeModal} className="modal-btn">Закрыть</button>
+                        <div className="row d-flex justify-content-start col-12">
+                            <div className="mb-3">
+                                <p className="p-1 m-0">Категории:</p>
+                                <MultiSelectDropdown
+                                    items={ttkCategories} itemName={'name'} selectedCategories={selectedCategories}
+                                    setSelectedCategories={setSelectedCategories} />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        <button onClick={handleCreateTTK} className="modal-btn btn btn-success">Создать</button>
+                        <button onClick={closeModal} className="modal-btn btn btn-danger">Закрыть</button>
                     </div>
                 </ReactModal>
             </div>

@@ -21,6 +21,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () {
+
+
     //Пользователь
     Route::group(['prefix' => 'profile', 'middleware' => ['role:user']], function () {
         Route::get('/', [ProfileController::class, "index"])->middleware('role:user');

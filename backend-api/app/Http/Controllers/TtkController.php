@@ -165,7 +165,9 @@ class TtkController extends Controller
         //if ($header != null)
         //    $header = 1;
         //$rTtk =  $ttk->getAllRelatedRecords();
-        $data = ["id" => $ttk->id, "name" => $ttk->name, "image" => $ttk->image];
+
+        $data = ["id" => $ttk->id, "name" => $ttk->name, "image" => $ttk->image, 'category_id' => $ttk->category_id,
+            'category_name' => $ttk->category->name, 'public' => $ttk->public];
 
         return response()->json([
             'status' => true,
@@ -179,6 +181,7 @@ class TtkController extends Controller
         $ttk = new ttk;
         $ttk->name = $request->name;
         $ttk->public = $request->public;
+        $ttk->category_id = $request->category_id;
         $ttk->user_id = auth()->id();
         if ($ttk->public) {
             if ($ttk->public == "on") {
