@@ -94,9 +94,8 @@ Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () 
         //Рецептура
         Route::group(['middleware' => ['role:user']], function () {
             Route::get('/{ttk}/formulations', [FormulationController::class, 'index'])->middleware(['checkPublicity']);
-            Route::post('/{ttk}/formulations', [FormulationController::class, 'store']);
+            //принадлежности formulation к ttk внутри метода котроллера
             Route::put('/{ttk}/formulations/{id}', [FormulationController::class, 'createOrUpdate']);
-            Route::patch('/{ttk}/formulations/{id}', [FormulationController::class, 'update'])->middleware(['verifyOwner:Ttk,Formulation']);
             Route::delete('/{ttk}/formulations/{id}', [FormulationController::class, 'destroy'])->middleware(['verifyOwner:Ttk,Formulation']);
         });
 

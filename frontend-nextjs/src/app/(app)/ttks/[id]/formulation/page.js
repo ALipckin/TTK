@@ -18,7 +18,7 @@ import { forEach } from 'react-bootstrap/ElementChildren'
 
 export default function Page({params }) {
     const [formulationData, setFormulationData] = useState([
-        {netto: '', brutto: '', package: '', product_id: '', treatment_id: ''}
+        {id: '', netto: '', brutto: '', package: '', product_id: '', treatment_id: ''}
     ]); // Инициализируем как массив
     const [errors, setErrors] = useState({});
     const header = "Рецептура";
@@ -77,8 +77,9 @@ export default function Page({params }) {
             return;
         }
         try {
+                console.log("formulationData", formulationData);
                 const Requests = formulationData.map(item => {
-                        return axios.put(API_ROUTES.PUT_FORMULATION(params.id, item.id), item, { withCredentials: true })
+                        return axios.put(API_ROUTES.PUT_FORMULATION(params.id, item?.id ?? null), item, { withCredentials: true })
                     }
                 );
 
@@ -191,24 +192,8 @@ export default function Page({params }) {
                                             }
                                             />
                                         </td>
-                                        {/*<td>*/}
-                                        {/*    <div className="d-flex justify-content-between">*/}
-                                        {/*        {*/}
-                                        {/*            Array.isArray(currInitialTreatments[index]) && currInitialTreatments[index].map((init, j) => (*/}
-                                        {/*                <PopupBox*/}
-                                        {/*                    onMainButtonClick={() => getInitialTreatments(item.product_id, index)}*/}
-                                        {/*                    className="select-button" data={initialTreatmentData?.[index]}*/}
-                                        {/*                    itemName={'title'} currItem={init.title}*/}
-                                        {/*                    setSelectedItemId={(id) => handleChange(setCurrInitialTreatments, responseInitialTreatments, index, j, null, 'id', id)}*/}
-                                        {/*                />*/}
-                                        {/*            ))*/}
-                                        {/*        }*/}
-                                        {/*        <ActionIconButton img="/images/add.svg" className=""*/}
-                                        {/*                          onClick={() => addNewInitialTreatment(index)} />*/}
-                                        {/*    </div>*/}
-                                        {/*</td>*/}
                                         <td>
-                                            <PopupBox className="select-button" onMainButtonClick={() => getTreatments(item.product_id, index)} data={treatmentData[index]} itemName={"name"} currItem={item.treatment_id}
+                                            <PopupBox className="select-button" onMainButtonClick={() => getTreatments(item.product_id, index)} data={treatmentData[index]} itemName={"name"} currItem={item.treatment_name}
                                                       setSelectedItemId={(id) => handleFormulation(index, id, "treatment_id")}
                                             />
                                         </td>

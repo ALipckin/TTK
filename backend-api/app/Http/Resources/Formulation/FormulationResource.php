@@ -6,6 +6,7 @@ use App\Models\Formulation;
 use App\Models\InitialTreatment;
 use App\Models\Package;
 use App\Models\Product;
+use App\Models\Treatment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -27,6 +28,7 @@ class FormulationResource extends JsonResource
             'product_id' => $this->product_id,
             'product_name' => $productName,
             'treatment_id' => $this->treatment_id,
+            'treatment_name' =>Treatment::where('id', $this->treatment_id)->pluck('name')->first(),
         ];
     }
 }

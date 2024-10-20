@@ -2,19 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { API_ROUTES } from '@/components/apiRoutes'
-import InputBox from '@/components/Inputs/TtkInputBox'
-import WideButton from '@/components/buttons/WideButton'
 import '@/components/forms/data.css'
-import TrashForm from '@/components/buttons/TrashForm'
-import ActionIconButton from '@/components/buttons/ActionIconButton'
 import '@/components/forms/ttk.css'
 import './ne-value.css'
-import SearchPopup from '@/components/popup/SearchPopup'
-import PopupBox from '@/components/popup/PopupBox'
-import WideInput from '@/components/Inputs/WideInput'
-import TtkInput from '@/components/Inputs/TtkInput'
-import InputError from '@/components/errors/TtkError'
-import { forEach } from 'react-bootstrap/ElementChildren'
 
 export default function Page({ params }) {
     const [Data, setData] = useState([]) // Инициализируем как массив
@@ -47,6 +37,11 @@ export default function Page({ params }) {
                             <table className="bg-transparent">
                                 <thead>
                                 <tr>
+                                    <th rowSpan="3" scope="col">Наименование ингредиента</th>
+                                    <th rowSpan="3" scope="col">Вес нетто, г.</th>
+                                    <th colSpan="5">Содерж. в-в в блюде с учетом потерь, г</th>
+                                </tr>
+                                <tr>
                                     <th scope="col">Белки г.</th>
                                     <th scope="col">Жиры г.</th>
                                     <th scope="col">Углев г.</th>
@@ -57,6 +52,12 @@ export default function Page({ params }) {
                                 <tbody>
                                 {Array.isArray(Data.ne_values) && Data.ne_values.map((item, index) => (
                                     <tr scope="row" className="mb-4" key={index}>
+                                        <td>
+                                            {item.elems.name}
+                                        </td>
+                                        <td>
+                                            {item.elems.netto}
+                                        </td>
                                         <td>
                                             {item.elems.protein}
                                         </td>
@@ -81,10 +82,15 @@ export default function Page({ params }) {
                                     <td className="border-0"></td>
                                     <td className="border-0"></td>
                                     <td className="border-0"></td>
+                                    <td className="border-0"></td>
                                 </tr>
                                 </tbody>
                                 <tfoot className="mt-2">
                                 <tr scope="row" className="mb-4 sum-result">
+                                    <td>Результат:</td>
+                                    <td>
+                                        {Data.result?.netto ?? null}
+                                    </td>
                                     <td>
                                         {Data.result?.protein ?? null}
                                     </td>
@@ -99,8 +105,8 @@ export default function Page({ params }) {
                                     </td>
                                     <td>
                                         {Data.result?.kj ?? null}
-                                        </td>
-                                    </tr>
+                                    </td>
+                                </tr>
                                 </tfoot>
                             </table>
                         </div>

@@ -10,7 +10,7 @@ class Formulation extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['brutto', 'netto', 'product_id', 'ttk_id'];
+    protected $fillable = ['brutto', 'netto', 'product_id', 'ttk_id', 'treatment_id'];
 
     public function ttk()
     {

@@ -25,64 +25,44 @@ class FormulationController extends Controller
         ], 200);
     }
 
-    public function createOrUpdate(UpdateRequest $request, $ttk, $formulation)
+    public function createOrUpdate(UpdateRequest $request, Ttk $ttk, $formulation)
     {
         $data = $request->validated();
-        if (!$formulation) {
+        //Логика проверки принадлежности и доступа
+        if($ttk->user_id != auth()->user()->id){
             return response()->json([
                 'status' => false,
-                'message' => "Formulation not found",
-            ], 404);
+                'message' => "Access denied",
+            ], 403);
         }
-        $data['ttk_id'] = $ttk;
+        if($formulation){
+            if(is_numeric($formulation)) {
+                $formulation = Formulation::where('id', $formulation)->first();
+                if ($formulation->ttk_id != $ttk->id) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => "Access denied",
+                    ], 403);
+                }
+            }
+        }
+        if (isset($data['product_id']) && isset($formulation->product_id) ) {
+            if($formulation->product_id != $data['product_id']) {
+                $formulation->treatment_id = null;
+                $formulation->save();
+            }
+        }
+        $data['ttk_id'] = $ttk->id;
+        $formulationId = $formulation->id ?? null;
         // Обновить данные Formulation
-        $formulation = Formulation::updateOrCreate(['id' => $formulation], $data);
+        $formulation = Formulation::updateOrCreate(['id' => $formulationId], $data);
 
         return response()->json([
             'status' => true,
             'message' => "formulation updated",
-            'data' => $formulation,
+            'data' => new FormulationResource($formulation),
         ], 200);
     }
-
-    public function update(UpdateRequest $request, $ttk, $formulation)
-    {
-        //$formulation = $request->route('requirement') ?? null;
-        $data = $request->validated();
-
-        $formulation = Formulation::find($formulation);
-        if (!$formulation) {
-            return response()->json([
-                'status' => false,
-                'message' => "Formulation not found",
-            ], 404);
-        }
-        if (isset($data['product_id']) && $formulation->product_id != $data['product_id']) {
-            $formulation->treatment_id = null;
-            $formulation->save();
-        }
-        // Обновить данные Formulation
-        $formulation->update($data);
-
-        return response()->json([
-            'status' => true,
-            'message' => "formulation updated",
-            'data' => $formulation,
-        ], 200);
-    }
-
-    public function store(StoreRequest $request)
-    {
-        $data = $request->validated();
-        $data['ttk_id'] = $request->route('ttk');
-        $formulation = Formulation::create($data);
-        return response()->json([
-            'status' => true,
-            'message' => "requirement created",
-            'data' => $formulation,
-        ], 201);
-    }
-
     public function destroy($ttk, $formulation,)
     {
         $formulation = Formulation::where('id', $formulation)->first();

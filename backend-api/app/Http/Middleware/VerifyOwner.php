@@ -29,9 +29,17 @@ class VerifyOwner
      *
      * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
-    public function handle(Request $request, Closure $next, $baseModelClass = null, $childModelClass = null)
+    public function handle(Request $request, Closure $next,$baseModelClass = null, $childModelClass = null)
     {
+        //        $allParams = $request->route()->parameters();
+        //        Log::info("allParams = ", $allParams);
         $namespace = "App\\Models\\";
+        $modelClass = [];
+        //        $modelsArray = explode(',', $models);
+        //        foreach ($modelsArray as $key => $model) {
+        //            $modelClass[$key] = $namespace . $model;
+        //        }
+        //        Log::info("model class", $modelClass);
         if ($baseModelClass) {
             $baseModelClass = $namespace . $baseModelClass;
         }
