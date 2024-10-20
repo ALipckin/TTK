@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import styles from './Sidebar.module.css'; // Подключаем CSS модули
 import  "../app/(app)/Navigation.css";
-const Sidebar = () => {
+const Sidebar = ({buttonClassName}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -11,7 +11,7 @@ const Sidebar = () => {
 
     return (
         <>
-            <button style={{backgroundImage: 'url(\'/images/menu.svg\')'}} onClick={toggleSidebar} className="icon-button m-4" />
+            <button style={{backgroundImage: 'url(\'/images/menu.svg\')'}} onClick={toggleSidebar} className={`icon-button ${buttonClassName}`} />
             <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
                 <button onClick={toggleSidebar} className={styles.closeButton}>
                     ×

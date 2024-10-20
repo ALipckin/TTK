@@ -48,7 +48,7 @@ const profileDataList = (data) => {
                 </ul>
                 <ul className="p-0">
                     <IconItem title="Мои работы" data={worksNum} img={`/images/picture.svg`} href={"/ttks/my"}/>
-                    <IconItem title="Черновики" data={draftsNum} img={`/images/edit.svg`} href={"/drafts/my"}/>
+                    {/*<IconItem title="Черновики" data={draftsNum} img={`/images/edit.svg`} href={"/drafts/my"}/>*/}
                     <IconItem title="Мои список продуктов" data={productsNum} img={`/images/radish.svg`} href={"/products/my"}/>
                     <IconItem title="Создать новую карту" img={`/images/add.svg`} onClick={openModal}/>
                 </ul>

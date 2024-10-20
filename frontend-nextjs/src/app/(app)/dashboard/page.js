@@ -7,14 +7,16 @@ export const metadata = {
 const Dashboard = () => {
     return (
         <>
-            <Header title="Dashboard" />
-            <div className="d-flex justify-content-center align-items-center">
-                <div className="py-12">
-                    <div className="container-sm px-4">
-                        <div className="bg-white overflow-hidden shadow-sm rounded">
-                            <div className="p-6 bg-white border-bottom border-gray-200">
-                                You are logged in!
-                            </div>
+            <Header title="Сервис создания ттк" />
+            <div className="container">
+                <div className="row">
+                    <div className="m-3 col-8">
+                        <div>
+                            <h5>
+                                Добро пожаловать!
+                            </h5>
+                            <br></br>
+                            <a href="/profile">Профиль</a>
                         </div>
                     </div>
                 </div>
