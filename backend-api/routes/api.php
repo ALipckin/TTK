@@ -52,6 +52,8 @@ Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () 
         Route::delete('/{ttk}', [TtkController::class, "destroy"])->middleware(['verifyOwner:Ttk']);
         Route::patch('/{ttk}/publish', [TtkController::class, "publish"])->middleware(['verifyOwner:Ttk']);;
         Route::patch('/{ttk}', [TtkController::class, "update"])->middleware(['verifyOwner:Ttk']);
+        //Генерация pdf
+        Route::get('/{ttk}/download_pdf', [TtkController::class, 'generatePdf'])->middleware(['checkPublicity']);;
 
         //Шапка
         Route::group(['middleware' => ['role:user']], function () {

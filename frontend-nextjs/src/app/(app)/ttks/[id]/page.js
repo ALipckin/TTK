@@ -4,6 +4,7 @@ import { API_ROUTES } from '@/components/apiRoutes'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import IconItem from "@/app/(app)/profile/iconItem";
 
 export default function page({params}) {
     const router = useRouter();
@@ -28,7 +29,29 @@ export default function page({params}) {
 
             fetchData()
         }, [])
+    const downloadPdf = async () => {
+        try {
+            const response = await axios.get(API_ROUTES.DOWNLOAD_TTK_PDF(params.id), {
+                withCredentials: true,
+                responseType: 'blob', // Указываем, что ожидаем Blob (бинарные данные)
+            });
 
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+
+            // Создаём ссылку для скачивания и автоматически её нажимаем
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ttk-'+params.id+'.pdf'; // Имя файла
+            document.body.appendChild(a);
+            a.click();
+
+            // Очищаем объект URL после использования
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            setError(err);
+        }
+    };
 
     if (error) {
         return <div>Ошибка: {error.message}</div>
@@ -42,10 +65,13 @@ export default function page({params}) {
         <div className="container d-flex justify-content-center">
             <div className="row mt-5 mb-5 d-flex justify-content-center col-md-12">
                 <h4 className="mh">{data.name}</h4>
-                <h4 className="mh">{data.category_name}</h4>
+                <div className="">
+                    <h4 className="mh">{data.category_name}</h4>
+                    <IconItem title="Скачать pdf" img={`/images/download.png`} imgClass={"download-icon"} mainContainerClass={"col-8 col-sm-4 col-md-2"} onClick={() => downloadPdf()} />
+                </div>
                 <div className="mt-4 d-flex flex-column justify-content-center">
                     <div className="row flex-column col-md-12">
-                        <a className="link" href={`/ttks/${params.id}/header/`}>Шапка документа</a>
+                    <a className="link" href={`/ttks/${params.id}/header/`}>Шапка документа</a>
                         <a className="link" href={`/ttks/${params.id}/scope/`}>Область применения</a>
                         <a className="link" href={`/ttks/${params.id}/quality-requirement/`}>Требования к качеству сырья</a>
                         <a className="link" href={`/ttks/${params.id}/formulation/`}>Рецептура</a>

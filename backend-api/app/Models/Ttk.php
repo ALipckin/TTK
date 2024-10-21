@@ -18,48 +18,52 @@ class Ttk extends Model
     {
         return $this->belongsTo(TtkCategory::class);
     }
-    public function headers()
+
+    //Заголовок
+    public function header()
     {
-        return $this->hasMany(Header::class);
+        return $this->hasOne(Header::class);
     }
 
+    //Область применения
     public function scopes()
     {
         return $this->hasMany(Scope::class);
     }
 
-    public function qualityRequirements()
-    {
-        return $this->hasMany(QualityRequirement::class);
-    }
-
-    public function formulations()
-    {
-        return $this->hasMany(Formulation::class);
-    }
-
-    public function Tps()
-    {
-        return $this->hasMany(Tp::class);
-    }
-
+    //Требования к подаче и реализации
     public function realizationRequirement()
     {
         return $this->hasMany(RealizationRequirement::class);
     }
 
+    //Требования к качеству сырья
+    public function qualityRequirements()
+    {
+        return $this->hasMany(QualityRequirement::class);
+    }
+
+    //Рецептуры
+    public function formulations()
+    {
+        return $this->hasMany(Formulation::class);
+    }
+
+    //Описание технологического процесса
+    public function Tps()
+    {
+        return $this->hasMany(Tp::class);
+    }
+
+    // Органолептические показатели
     public function orgCharacteristics()
     {
-        return $this->hasMany(OrgCharacteristic::class)->first();
+        return $this->hasMany(OrgCharacteristic::class);
     }
 
-    public function formulationHeatTreatment()
-    {
-        return $this->hasMany(FormulationHeatTreatment::class);
-    }
 
     // Получить все связанные комментарии и вложения
-    public function getAllRelatedRecords($type)
+    public function getAllRelatedRecords()
     {
         return [
             'headers' => $this->headers()->get(),
@@ -69,7 +73,6 @@ class Ttk extends Model
             'tps' => $this->tps()->get(),
             'realization_requirements' => $this->realizationRequirement()->get(),
             'org_characteristics' => $this->orgCharacteristics()->get(),
-            'formulation_has_heat_treatments' => $this->formulationHeatTreatment()->get(),
         ];
     }
 }

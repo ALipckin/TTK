@@ -8,6 +8,7 @@ use App\Http\Resources\TTK\TTKResource;
 use App\Models\Requirement;
 use App\Models\Ttk;
 use App\Models\TtkCategory;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +52,9 @@ class TtkController extends Controller
             'data' => $tree,
         ], 200);
     }
-    function buildTree($categories) {
+
+    function buildTree($categories)
+    {
         // Группируем категории по parent_id
         $grouped = $categories->groupBy('parent_id');
 
@@ -61,7 +64,8 @@ class TtkController extends Controller
         return $this->buildBranch($grouped, $rootCategories);
     }
 
-    function buildBranch($grouped, $categories) {
+    function buildBranch($grouped, $categories)
+    {
         $branch = [];
 
         foreach ($categories as $category) {
@@ -79,6 +83,7 @@ class TtkController extends Controller
 
         return $branch;
     }
+
     public function publish(ttk $ttk)
     {
         $ttk->public = 1;
@@ -94,7 +99,7 @@ class TtkController extends Controller
         DB::beginTransaction(); // Начало транзакции
         try {
             // Получаем все связанные записи
-            $records = $ttk->getAllRelatedRecords(type: 'model');
+            $records = $ttk->getAllRelatedRecords();
             foreach ($records as $record) {
                 foreach ($record as $item) {
                 }
@@ -238,5 +243,28 @@ class TtkController extends Controller
             'message' => "Ttk updated",
             'data' => $ttk,
         ], 200);
+    }
+
+    public function generatePdf(Ttk $ttk)
+    {
+        $ttk->load([
+            'category',
+            'header',
+            'scopes',
+            'qualityRequirements',
+            'formulations',
+            'tps',
+            'realizationRequirement',
+            'orgCharacteristics',
+        ]);
+        Log::info("ttk from req = " . json_encode($ttk));
+        //$ttk->getAllRelatedRecords();
+        //Log::info("ttk get all records= " . json_encode($ttk));
+        $pdf = Pdf::loadView('pdf.ttk.ttk', compact('ttk'));
+        //return $pdf->download('invoice.pdf');
+        // Возвращаем PDF файл с нужными заголовками для скачивания
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'ttk.pdf');
     }
 }

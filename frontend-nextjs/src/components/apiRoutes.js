@@ -27,5 +27,6 @@ export const API_ROUTES = {
     TTKS: `${API_BASE_URL}/ttks`,
     TTKS_CATEGORIES: `${API_BASE_URL}/ttks/all_categories`,
     TTKS_PUBLIC: `${API_BASE_URL}/ttks/public`,
+    DOWNLOAD_TTK_PDF: (ttk) =>  `${API_BASE_URL}/ttks/${ttk}/download_pdf`,
     // Добавьте другие пути API по мере необходимости
 };
