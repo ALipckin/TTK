@@ -9,9 +9,8 @@ use App\Http\Controllers\RealizationRequirementController;
 use App\Http\Controllers\ScopeController;
 use App\Http\Controllers\TpController;
 use App\Http\Controllers\TtkController;
-use App\Http\Controllers\NeValueController;
+use \App\Models\Formulation;
 use App\Http\Controllers\OrgCharacteristicController;
-use App\Http\Controllers\PhysChemParamsController;
 use App\Http\Controllers\MicrobioParamsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +41,7 @@ Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () 
         Route::patch('/{id}', [ProductController::class, "update"])->middleware('verifyOwner:Product');
         Route::delete('/{id}', [ProductController::class, "destroy"])->middleware('verifyOwner:Product');
     });
-    //Технико технологическая карта
+    //Технико-технологическая карта
     Route::group(['prefix' => 'ttks', 'middleware' => ['role:user']], function () {
         Route::get('/all_categories', [TtkController::class, "categories_index"]);
         Route::get('/my', [TtkController::class, "myTTKs"]);
@@ -110,10 +109,12 @@ Route::group(["middleware" => ["auth:sanctum", "updateLastVisit"]], function () 
             Route::put('/{ttk}/org_characteristics', [OrgCharacteristicController::class, 'createOrUpdate'])->middleware(['verifyOwner:Ttk']);
             Route::delete('/{ttk}/org_characteristics', [OrgCharacteristicController::class, 'destroy'])->middleware(['verifyOwner:Ttk,OrgCharacteristic']);
         });
-
+        //Показатели качества и безопасности
         //Пищевая и энергетическая ценность
-        Route::get('/{ttk}/ne_value', [NeValueController::class, 'result']);
-        Route::get('/{ttk}/phys_chem_params', [PhysChemParamsController::class, 'index']);
+        Route::get('/{ttk}/ne_value', [FormulationController::class, 'getNeValue']);
+        //Физико-химические показатели
+        Route::get('/{ttk}/phys_chem_params', [FormulationController::class, 'getPhysChemParams']);
+        //Микробиологические показатели
         Route::get('/{ttk}/microbio_params', [MicrobioParamsController::class, 'index']);
     });
 });

@@ -32,7 +32,7 @@ class Ttk extends Model
     }
 
     //Требования к подаче и реализации
-    public function realizationRequirement()
+    public function realizationRequirements()
     {
         return $this->hasMany(RealizationRequirement::class);
     }
@@ -58,7 +58,7 @@ class Ttk extends Model
     // Органолептические показатели
     public function orgCharacteristics()
     {
-        return $this->hasMany(OrgCharacteristic::class);
+        return $this->hasOne(OrgCharacteristic::class);
     }
 
 
@@ -71,7 +71,7 @@ class Ttk extends Model
             'quality_requirements' => $this->qualityRequirements()->get(),
             'formulations' => $this->formulations()->get(),
             'tps' => $this->tps()->get(),
-            'realization_requirements' => $this->realizationRequirement()->get(),
+            'realization_requirements' => $this->realizationRequirements()->get(),
             'org_characteristics' => $this->orgCharacteristics()->get(),
         ];
     }

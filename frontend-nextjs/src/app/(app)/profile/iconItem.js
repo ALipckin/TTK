@@ -5,7 +5,7 @@ const IconItem = ({title, href, img, data, onClick, imgClass, imgParams, mainCon
             <div className="row col-12">
                 <div className={`icon-card d-flex justify-content-between ${mainContainerClass}`}>
                     <div className="orange-title">{title}</div>
-                    <div className="d-flex align-items-center" onClick={onClick}><a className={imgClass}><img {...imgParams} src={img} alt="Скачать pdf" className={imgClass}/></a></div>
+                    <div className="d-flex align-items-center" onClick={onClick}><a href={href} className={imgClass}><img {...imgParams} src={img} alt="Скачать pdf" className={imgClass}/></a></div>
                 </div>
                 {data !== null && data !== undefined ? (
                     <div className="col-4 col-sm-5 col-md-6">

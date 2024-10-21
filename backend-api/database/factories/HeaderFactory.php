@@ -17,7 +17,7 @@ class HeaderFactory extends Factory
     protected static $index = 0;
     public function definition(): array
     {
-        $ttkIds = ttk::whereDoesntHave('headers')->pluck('id')->toArray();
+        $ttkIds = ttk::whereDoesntHave('header')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Formulation\StoreRequest;
 use App\Http\Requests\Formulation\UpdateRequest;
 use App\Http\Resources\Formulation\FormulationResource;
+use App\Http\Services\NeValueService;
 use App\Models\Formulation;
 use App\Models\Treatment;
 use App\Models\Product;
@@ -70,6 +71,28 @@ class FormulationController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Deleted successfully",
+        ], 204);
+    }
+
+    public function getNeValue(int $ttk)
+    {   $data = 0;
+        $data =  (new \App\Http\Services\NeValueService)->result($ttk);
+        Log::info("data = ", $data);
+        return response()->json([
+            'status' => true,
+            'data' => $data,
+            'message' => "Ne value data",
+        ], 200);
+    }
+
+    public function getPhysChemParams(Ttk $ttk)
+    {
+        $data =  (new \App\Http\Services\PhysChemParamsService)->result($ttk->id);
+
+        return response()->json([
+            'status' => true,
+            'data' => $data,
+            'message' => "phys chem params data",
         ], 204);
     }
 }

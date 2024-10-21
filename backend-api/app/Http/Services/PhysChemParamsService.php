@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Services;
 
-use App\Http\Requests\Org_characteristic\StoreRequest;
+use App\Http\Controllers\Controller;
 use App\Models\Formulation;
-use App\Models\OrgCharacteristic;
 use App\Models\Product;
 use App\Models\Treatment;
 use App\Models\Ttk;
 use App\Models\TtkCategory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
-class PhysChemParamsController extends Controller
+class PhysChemParamsService extends Controller
 {
-    public function index(Request $request, Ttk $ttk)
+    public function result(int $ttkId)
     {
         //$result = [];
         //Рецептура
-        $formulations = Formulation::where('ttk_id', $ttk->id)->get();
+        $formulations = Formulation::where('ttk_id', $ttkId)->get();
+        $ttk= Ttk::where('id', $ttkId)->first();
         //Выход на порцию
         //Ищем максимально допустимую соль
         $maxSalt = TtkCategory::Where('id', $ttk->category_id)->first()->smax;
@@ -30,11 +28,7 @@ class PhysChemParamsController extends Controller
         $result['sugar'] = $this->calulateSugar($formulations, $portionGrams);
 
         // Возвращаем результат в формате JSON
-        return response()->json([
-            'status' => true,
-            'message' => "pys chem value data",
-            'data' => $result,
-        ], 200);
+        return $result;
     }
 
     /**
@@ -61,7 +55,10 @@ class PhysChemParamsController extends Controller
         }
         //Максимально допустимое
         //Log::info("max sault = ". $maxSault);
-        $maxDryResult = $allDryResult * 100 / $portionGrams + $maxSalt;
+        $maxDryResult = 0;
+        if($portionGrams) {
+            $maxDryResult = $allDryResult * 100 / $portionGrams + $maxSalt;
+        }
         //Log::info("max dry result = ". $maxDryResult);
         //Минимально допустимое
         $minDryResult = 0.9 * $maxDryResult;
@@ -95,7 +92,10 @@ class PhysChemParamsController extends Controller
             //Log::info("all fat result = ". $allFatResult);
         }
         //Переводим в процентное содержание
-        $maxFatResult = $allFatResult * 100 / $portionGrams;
+        $maxFatResult = 0;
+        if($portionGrams) {
+            $maxFatResult = $allFatResult * 100 / $portionGrams;
+        }
         //Log::info("max fat result = ". $maxFatResult);
         //Минимально допустимое
         $minFatResult = 0.9 * $maxFatResult;
@@ -122,7 +122,10 @@ class PhysChemParamsController extends Controller
             //Log::info("all fat result = ". $allFatResult);
         }
         //Переводим в процентное содержание
-        $sugarResult = ($allSugarResult * 0.97) * 100 / $portionGrams;
+        $sugarResult = 0;
+        if($portionGrams) {
+            $sugarResult = ($allSugarResult * 0.97) * 100 / $portionGrams;
+        }
         //Log::info("max fat result = ". $maxFatResult);
         return $sugarResult;
     }

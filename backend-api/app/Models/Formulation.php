@@ -12,6 +12,11 @@ class Formulation extends Model
     public $timestamps = false;
     protected $fillable = ['brutto', 'netto', 'product_id', 'ttk_id', 'treatment_id'];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     public function ttk()
     {
         return $this->belongsTo(Ttk::class);

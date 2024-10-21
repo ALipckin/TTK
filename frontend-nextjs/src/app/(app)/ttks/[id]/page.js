@@ -45,11 +45,10 @@ export default function page({params}) {
             a.download = 'ttk-'+params.id+'.pdf'; // Имя файла
             document.body.appendChild(a);
             a.click();
-
             // Очищаем объект URL после использования
             window.URL.revokeObjectURL(url);
         } catch (err) {
-            setError(err);
+            alert("Произошла ошибка при скачивании PDF-файла."+ err);
         }
     };
 

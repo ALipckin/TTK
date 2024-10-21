@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Filters\TtkFilter;
 use App\Http\Requests\TTK\StoreRequest;
 use App\Http\Resources\TTK\TTKResource;
+use App\Http\Services\NeValueService;
+use App\Models\OrgCharacteristic;
 use App\Models\Requirement;
 use App\Models\Ttk;
 use App\Models\TtkCategory;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -210,6 +214,17 @@ class TtkController extends Controller
         }
         $ttk->save();
 
+        // Ищем категорию по category_id
+        $category = TtkCategory::find($ttk->category_id);
+        if ($category) {
+            // Преобразуем данные категории в массив
+            $data = $category->only(['view', 'color', 'cons', 'taste']);
+            $data['ttk_id'] = $ttk->id;
+            // Создаем новую характеристику и сохраняем
+            $org_characteristic = new OrgCharacteristic($data);
+            $org_characteristic->save();
+        }
+
         return response()->json([
             'status' => true,
             'message' => "ttk created",
@@ -252,14 +267,29 @@ class TtkController extends Controller
             'header',
             'scopes',
             'qualityRequirements',
+            'realizationRequirements',
             'formulations',
             'tps',
-            'realizationRequirement',
             'orgCharacteristics',
         ]);
+        $data = TtkCategory::where('id', $ttk->category_id)->first();
+        $ttk->microbioParams = $data;
+        $response = (new \App\Http\Services\PhysChemParamsService)->result($ttk->id);
+        Log::info("phys chem params = ", $response);
+        $ttk->physChemParams = $response;
+        $response = (new \App\Http\Services\NeValueService)->result($ttk->id);
+        Log::info("neValue response = ", $response);
+        $ttk->neValues = $response;
+        Log::info("ne_Value  = ", $ttk->neValues['ne_values']);
         Log::info("ttk from req = " . json_encode($ttk));
         //$ttk->getAllRelatedRecords();
         //Log::info("ttk get all records= " . json_encode($ttk));
+
+        $dompdf = new Dompdf();
+        $options = $dompdf->getOptions();
+        $options->setDefaultFont('Courier');
+        $dompdf->setOptions($options);
+
         $pdf = Pdf::loadView('pdf.ttk.ttk', compact('ttk'));
         //return $pdf->download('invoice.pdf');
         // Возвращаем PDF файл с нужными заголовками для скачивания

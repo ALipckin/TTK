@@ -22,11 +22,11 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'           =>  'string|min:3|max:45',
+            'name'           =>  'required|string|min:3|max:45',
             'image'          =>  'image| max:10000',
             'public'           =>  'boolean',
             'isDraft'           =>  'boolean',
-            'category_id'    =>  'exists:ttk_categories,id',
+            'category_id'    =>  'required|exists:ttk_categories,id',
         ];
     }
     public function messages()

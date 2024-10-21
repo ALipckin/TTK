@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Services;
 
 use App\Models\Formulation;
 use App\Models\Product;
+use App\Models\Ttk;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
-class NeValueController extends Controller
+class NeValueService extends Controller
 {
-    public function result($ttk)
+    public function result(int $ttkId)
     {
         $result = 0;
-        $formulations = Formulation::where('ttk_id', $ttk)->get();
+        $formulations = Formulation::where('ttk_id', $ttkId)->get();
         $grams = 100;
         $percentAlkoInDish = 0;
         //Вычисляем для всех ингредиентов потери элементов
@@ -82,10 +83,6 @@ class NeValueController extends Controller
 
         $data['ne_values'] = array_values($nutritionalElements);
 
-        return response()->json([
-            'status' => true,
-            'message' => "ne value data",
-            'data' => $data,
-        ], 200);
+        return $data;
     }
 }

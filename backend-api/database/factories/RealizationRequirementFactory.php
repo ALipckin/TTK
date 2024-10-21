@@ -16,7 +16,7 @@ class RealizationRequirementFactory extends Factory
 
     public function definition(): array
     {
-        $ttkIds = ttk::whereDoesntHave('realizationRequirement')->pluck('id')->toArray();
+        $ttkIds = ttk::whereDoesntHave('realizationRequirements')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
 
