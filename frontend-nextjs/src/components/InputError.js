@@ -8,7 +8,7 @@ const InputError = ({ messages = [], className = '' }) => {
                 <>
                     {errorMessages.map((message, index) => (
                         <p
-                            className={`${className} text-sm text-red-600`}
+                            className={`${className}`}
                             key={index}
                         >
                             {message}

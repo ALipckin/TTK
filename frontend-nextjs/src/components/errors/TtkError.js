@@ -1,9 +1,20 @@
-import "./error.css"
-const TtkError = ({ messages , className = '' }) => {
+import styles from "./Error.module.css";
+
+const TtkError = ({ messages, className = '' }) => {
     // Убедитесь, что messages - это массив
-    console.log(messages)
+    if (!Array.isArray(messages)) {
+        console.error("messages должен быть массивом");
+        return null;
+    }
+
     return (
-        messages ? <div className={'error ' + className}>{messages}</div> : null
+        messages.length > 0 ? (
+            <div className={`${styles['error-text']} ${className}`}>
+                {messages.map((message, index) => (
+                    <p key={index}>{message}</p>
+                ))}
+            </div>
+        ) : null
     );
 };
 

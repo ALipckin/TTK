@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
 import WideButton from '@/components/buttons/WideButton'
+import TtkError from '@/components/errors/TtkError'
 
 const Page = () => {
     const { forgotPassword } = useAuth({
@@ -20,7 +21,6 @@ const Page = () => {
 
     const submitForm = event => {
         event.preventDefault()
-
         forgotPassword({ email, setErrors, setStatus })
     }
 
@@ -32,36 +32,37 @@ const Page = () => {
                         <div className="d-flex flex-column align-items-center">
 
                             <div className="mb-4 text-center text-sm text-gray-600">
-                                Forgot your password? No problem. Just let us know your email <br />
-                                address and we will email you a password reset link that<br />
-                                will allow you to choose a new one.<br />
+                                Введите электронную почту для отправки ссылки восстановления пароля<br />
                             </div>
 
-                            {/* Session Status */}
-                            <AuthSessionStatus className="mb-4" status={status} />
+
 
                             <form onSubmit={submitForm}>
-                                {/* Email Address */}
+                                {/* Адрес электронной почты */}
                                 <div>
-                                    <Label htmlFor="email">Email</Label>
                                     <WideInput
                                         id="email"
                                         type="email"
                                         name="email"
                                         value={email}
                                         className="block mt-1 w-full"
+                                        autoComplete="email"
+                                        placeholder="Введите email"
                                         onChange={event => setEmail(event.target.value)}
                                         required
                                         autoFocus
                                     />
 
-                                    <InputError messages={errors.email} className="mt-2" />
+                                    <TtkError messages={errors.email} className="mt-2" />
                                 </div>
 
                                 <div className="d-flex align-items-center justify-content-center mt-4">
-                                    <WideButton>Email Password Reset Link</WideButton>
+                                    <WideButton className="d-flex justify-content-center text-center">Отправить ссылку</WideButton>
                                 </div>
                             </form>
+
+                            {/* Статус сеанса */}
+                            <AuthSessionStatus className="mt-4" status={status} />
                         </div>
                     </div>
                 </div>

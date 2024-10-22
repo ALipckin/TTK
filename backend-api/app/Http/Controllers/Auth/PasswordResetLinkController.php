@@ -33,6 +33,11 @@ class PasswordResetLinkController extends Controller
                 'email' => [__($status)],
             ]);
         }
+        if($status == "passwords.sent") {
+            $status = 'Письмо со ссылкой для сброса пароля отправлено!';
+        }else{
+            $status = 'Произошла ошибка отправки письма!';
+        }
 
         return response()->json(['status' => __($status)]);
     }

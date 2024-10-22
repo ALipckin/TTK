@@ -1,12 +1,11 @@
 import Link from 'next/link';
-import "./WideButton.css";
 import React from 'react';
-
+import style from './WideButton.module.css'
 const WideButton = ({ href = "#", onClick, text = "",className = "", iconSrc, children, type = "button", ...props }) => {
     const buttonContent = (
         <>
             <div className="d-flex justify-content-start">
-                {iconSrc && <img src={iconSrc} alt="icon" className="button-icon" />}
+                {iconSrc && <img src={iconSrc} alt="icon" className={style['button-icon']}/>}
             </div>
             <div className={`d-flex justify-content-start ${iconSrc ? "p-l" : "p-l-full"}`}>
                 {text}{children}
@@ -17,7 +16,7 @@ const WideButton = ({ href = "#", onClick, text = "",className = "", iconSrc, ch
     if (type === "button") {
         return (
             <button
-                className={`${className} wide-button text-center`}
+                className={`${className} ${style["wide-button"]} text-center`}
                 onClick={onClick}
                 {...props}
             >
@@ -27,7 +26,7 @@ const WideButton = ({ href = "#", onClick, text = "",className = "", iconSrc, ch
     } else {
         return (
             <Link href={href}
-                className={`${className} wide-button text-center`} {...props}>
+                className={`${className} ${style["wide-button"]} text-center`} {...props}>
                     {buttonContent}
             </Link>
         );

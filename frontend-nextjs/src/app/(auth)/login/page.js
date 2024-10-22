@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
 import WideButton from '@/components/buttons/WideButton'
+import TtkError from '@/components/errors/TtkError'
 
 const Login = () => {
     const router = useRouter()
@@ -64,10 +65,7 @@ const Login = () => {
                                         autoFocus
                                         placeholder="Email"
                                     />
-
-                                    <InputError messages={errors.email} className="mt-2" />
                                 </div>
-
                                 {/* Password */}
                                 <div className="mt-4">
                                     <WideInput
@@ -80,13 +78,9 @@ const Login = () => {
                                         autoComplete="current-password"
                                         placeholder="Пароль"
                                     />
-
-                                    <InputError
-                                        messages={errors.password}
-                                        className="mt-2"
-                                    />
                                 </div>
-
+                                <TtkError messages={errors.email} className={"text-center"}></TtkError>
+                                <TtkError messages={errors.password} className={"text-center"}></TtkError>
                                 {/* Remember Me */}
                                 <div className="block mt-4 m-lg-2">
                                     <label

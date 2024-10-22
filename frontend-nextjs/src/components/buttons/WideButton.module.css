@@ -10,17 +10,17 @@
     border-style: solid;
     max-width: 250px;
     margin-top: 8px;
-
+    width: 250px;
     margin-bottom: 8px;
     font-family: "Segoe UI", ui-serif;
     font-weight: bold;
     text-decoration: none;
-    padding: 8px 72px 8px 2px;
+    padding: 8px 26px 8px 20px;
     font-size: 14px;
 }
 @media (max-width: 500px) {
     .wide-button {
-        padding: 4px 36px 4px 1px;
+        padding: 4px 10px 4px 1px;
     }
 }
 .p-l{
@@ -55,9 +55,34 @@
     text-align: center; /* Центрируем текст */
 }
 
-::-webkit-input-placeholder {
+/* WideButton.module.css */
+
+.inputWithPlaceholder {
+    font-size: 14px;
+    font-family: "Segoe UI", ui-serif;
+    font-weight: bold;
+}
+
+.inputWithPlaceholder::placeholder {
     color: #ABABAB;
     font-size: 14px;
     font-family: "Segoe UI", ui-serif;
     font-weight: bold;
 }
+
+.inputWithPlaceholder::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #ABABAB;
+}
+
+.inputWithPlaceholder::-moz-placeholder { /* Firefox 19+ */
+    color: #ABABAB;
+}
+
+.inputWithPlaceholder:-ms-input-placeholder { /* IE 10+ */
+    color: #ABABAB;
+}
+
+.inputWithPlaceholder::-ms-input-placeholder { /* Edge */
+    color: #ABABAB;
+}
+
