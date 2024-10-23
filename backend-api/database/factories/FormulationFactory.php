@@ -23,7 +23,7 @@ class FormulationFactory extends Factory
         $ttkIds = Ttk::whereDoesntHave('Formulations')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
         $ttkId = $ttkIds[$index];
-        $productId = Product::query()->where('user_id', null)->inRandomOrder()->value('id');
+        $productId = Product::query()->where('user_id', null)->inRandomOrder()->value('id') ?? Ttk::Factory();
         static::$index++;
 
         return [

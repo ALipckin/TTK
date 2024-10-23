@@ -19,8 +19,8 @@ class TtkFactory extends Factory
             'name' => $this->faker->word,
             'image' => $this->faker->imageUrl(),
             'public' => rand(0, 1),
-            'user_id' => User::get()->random()->id,
-            'category_id' => TtkCategory::get()->random()->id,
+            'user_id' => User::Factory(),
+            'category_id' => TtkCategory::Factory(),
         ];
     }
 }

@@ -19,7 +19,7 @@ class TpFactory extends Factory
     {
         $ttkIds = ttk::whereDoesntHave('tps')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
-        $ttkId = $ttkIds[$index];
+        $ttkId = $ttkIds[$index] ?? Ttk::Factory();
 
         static::$index++;
 

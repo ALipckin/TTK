@@ -19,7 +19,7 @@ class QualityRequirementFactory extends Factory
     {
         $ttkIds = ttk::whereDoesntHave('qualityRequirements')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
-        $ttkId = $ttkIds[$index];
+        $ttkId = $ttkIds[$index] ?? Ttk::Factory();
 
         static::$index++;
 

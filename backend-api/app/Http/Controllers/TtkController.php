@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
 class TtkController extends Controller
 {
@@ -104,24 +105,15 @@ class TtkController extends Controller
         try {
             // Получаем все связанные записи
             $records = $ttk->getAllRelatedRecords();
-            foreach ($records as $record) {
-                foreach ($record as $item) {
-                }
-                //Log::info("record type = " . get_class($record) );
-            }
 
             // Удаляем все связанные записи
-            foreach ($records as $record) {
-                foreach ($record as $item) {
-                    //Log::info("deleting record = " . $item);
-                    $item->delete();
+            if ($records) {
+                foreach ($records as $record) {
+                    foreach ($record as $item) {
+                        //Log::info("deleting record = " . $item);
+                        $item->delete();
+                    }
                 }
-                //if ($record instanceof \Illuminate\Database\Eloquent\Model) {
-//                    Log::info("deleting record = " . $record );
-//                    $record->delete();
-//                } else {
-//                    Log::warning("Skipping non-model record during deletion.");
-//                }
             }
 
             // Удаляем основную запись
@@ -137,8 +129,8 @@ class TtkController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => "Deleted Successfully",
-            ], 204);
-        } catch (\Exception $e) {
+            ], 200);
+        } catch (Exception $e) {
             // В случае ошибки откатываем транзакцию
             DB::rollBack();
 

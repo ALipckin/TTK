@@ -66,7 +66,7 @@ class Ttk extends Model
     public function getAllRelatedRecords()
     {
         return [
-            'headers' => $this->headers()->get(),
+            'header' => $this->header()->get(),
             'scopes' => $this->scopes()->get(),
             'quality_requirements' => $this->qualityRequirements()->get(),
             'formulations' => $this->formulations()->get(),

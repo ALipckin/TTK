@@ -36,7 +36,7 @@ class ProductController extends Controller
         //Log::info("product category_id  =". json_encode($category_id));
         //Log::info("request->all()". json_encode($request->all()));
         $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
-        $products = Product::filter($filter)->where('user_id', null)->paginate($perPage, ['*'], 'page', $page);
+        $products = Product::filter($filter)->where('user_id', null)->select('id', 'name')->paginate($perPage, ['*'], 'page', $page);
         $collection = ProductResource::collection($products);
         $paginationData = [
             'current_page' => $collection->currentPage(),

@@ -18,7 +18,7 @@ class RealizationRequirementFactory extends Factory
     {
         $ttkIds = ttk::whereDoesntHave('realizationRequirements')->pluck('id')->toArray();
         $index = static::$index % count($ttkIds);
-        $ttkId = $ttkIds[$index];
+        $ttkId = $ttkIds[$index] ?? Ttk::Factory();
 
         static::$index++;
 

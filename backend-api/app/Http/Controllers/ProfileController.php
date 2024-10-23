@@ -17,7 +17,7 @@ class ProfileController extends Controller
         return response()->json([
             'status' => true,
             'message' => "users data",
-            'data' => User::all()->get()
+            'data' => User::all('id', 'name')
         ], 200);
     }
 
@@ -64,7 +64,7 @@ class ProfileController extends Controller
 
         // Получаем файл из запроса
         $file = $request->file('image');
-        Log::info("request = ". json_encode($request));
+        Log::info("request = " . json_encode($request));
         Log::info("file = " . $file);
         // Генерируем уникальное имя для файла
         $filename = $user->id . '.' . $file->getClientOriginalExtension();

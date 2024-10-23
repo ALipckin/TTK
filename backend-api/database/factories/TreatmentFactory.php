@@ -17,7 +17,7 @@ class TreatmentFactory extends Factory
         return [
             'title' => $this->faker->word,
             'loss' => random_int(0, 10) / 10,
-            'product_id' => Product::query()->inRandomOrder()->value('id'),
+            'product_id' => Product::Factory(),
         ];
     }
 }
