@@ -2,8 +2,7 @@
 
 ## Introduction
 
-This repository have beautiful Next.js frontend with a powerful Laravel backend with sanctum auth.
+Веб сервис для разработки ТТК (Технико технологических карт)
 
-## License
+Для бекэенда используеться laravel 11, для фронтенда next.js
 
-This project is private
