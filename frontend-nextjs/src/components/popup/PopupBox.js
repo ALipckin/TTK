@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_ROUTES } from '@/components/apiRoutes'
 import "./Popup.css"
 import ActionIconButton from '@/components/buttons/ActionIconButton'
-const PopupBox = ({data, itemName, newSelectedItem, currItem, onMainButtonClick, setSelectedItemId, children}) => {
+const PopupBox = ({data, itemName, newSelectedItem, currItem, onMainButtonClick, setSelectedItemId, children, outerIsVisibile = false, outerSetIsVisible}) => {
     const [isVisible, setIsVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(false);
     if(newSelectedItem){
@@ -19,7 +19,10 @@ const PopupBox = ({data, itemName, newSelectedItem, currItem, onMainButtonClick,
             onMainButtonClick();
         }
         setIsVisible(!isVisible);
-    };
+        if(outerSetIsVisible) {
+            outerSetIsVisible(!isVisible);
+        }
+        };
 
     const handleClose = () => {
         setIsVisible(false);
@@ -52,7 +55,7 @@ const PopupBox = ({data, itemName, newSelectedItem, currItem, onMainButtonClick,
             <button className="main-popup-button btn btn-secondary dropdown-toggle" ref={buttonRef} onClick={handleClick}>
                 {selectedItem ? selectedItem : currItem}
             </button>
-            {isVisible && (
+            {isVisible && outerIsVisibile && (
                 <div className="main-window" ref={popUpRef}>
                     {data ? <ul className={"m-0 p-0"}>
                         {data.map((item, index) => (

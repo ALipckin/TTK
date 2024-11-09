@@ -79,7 +79,9 @@ export default function Page({params }) {
         try {
                 console.log("formulationData", formulationData);
                 const Requests = formulationData.map(item => {
-                        return axios.put(API_ROUTES.PUT_FORMULATION(params.id, item?.id ?? null), item, { withCredentials: true })
+                        console.log("item.id=", item.id);
+
+                        return axios.put(API_ROUTES.PUT_FORMULATION(params.id, item.id > 0 ? item.id : "null"), item, { withCredentials: true })
                     }
                 );
 
@@ -102,7 +104,8 @@ export default function Page({params }) {
 
             //window.location.reload();
 
-        } catch (error) {
+        }
+        catch (error) {
             if (error.response && error.response.status === 422) {
                 setErrors(error.response.data.errors || {});
             } else {
@@ -156,9 +159,15 @@ export default function Page({params }) {
         }
         return Math.round(sum * 100)/100;
     };
-    const handleFormulation = (index, itemValue, itemName) => {
+    const handleFormulation = (index, itemValue, itemName, float = false) => {
         var newFormulation = [...formulationData];
-        newFormulation[index][itemName] = itemValue;
+        console.log("float = ", float);
+        if (float) {
+            newFormulation[index][itemName] =  itemValue.replace(/,/g, '.');
+        } else {
+            newFormulation[index][itemName] = itemValue;
+        }
+        console.log("newFormulation = ", newFormulation);
         setFormulationData(newFormulation);
     }
 
@@ -198,10 +207,10 @@ export default function Page({params }) {
                                             />
                                         </td>
                                         <td>
-                                            <TtkInput name="brutto" type="text" value={item.brutto} onChange={(e) => handleFormulation(index, e.target.value, 'brutto')}/>
+                                            <TtkInput name="brutto" type="text" value={item.brutto} onChange={(e) => handleFormulation(index, e.target.value, 'brutto', true)}/>
                                         </td>
                                         <td>
-                                            <TtkInput name="netto" type="text" value={item.netto} onChange={(e) => handleFormulation(index, e.target.value, 'netto')}/>
+                                            <TtkInput name="netto" type="text" value={item.netto} onChange={(e) => handleFormulation(index, e.target.value, 'netto', true)}/>
                                         </td>
                                         <td onClick={() => clearInput(index)}><ActionIconButton img="/images/minus.svg" className=""/></td>
                                     </tr>

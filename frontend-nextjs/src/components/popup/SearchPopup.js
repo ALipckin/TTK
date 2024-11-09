@@ -10,6 +10,7 @@ const SearchPopup = ({apiRoute, itemName, selectedItemId, setSelectedItemId, cur
     const [loading, setLoading] = useState(false);
     const [newItem, setNewItem] = useState(null);
     const [results, setResults] = useState([]);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
             if (!newItem) {
@@ -35,21 +36,22 @@ const SearchPopup = ({apiRoute, itemName, selectedItemId, setSelectedItemId, cur
     const setItem = (item) => {
         setNewItem(item[itemName])
         setSelectedItemId(item.id);
+        setIsVisible(false);
     }
 
     return (
-        <PopupBox itemName={"name"} currItem={newItem} >
+        <PopupBox itemName={"name"} currItem={newItem} outerIsVisibile={isVisible} outerSetIsVisible={setIsVisible}>
             <div className="">
-         <WideInput
-            className={"block mt-1 content-width m-0"} type="text" value={searchTerm}
-            placeholder="Поиск"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                   handleSearch();
-               }
-            }
-         }/>
+             <WideInput
+                className={"block mt-1 content-width m-0"} type="text" value={searchTerm}
+                placeholder="Поиск"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                       handleSearch();
+                   }
+                }
+             }/>
                 <div className="d-flex justify-content-center">
                     <WideButton className={"h-25 pt-1 pb-1 m-1"} onClick={handleSearch} disabled={loading}>{loading ? 'Загрузка...' : 'Найти'}</WideButton>
                 </div>
