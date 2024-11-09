@@ -93,6 +93,6 @@ class FormulationController extends Controller
             'status' => true,
             'data' => $data,
             'message' => "phys chem params data",
-        ], 204);
+        ], 200);
     }
 }
