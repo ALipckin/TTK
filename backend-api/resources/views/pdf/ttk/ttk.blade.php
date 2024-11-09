@@ -62,7 +62,6 @@
             <hr style="border:0.5px solid black; float: left; width: 70%; margin-bottom: 10px; text-align: left;">
             <div style="margin-top: 5px">{{$ttk->header->property ?? '- Наименование организации -'}}</div>
         </div>
-
         <div style="float: right; width: 50%; text-align: right;">
             Утверждаю<br>
             Директор<br>
@@ -148,7 +147,7 @@
         @endforeach
     </div>
     <div>
-        <div class="title">4. Требования к оформлению, реализации и хранению
+        <div class="title">5. Требования к оформлению, реализации и хранению
         </div>
         @foreach($ttk->realizationRequirements as $req)
             {{$req->description}}<br>
@@ -159,7 +158,6 @@
             6.1. Органолептические показатели качества
         </div>
         <div>
-            <div class="title">3. Рецептура</div>
             <div class="row">
                 <table class="bg-transparent table table-bordered">
                     <thead>
