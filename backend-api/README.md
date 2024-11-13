@@ -1,36 +1,27 @@
-## TTK API
+# TTK API
 
-### Installation:
+## Installation
 
-Firstable install docker and then
-run these commands inside project directory:
+1. First, install Docker and then run these commands inside the project directory:
 
-    docker compose -d
-
-    sudo chmod 777 -R ./storage/
-
-    docker exec -it ttk_api_app bash
-
-    composer install
-
-    php artisan key:generate
-
-    php artisan config:cache
-
-    php artisan migrate
-
-    php artisan storage:link
-
-If you want testing data run:
-
-    php artisan db:seed
-
-To run tests:
-
+   ```bash
+   docker compose up -d
+   sudo chmod -R 777 ./storage/
+   docker exec -it ttk_api_app bash
+2. Inside the Docker container, run the following commands to set up the application:
+   ```bash
+   composer install
+   php artisan key:generate
+   php artisan config:cache
+   php artisan migrate
+   php artisan storage:link
+4. To get the test data
+   ```bash
+   php artisan db:seed
+5. To run tests:
+    ```bash
     php artisan migrate --env=testing
-
     php artisan test
-
 Api will be available at http://localhost:8876/
 
 
