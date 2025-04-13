@@ -1,4 +1,4 @@
-FROM php:8.4.0alpha2-fpm
+FROM php:8.3.0alpha2-fpm
 
 RUN apt-get update && apt-get install -y \
       apt-utils \
@@ -6,9 +6,7 @@ RUN apt-get update && apt-get install -y \
       libpng-dev \
       libzip-dev \
       zip unzip \
-      xdebug-3.0.1 \
       git && \
-      docker-php-ext-enable xdebug &&\
       docker-php-ext-install pdo_mysql && \
       docker-php-ext-install bcmath && \
       docker-php-ext-install gd && \

@@ -6,3 +6,7 @@
 
 Для бекэенда используеться laravel 11, для фронтенда next.js
 
+## Installation
+
+install docker and
+run project-install.sh
